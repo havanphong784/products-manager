@@ -4,6 +4,8 @@ const app = express();
 const port = process.env.PORT;
 const route = require('./routes/client/index.route');
 
+app.use(express.static('public'));
+
 route(app);
 
 app.listen(port, () => {
