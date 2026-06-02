@@ -69,6 +69,7 @@ body {
     border-left: 3px solid #f59e0b;
 }
 
+
 .admin-content {
     flex: 1;
     min-width: 0;
@@ -486,7 +487,8 @@ body {
 }
 
 .btn-edit,
-.btn-delete {
+.btn-delete,
+.btn-filter {
     display: inline-block;
     padding: 8px 12px;
     border-radius: 10px;
@@ -495,6 +497,19 @@ body {
     text-decoration: none;
     transition: all 0.2s ease;
     margin: 0 4px;
+}
+
+.btn-filter {
+    background: #fff;
+    color: #111;
+}
+
+.btn-filter:hover {
+    background: #549c07;
+}
+
+.btn-filter.active {
+    background: #549c07;
 }
 
 .btn-edit {
