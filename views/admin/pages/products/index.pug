@@ -1,0 +1,40 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container.my-3
+        +box-head('Danh sách sản phẩm')
+        .admin-table-wrapper
+            table.admin-table
+                thead
+                    tr
+                        th.th-thumb Ảnh
+                        th.th-name Tên sản phẩm
+                        th.th-desc Mô tả
+                        th.th-price Giá
+                        th.th-discount Giảm giá
+                        th.th-status Trạng thái
+                        th.th-actions Hành động
+                tbody
+                    each product in products
+                        tr.table-row
+                            td.td-thumb
+                                img(src=product.thumbnail, alt=product.title)
+                            td.td-name #{product.title}
+                            td.td-desc #{product.description}
+                            td.td-price
+                                span.price-new #{product.newPrice}$
+                                br
+                                span.price-old #{product.price}$
+                            td.td-discount
+                                span.badge-discount -#{product.discountPercentage}%
+                            td.td-status
+                                if product.status === 'active'
+                                    span.badge.badge-success Hoạt động
+                                else if product.status === 'inactive'
+                                    span.badge.badge-inactive Không hoạt động
+                                else
+                                    span.badge.badge-default #{product.status || 'Chưa xác định'}
+                            td.td-actions
+                                a.btn-edit(href='#', title='Chỉnh sửa') Sửa
+                                a.btn-delete(href='#', title='Xóa') Xóa

@@ -313,3 +313,301 @@ body {
     }
 }
 
+/* Admin Products Table */
+.admin-table-wrapper {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(10px);
+    border: 1px solid #dbe4f0;
+    box-shadow: 0 10px 30px rgba(20, 33, 61, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.admin-table thead {
+    background: linear-gradient(90deg, #14213d 0%, #1f2f57 100%);
+    color: #fff;
+}
+
+.admin-table th {
+    padding: 14px 12px;
+    text-align: left;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    border: none;
+}
+
+.th-thumb {
+    width: 80px;
+}
+
+.th-name {
+    width: 25%;
+}
+
+.th-desc {
+    width: 28%;
+}
+
+.th-price {
+    width: 12%;
+}
+
+.th-discount {
+    width: 10%;
+}
+
+.th-status {
+    width: 12%;
+    text-align: center;
+}
+
+.th-actions {
+    width: 15%;
+    text-align: center;
+}
+
+.admin-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background-color 0.2s ease;
+}
+
+.admin-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.admin-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.admin-table td {
+    padding: 14px 12px;
+    color: #374151;
+    vertical-align: middle;
+}
+
+.td-thumb {
+    text-align: center;
+    padding: 8px 12px;
+}
+
+.td-thumb img {
+    max-width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #dbe4f0;
+}
+
+.td-name {
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.td-desc {
+    color: #6b7280;
+    font-size: 13px;
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.td-price {
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.price-new {
+    font-weight: 800;
+    color: #0f8b4c;
+    font-size: 15px;
+}
+
+.price-old {
+    color: #9ca3af;
+    text-decoration: line-through;
+}
+
+.td-discount {
+    text-align: center;
+}
+
+.badge-discount {
+    display: inline-block;
+    background: linear-gradient(90deg, #ef476f 0%, #d62828 100%);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(214, 40, 40, 0.25);
+}
+
+.td-status {
+    text-align: center;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+.badge-success {
+    background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+}
+
+.badge-inactive {
+    background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
+}
+
+.badge-default {
+    background: linear-gradient(90deg, #6b7280 0%, #4b5563 100%);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(107, 114, 128, 0.25);
+}
+
+.td-actions {
+    text-align: center;
+}
+
+.btn-edit,
+.btn-delete {
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin: 0 4px;
+}
+
+.btn-edit {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.btn-edit:hover {
+    background: #2563eb;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+}
+
+.btn-delete {
+    background: #ef4444;
+    color: #fff;
+}
+
+.btn-delete:hover {
+    background: #dc2626;
+    text-decoration: none;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(220, 38, 38, 0.3);
+}
+
+@media (max-width: 1199px) {
+    .admin-table {
+        font-size: 12px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 10px 8px;
+    }
+
+    .td-thumb img {
+        max-width: 50px;
+        height: 50px;
+    }
+
+    .price-new {
+        font-size: 14px;
+    }
+
+    .btn-edit,
+    .btn-delete {
+        padding: 6px 10px;
+        font-size: 12px;
+        margin: 0 2px;
+    }
+}
+
+@media (max-width: 991px) {
+    .admin-table-wrapper {
+        overflow-x: auto;
+    }
+
+    .admin-table {
+        min-width: 800px;
+    }
+
+    .th-desc,
+    .td-desc {
+        display: none;
+    }
+
+    .th-name {
+        width: 30%;
+    }
+
+    .th-status {
+        width: 15%;
+    }
+
+    .th-actions {
+        width: 20%;
+    }
+}
+
+@media (max-width: 575px) {
+    .admin-table {
+        font-size: 11px;
+    }
+
+    .admin-table th,
+    .admin-table td {
+        padding: 8px 6px;
+    }
+
+    .td-thumb {
+        padding: 6px;
+    }
+
+    .td-thumb img {
+        max-width: 40px;
+        height: 40px;
+    }
+
+    .th-desc,
+    .td-desc {
+        display: none;
+    }
+
+    .th-price,
+    .th-name {
+        width: auto;
+    }
+
+    .btn-edit,
+    .btn-delete {
+        padding: 5px 8px;
+        font-size: 11px;
+        margin: 2px 1px;
+    }
+}
