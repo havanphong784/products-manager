@@ -4,9 +4,13 @@ include ../../mixins/box-head.pug
 block main
     .container.my-3
         +box-head('Bộ lọc sản phẩm')
-        .container
-          each status in filterStatus
-              button.btn-filter(button-status=status.status class=status.class) #{status.name}
+        .filter-container
+            form#form-search.filter-row
+                input.filter-input(type='text', name='keyword', placeholder='Tìm kiếm theo tên...')
+                button.btn-search(type='submit') Tìm kiếm
+            .filter-row
+              each status in filterStatus
+                  button.btn-filter(button-status=status.status class=status.class) #{status.name}
         +box-head('Danh sách sản phẩm')
         .admin-table-wrapper
             table.admin-table

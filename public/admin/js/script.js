@@ -12,3 +12,16 @@ btnFilter.forEach(btn => {
     window.location.href = url.href;
   })
 })
+
+const formSearch = document.getElementById('form-search');
+formSearch.addEventListener('submit', (e) => {
+  const url = new URL(window.location.href);
+  e.preventDefault();
+  const key = e.target.elements.keyword.value;
+  if (key) {
+    url.searchParams.set('keyword', key);
+  } else {
+    url.searchParams.delete('keyword');
+  }
+  window.location.href = url.href;
+})
