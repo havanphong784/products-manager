@@ -5,8 +5,11 @@ const app = express();
 const port = process.env.PORT;
 const route = require('./routes/client/index.route');
 const routeAdmin = require('./routes/admin/index.route');
+const systemConfig = require('./config/system');
 
 app.use(express.static('public'));
+
+app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 database.connection();
 

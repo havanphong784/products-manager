@@ -1,0 +1,16 @@
+doctype html
+html
+    head
+        title #{pageTitle}
+        link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css")
+        link(rel='stylesheet', href='/admin/css/style.css')
+    body
+        include ../partials/header.pug
+
+        .admin-shell
+            include ../partials/sidebar.pug
+
+            main.admin-content
+                block main
+
+        script(src='/js/script.js')
