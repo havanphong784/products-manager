@@ -12,7 +12,7 @@ module.exports.index = async (req, res) => {
 
   console.log(products)
 
-  res.render('client/page/products/index.pug', {
+  res.render('client/pages/products/index.pug', {
     pageTitle: 'Products',
     products: products,
   })
