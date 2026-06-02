@@ -30,6 +30,12 @@ module.exports.index = async (req, res) => {
   } else {
     filterStatus[0].class = "active";
   }
+  let keyword = '';
+  if (req.query.keyword) {
+    keyword = req.query.keyword;
+    const regex = new RegExp(keyword, "i");
+    find.title = regex;
+  }
   const products = await Product.find(find);
   products.forEach(product => {
     product.newPrice = (product.price * (100 - product.discountPercentage) / 100).toFixed(0)
@@ -39,5 +45,6 @@ module.exports.index = async (req, res) => {
     pageTitle: 'Products',
     products: products,
     filterStatus: filterStatus,
+    keyword: keyword,
   })
 }

@@ -6,7 +6,7 @@ block main
         +box-head('Bộ lọc sản phẩm')
         .filter-container
             form#form-search.filter-row
-                input.filter-input(type='text', name='keyword', placeholder='Tìm kiếm theo tên...')
+                input.filter-input(type='text', name='keyword', placeholder='Tìm kiếm theo tên...',value=keyword)
                 button.btn-search(type='submit') Tìm kiếm
             .filter-row
               each status in filterStatus
