@@ -1,0 +1,4 @@
+mixin filter-status(filterStatus)
+    .filter-row
+      each status in filterStatus
+          button.btn-filter(button-status=status.status class=status.class) #{status.name}

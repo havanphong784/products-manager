@@ -1,16 +1,13 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
+include ../../mixins/filter-status
+include ../../mixins/search
 
 block main
     .container.my-3
         +box-head('Bộ lọc sản phẩm')
-        .filter-container
-            form#form-search.filter-row
-                input.filter-input(type='text', name='keyword', placeholder='Tìm kiếm theo tên...',value=keyword)
-                button.btn-search(type='submit') Tìm kiếm
-            .filter-row
-              each status in filterStatus
-                  button.btn-filter(button-status=status.status class=status.class) #{status.name}
+        +search-box(keyword)
+        +filter-status(filterStatus)
         +box-head('Danh sách sản phẩm')
         .admin-table-wrapper
             table.admin-table
