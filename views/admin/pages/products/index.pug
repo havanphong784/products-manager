@@ -35,11 +35,30 @@ block main
                               span.badge-discount -#{product.discountPercentage}%
                           td.td-status
                               if product.status === 'active'
-                                  span.badge.badge-success Hoạt động
+                                  a.badge.badge-success(
+                                      href="javascript:;"
+                                      button-change-status
+                                      data-id=product.id
+                                      data-status=product.status
+                                  ) Hoạt động
                               else if product.status === 'inactive'
-                                  span.badge.badge-inactive Không hoạt động
+                                  a.badge.badge-inactive(
+                                      href="javascript:;"
+                                      button-change-status
+                                      data-id=product.id
+                                      data-status=product.status
+                                  ) Không hoạt động
                               else
                                   span.badge.badge-default #{product.status || 'Chưa xác định'}
                           td.td-actions
                               a.btn-edit(href='#', title='Chỉnh sửa') Sửa
                               a.btn-delete(href='#', title='Xóa') Xóa
+
+    form(
+        action=""
+        method="POST"
+        id="form-change-status"
+        data-path= `${prefixAdmin}/products/change-status/`
+    )
+
+    script(src="/admin/js/product.js")

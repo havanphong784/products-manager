@@ -6,6 +6,9 @@ const port = process.env.PORT;
 const route = require('./routes/client/index.route');
 const routeAdmin = require('./routes/admin/index.route');
 const systemConfig = require('./config/system');
+const methodOverrides = require('method-override');
+
+app.use(methodOverrides('_method'));
 
 app.use(express.static('public'));
 

@@ -553,6 +553,7 @@ body {
 
 .td-status {
     text-align: center;
+    cursor: pointer;
 }
 
 .badge {

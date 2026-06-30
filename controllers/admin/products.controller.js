@@ -3,6 +3,7 @@
 const Product = require('../../models/products.model')
 const filterStatusHelper = require('../../helpers/filterStatus')
 const searchObjectHelper = require('../../helpers/search')
+const {prefixAdmin} = require("../../config/system");
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
   let find = {
@@ -26,4 +27,14 @@ module.exports.index = async (req, res) => {
     filterStatus: filterStatus,
     keyword: search.keyword,
   })
+}
+
+// [GET] /admin/products/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+  const status = req.params.status;
+  const id = req.params.id;
+
+  await Product.updateOne({_id: id}, {status: status})
+
+  res.redirect(req.get('referer'))
 }
