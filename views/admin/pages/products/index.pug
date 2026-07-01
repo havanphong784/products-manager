@@ -3,6 +3,7 @@ include ../../mixins/box-head.pug
 include ../../mixins/filter-status
 include ../../mixins/search
 include ../../mixins/form-change-multi
+include ../../mixins/pagination
 
 block main
     .container.my-3
@@ -10,8 +11,8 @@ block main
         +search-box(keyword)
         +filter-status(filterStatus)
         +box-head('Danh sách sản phẩm')
+        +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
         .admin-table-wrapper
-            +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
             table.admin-table( checkbox-multi )
                 thead
                     tr
@@ -66,6 +67,7 @@ block main
                           td.td-actions
                               a.btn-edit(href='#', title='Chỉnh sửa') Sửa
                               a.btn-delete(href='#', title='Xóa') Xóa
+        +pagination(pagination)
 
     form(
         action=""

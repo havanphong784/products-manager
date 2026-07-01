@@ -1,0 +1,11 @@
+mixin pagination(pagination)
+    nav
+        ul
+            if (pagination.currentPage > 1)
+                li
+                    button(button-pagination=`${pagination.currentPage - 1}`) Trước
+                li(class=`$pagination.currentPage ? 'active' : ''`)
+                        button(button-pagination=`${pagination.currentPage}`)=`${pagination.currentPage}`
+                if (pagination.currentPage < pagination.totalPages)
+                    li
+                        button(button-pagination=`${pagination.currentPage + 1}`) Sau

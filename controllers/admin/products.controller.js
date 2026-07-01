@@ -3,7 +3,9 @@
 const Product = require('../../models/products.model')
 const filterStatusHelper = require('../../helpers/filterStatus')
 const searchObjectHelper = require('../../helpers/search')
+const paginationHelper = require('../../helpers/pagination')
 const {prefixAdmin} = require("../../config/system");
+const {parse} = require("dotenv");
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
   let find = {
@@ -16,7 +18,16 @@ module.exports.index = async (req, res) => {
   if (search.regex) {
     find.title = search.regex;
   }
-  const products = await Product.find(find);
+
+  const countProducts = await Product.countDocuments(find)
+  let paginationObject = paginationHelper(
+    {
+      currentPage: 1,
+      limit: 10,
+    }, req.query, countProducts
+  );
+
+  const products = await Product.find(find).limit(paginationObject.limit).skip(paginationObject.skip);
   products.forEach(product => {
     product.newPrice = (product.price * (100 - product.discountPercentage) / 100).toFixed(0)
   })
@@ -26,6 +37,7 @@ module.exports.index = async (req, res) => {
     products: products,
     filterStatus: filterStatus,
     keyword: search.keyword,
+    pagination: paginationObject
   })
 }
 
