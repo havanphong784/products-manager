@@ -64,7 +64,10 @@ module.exports.changeMulti = async (req, res) => {
       await Product.updateMany({_id: {$in: ids}}, {status: "inactive"})
       break;
     case "delete":
-      await Product.updateMany({_id: {$in: ids}}, {deleted: true})
+      await Product.updateMany({_id: {$in: ids}}, {
+        deleted: true,
+        deleteAt: new Date()
+      })
       break;
     default:
       break;
@@ -76,7 +79,13 @@ module.exports.changeMulti = async (req, res) => {
 // [DELETE] /admin/products/delete/:id
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
-  await Product.deleteOne({_id: id})
+  // xóa cứng
+  // await Product.deleteOne({_id: id});
+  // xóa mền
+  await Product.updateOne({_id: id}, {
+    deleted: true,
+    deleteAt: new Date()
+  });
   res.redirect(req.get('referer'))
 }
 

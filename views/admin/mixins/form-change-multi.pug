@@ -7,8 +7,10 @@ mixin form-change-multi(path)
     )
         .form-group-multi
             select(name="type" class="select-multi")
+                option(disabled selected) Chọn hành động
                 option(value="active") Hoạt động
                 option(value="inactive") Không hoạt động
+                option(value="delete") Xóa
             input(
                 type="text"
                 name="ids"
