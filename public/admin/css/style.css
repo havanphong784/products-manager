@@ -80,6 +80,10 @@ body {
     padding: 24px;
 }
 
+.hidden {
+    display: none;
+}
+
 /* Header */
 .header {
     background: linear-gradient(90deg, #14213d 0%, #1f2f57 100%);

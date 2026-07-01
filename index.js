@@ -7,6 +7,9 @@ const route = require('./routes/client/index.route');
 const routeAdmin = require('./routes/admin/index.route');
 const systemConfig = require('./config/system');
 const methodOverrides = require('method-override');
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(methodOverrides('_method'));
 

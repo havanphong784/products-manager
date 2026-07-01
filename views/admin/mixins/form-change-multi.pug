@@ -1,0 +1,19 @@
+mixin form-change-multi(path)
+    form(
+        action=`${path}`
+        method="POST"
+        form-change-multi
+    )
+        select(name="type")
+            option(value="active") Hoat động
+            option(value="inactive") Không hoạt động
+        input(
+            type="text"
+            name="ids"
+            value=""
+            class="hidden"
+        )
+        button(
+            type="submit"
+            class="btn btn-primary"
+        ) Apply

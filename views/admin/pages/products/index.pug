@@ -2,6 +2,7 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/filter-status
 include ../../mixins/search
+include ../../mixins/form-change-multi
 
 block main
     .container.my-3
@@ -10,9 +11,15 @@ block main
         +filter-status(filterStatus)
         +box-head('Danh sách sản phẩm')
         .admin-table-wrapper
-            table.admin-table
+            +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+            table.admin-table( checkbox-multi )
                 thead
                     tr
+                        th
+                            input(
+                                type="checkbox"
+                                name="checkAll"
+                            )
                         th.th-thumb Ảnh
                         th.th-name Tên sản phẩm
                         th.th-desc Mô tả
@@ -23,6 +30,12 @@ block main
                 tbody
                   each product in products
                       tr.table-row
+                          td
+                              input(
+                                  type="checkbox"
+                                  name="id"
+                                  value=product.id
+                              )
                           td.td-thumb
                               img(src=product.thumbnail, alt=product.title)
                           td.td-name #{product.title}
