@@ -75,9 +75,17 @@ if (formChangeMulti) {
       let ids = [];
       const inputsId = formChangeMulti.querySelector("input[name='ids']");
       inputChecked.forEach(input => {
-        ids.push(input.value);
+        if (typeChange === "change-position") {
+          const position = input.closest('tr').querySelector("input[name='position']").value;
+          console.log(position);
+          ids.push(`${input.value}-${position}`);
+          console.log(ids);
+        } else {
+          ids.push(input.value);
+        }
       })
       inputsId.value = ids.join(", ");
+
       formChangeMulti.submit()
     } else {
       alert('Vui lòng chọn ít nhất 1 sản phẩm để thực hiện thao tác này');

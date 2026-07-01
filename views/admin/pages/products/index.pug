@@ -31,7 +31,8 @@ block main
                         th.th-thumb Ảnh
                         th.th-name Tên sản phẩm
                         th.th-desc Mô tả
-                        th.th-price Giá
+                        th.th-price <Giá></Giá>
+                        th Thứ tự
                         th.th-discount Giảm giá
                         th.th-status Trạng thái
                         th.th-actions Hành động
@@ -52,6 +53,14 @@ block main
                               span.price-new #{product.newPrice}$
                               br
                               span.price-old #{product.price}$
+                          td
+                            input(
+                                type="number"
+                                value=product.position
+                                style="width: 60px; text-align: center;"
+                                min="1"
+                                name="position"
+                            )
                           td.td-discount
                               span.badge-discount -#{product.discountPercentage}%
                           td.td-status
