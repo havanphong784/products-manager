@@ -4,8 +4,10 @@ include ../../mixins/filter-status
 include ../../mixins/search
 include ../../mixins/form-change-multi
 include ../../mixins/pagination
+include ../../mixins/alert
 
 block main
+    +alert-success(4000)
     .container.my-3
         +box-head('Bộ lọc & Tìm kiếm')
         .filter-container.mb-4

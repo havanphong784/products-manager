@@ -6,6 +6,7 @@ const searchObjectHelper = require('../../helpers/search')
 const paginationHelper = require('../../helpers/pagination')
 const {prefixAdmin} = require("../../config/system");
 const {parse} = require("dotenv");
+
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
   let find = {
@@ -48,6 +49,7 @@ module.exports.changeStatus = async (req, res) => {
 
   await Product.updateOne({_id: id}, {status: status})
 
+  req.flash('success', 'Cập nhật trạng thái thành công');
   res.redirect(req.get('referer'))
 }
 
@@ -59,15 +61,18 @@ module.exports.changeMulti = async (req, res) => {
   switch (type) {
     case "active":
       await Product.updateMany({_id: {$in: ids}}, {status: "active"})
+      req.flash('success', `Cập nhật trạng thái ${ids.length} sản phẩm thành công`);
       break;
     case "inactive":
       await Product.updateMany({_id: {$in: ids}}, {status: "inactive"})
+      req.flash('success', `Cập nhật trạng thái ${ids.length} sản phẩm thành công`);
       break;
     case "delete":
       await Product.updateMany({_id: {$in: ids}}, {
         deleted: true,
         deleteAt: new Date()
       })
+      req.flash('success', `Đã xóa ${ids.length} sản phẩm thành công`);
       break;
     case "change-position":
       for (const item of ids) {
@@ -75,6 +80,7 @@ module.exports.changeMulti = async (req, res) => {
         position = parseInt(position);
         await Product.updateOne({_id: id}, {position: position})
       }
+      req.flash('success', `Thay đổi vị trí ${ids.length} sản phẩm thành công`);
       break;
     default:
       break;
@@ -93,6 +99,7 @@ module.exports.deleteItem = async (req, res) => {
     deleted: true,
     deleteAt: new Date()
   });
+  req.flash('success', `Đã xóa sản phẩm thành công`);
   res.redirect(req.get('referer'))
 }
 

@@ -8,12 +8,19 @@ const routeAdmin = require('./routes/admin/index.route');
 const systemConfig = require('./config/system');
 const methodOverrides = require('method-override');
 const bodyParser = require('body-parser');
+const flash = require('express-flash')
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
 
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(methodOverrides('_method'));
 
 app.use(express.static('public'));
+
+app.use(cookieParser('hocbackendnodejs'));
+app.use(session({cookie: {maxAge: 60000}}));
+app.use(flash());
 
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
