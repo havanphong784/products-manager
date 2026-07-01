@@ -1,12 +1,16 @@
 header.header
-    .container
-        .inner-logo
-            a(href='/')
-                img(src='/images/logo.png', alt='Logo')
-        .inner-menu
-            nav
-                ul
-                    li
-                        a(href='/') Trang chủ
-                    li
-                        a(href='/products') Sản phẩm
+    .container-fluid.px-4
+        .inner-header
+            .inner-logo
+                a(href=`${prefixAdmin}/dashboard`)
+                    span.logo-text Admin
+                    span.logo-dot Panel
+            .inner-actions
+                a.view-website-btn(href='/' target='_blank')
+                    span.icon 🔗
+                    span.text Xem Website
+                .user-profile
+                    img.user-avatar(src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80', alt='Admin Avatar')
+                    .user-info
+                        span.user-name Phong Ha
+                        span.user-role Quản trị viên

@@ -1,7 +1,13 @@
 aside.sidebar
-    .sidebar-title ADMIN PANEL
-    .sidebar-label Điều hướng
-    nav.sidebar-menu
-        a.sidebar-link.active(href=`${prefixAdmin}/dashboard`) Trang tổng quan
-        a.sidebar-link(href=`${prefixAdmin}/products`) Sản phẩm
-
+    .sidebar-brand
+        span.brand-text Admin
+        span.brand-dot .
+    .sidebar-menu
+        .sidebar-label Tổng quan
+        a.sidebar-link(href=`${prefixAdmin}/dashboard`)
+            span.sidebar-icon 📊
+            span.sidebar-text Tổng quan
+        .sidebar-label Danh mục
+        a.sidebar-link(href=`${prefixAdmin}/products`)
+            span.sidebar-icon 📦
+            span.sidebar-text Sản phẩm

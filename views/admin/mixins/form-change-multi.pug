@@ -3,17 +3,19 @@ mixin form-change-multi(path)
         action=`${path}`
         method="POST"
         form-change-multi
+        class="form-change-multi"
     )
-        select(name="type")
-            option(value="active") Hoat động
-            option(value="inactive") Không hoạt động
-        input(
-            type="text"
-            name="ids"
-            value=""
-            class="hidden"
-        )
-        button(
-            type="submit"
-            class="btn btn-primary"
-        ) Apply
+        .form-group-multi
+            select(name="type" class="select-multi")
+                option(value="active") Hoạt động
+                option(value="inactive") Không hoạt động
+            input(
+                type="text"
+                name="ids"
+                value=""
+                class="hidden"
+            )
+            button(
+                type="submit"
+                class="btn-apply"
+            ) Áp dụng

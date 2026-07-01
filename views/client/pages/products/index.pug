@@ -2,8 +2,8 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
 block main
-    .container.my-3
-        .row
+    .container.my-5
+        .row.mb-4
             .col-12
                 +box-head('Danh sách sản phẩm')
         .list
@@ -11,8 +11,13 @@ block main
               .product-item
                   .inner-image
                       img(src=product.thumbnail, alt=product.title)
+                      if product.discountPercentage
+                          .inner-discount -#{product.discountPercentage}%
                   .inner-content
                       h3.inner-title #{product.title}
                       p.inner-description #{product.description}
-                      .inner-price-new #{product.newPrice}$
-                      .inner-discount -#{product.discountPercentage}%
+                      .inner-price-group
+                          span.inner-price-new #{product.newPrice}$
+                          if product.discountPercentage
+                              span.inner-price-old #{product.price}$
+                      button.btn-add-cart Thêm vào giỏ hàng

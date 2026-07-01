@@ -7,11 +7,18 @@ include ../../mixins/pagination
 
 block main
     .container.my-3
-        +box-head('Bộ lọc sản phẩm')
-        +search-box(keyword)
-        +filter-status(filterStatus)
+        +box-head('Bộ lọc & Tìm kiếm')
+        .filter-container.mb-4
+            .row.align-items-center
+                .col-lg-7.col-md-12.mb-3.mb-lg-0.d-flex.align-items-center.flex-wrap
+                    span.filter-label.mr-3.font-weight-bold.text-muted Trạng thái:
+                    +filter-status(filterStatus)
+                .col-lg-5.col-md-12
+                    +search-box(keyword)
+
         +box-head('Danh sách sản phẩm')
-        +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+        .action-bar.mb-3
+            +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
         .admin-table-wrapper
             table.admin-table( checkbox-multi )
                 thead

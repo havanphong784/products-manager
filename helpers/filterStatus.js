@@ -6,7 +6,7 @@ module.exports = (query) => {
       class: '',
     },
     {
-      name: 'Hoạt đông',
+      name: 'Hoạt động',
       status: 'active',
       class: '',
     },
