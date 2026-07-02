@@ -14,17 +14,19 @@ btnFilter.forEach(btn => {
 })
 
 const formSearch = document.getElementById('form-search');
-formSearch.addEventListener('submit', (e) => {
-  const url = new URL(window.location.href);
-  e.preventDefault();
-  const key = e.target.elements.keyword.value;
-  if (key) {
-    url.searchParams.set('keyword', key);
-  } else {
-    url.searchParams.delete('keyword');
-  }
-  window.location.href = url.href;
-})
+if (formSearch) {
+  formSearch.addEventListener('submit', (e) => {
+    const url = new URL(window.location.href);
+    e.preventDefault();
+    const key = e.target.elements.keyword.value;
+    if (key) {
+      url.searchParams.set('keyword', key);
+    } else {
+      url.searchParams.delete('keyword');
+    }
+    window.location.href = url.href;
+  })
+}
 
 const checkboxMulti = document.querySelector("[checkbox-multi]");
 if (checkboxMulti) {
@@ -116,4 +118,39 @@ if (showAlert) {
   showAlert.addEventListener("click", (e) => {
     showAlert.classList.add("alert-hidden");
   })
+}
+
+const uploadImage = document.querySelector("[upload-image]");
+if (uploadImage) {
+  const uploadPreview = uploadImage.querySelector("[upload-preview]");
+  const uploadPreviewInput = uploadImage.querySelector("[upload-preview-input]");
+  const closePreview = uploadImage.querySelector("[close-preview]");
+
+  uploadPreviewInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      uploadPreview.src = URL.createObjectURL(file);
+      const previewContainer = uploadImage.querySelector(".image-preview-container");
+      if (previewContainer) {
+        previewContainer.classList.remove("d-none");
+      }
+    } else {
+      uploadPreview.src = "";
+      const previewContainer = uploadImage.querySelector(".image-preview-container");
+      if (previewContainer) {
+        previewContainer.classList.add("d-none");
+      }
+    }
+  });
+
+  if (closePreview) {
+    closePreview.addEventListener("click", () => {
+      uploadPreviewInput.value = "";
+      uploadPreview.src = "";
+      const previewContainer = uploadImage.querySelector(".image-preview-container");
+      if (previewContainer) {
+        previewContainer.classList.add("d-none");
+      }
+    });
+  }
 }

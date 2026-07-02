@@ -88,7 +88,7 @@ block main
                         .row
                             // Ảnh và Trạng thái
                             .col-md-6
-                                .form-group.mb-4
+                                .form-group.mb-4(upload-image)
                                     label.form-label Ảnh sản phẩm
                                     input.form-control-custom(
                                         type="file"
@@ -96,7 +96,12 @@ block main
                                         placeholder="Chọn ảnh sản phẩm..."
                                         accept="image/*"
                                         required
+                                        upload-preview-input
                                     )
+                                    .image-preview-container.mt-2.d-none
+                                        .preview-wrapper
+                                            img( upload-preview, alt="Ảnh xem trước")
+                                        button.close-preview-btn(type="button" close-preview) X
                             .col-md-6
                                 .form-group.mb-4
                                     label.form-label Trạng thái sản phẩm
