@@ -1,0 +1,40 @@
+extends ../../layouts/default.pug
+
+block main
+    h1 Tạo sản phẩm mới
+    form(
+        action=`${prefixAdmin}/products/create`
+        method="POST"
+        id="form-create-product"
+    )
+        div
+            label Tiêu đề:
+            input(type="text" name="title" required)
+        div
+            label Mô tả:
+            textarea(name="description" required)
+        div
+            label Giá:
+            input(type="number" name="price" required)
+        div
+            label Giảm giá:
+            input(type="number" name="discountPercentage")
+        div
+            label Số lượng:
+            input(type="number" name="stock" required)
+        div
+            label Trạng thái:
+            select(name="status" required)
+                option(value="active") Hoạt động
+                option(value="inactive") Không hoạt động
+        div
+            label Ảnh:
+            input(type="text" name="thumbnail" accept="image/*" required)
+        div
+            label Vị trí
+            select(name="position")
+                option(value="-1") Tự động tăng
+                option(value="2") Tự thiết lập
+        div
+            button(type="submit") Tạo sản phẩm
+

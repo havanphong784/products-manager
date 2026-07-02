@@ -103,3 +103,22 @@ module.exports.deleteItem = async (req, res) => {
   res.redirect(req.get('referer'))
 }
 
+// [GET] /admin/prodcuts/create
+module.exports.create = async (req, res) => {
+  res.render('admin/pages/products/create.pug', {
+    pageTitle: 'Thêm mới sản ',
+  })
+}
+
+// [POST] /admin/prodcuts/create
+module.exports.createPost = async (req, res) => {
+  if (req.body.position = -1) {
+    const countProduct = await Product.countDocuments();
+    req.body.position = countProduct + 1;
+  }
+
+  const product = new Product(req.body);
+  console.log(product);
+  await product.save();
+  res.redirect(`${prefixAdmin}/products`);
+}
