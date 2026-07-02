@@ -17,11 +17,13 @@ block main
                     +filter-status(filterStatus)
                 .col-lg-5.col-md-12
                     +search-box(keyword)
-                a(href=`${prefixAdmin}/products/create`) Thêm sản phẩm mới
 
         +box-head('Danh sách sản phẩm')
-        .action-bar.mb-3
+        .action-bar.mb-3.d-flex.align-items-center.justify-content-between
             +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+            a.btn-create(href=`${prefixAdmin}/products/create`)
+                span.mr-1 +
+                | Thêm mới
         .admin-table-wrapper
             table.admin-table( checkbox-multi )
                 thead
