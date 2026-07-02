@@ -19,6 +19,7 @@ block main
                         action=`${prefixAdmin}/products/create`
                         method="POST"
                         id="form-create-product"
+                        enctype="multipart/form-data"
                     )
                         // Tên sản phẩm
                         .form-group.mb-4
@@ -88,11 +89,12 @@ block main
                             // Ảnh và Trạng thái
                             .col-md-6
                                 .form-group.mb-4
-                                    label.form-label Đường dẫn hình ảnh (URL)
+                                    label.form-label Ảnh sản phẩm
                                     input.form-control-custom(
-                                        type="text"
+                                        type="file"
                                         name="thumbnail"
-                                        placeholder="Nhập đường dẫn ảnh sản phẩm..."
+                                        placeholder="Chọn ảnh sản phẩm..."
+                                        accept="image/*"
                                         required
                                     )
                             .col-md-6
