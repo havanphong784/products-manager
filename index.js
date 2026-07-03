@@ -16,7 +16,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(methodOverrides('_method'));
 
-app.use(express.static('public'));
+// app.use(express.static('public'));
+app.use(express.static(`${__dirname}/public`));
 
 app.use(cookieParser('hocbackendnodejs'));
 app.use(session({cookie: {maxAge: 60000}}));
@@ -30,5 +31,5 @@ routeAdmin(app);
 route(app);
 
 app.listen(port, () => {
-  console.log(`Backend đang chạy ở port ${port}`);
+    console.log(`Backend đang chạy ở port ${port}`);
 })
