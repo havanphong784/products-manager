@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const database = require('./config/database');
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 const route = require('./routes/client/index.route');
 const routeAdmin = require('./routes/admin/index.route');
 const systemConfig = require('./config/system');
@@ -29,7 +29,10 @@ database.connection();
 
 routeAdmin(app);
 route(app);
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(port, () => {
+        console.log(`Backend đang chạy ở port ${port}`);
+    });
+}
 
-app.listen(port, () => {
-    console.log(`Backend đang chạy ở port ${port}`);
-})
+module.exports = app;
