@@ -42,52 +42,52 @@ block main
                         th.th-status Trạng thái
                         th.th-actions Hành động
                 tbody
-                  each product in products
-                      tr.table-row
-                          td
-                              input(
-                                  type="checkbox"
-                                  name="id"
-                                  value=product.id
-                              )
-                          td.td-thumb
-                              img(src=product.thumbnail, alt=product.title)
-                          td.td-name #{product.title}
-                          td.td-desc #{product.description}
-                          td.td-price
-                              span.price-new #{product.newPrice}$
-                              br
-                              span.price-old #{product.price}$
-                          td
-                            input(
-                                type="number"
-                                value=product.position
-                                style="width: 60px; text-align: center;"
-                                min="1"
-                                name="position"
-                            )
-                          td.td-discount
-                              span.badge-discount -#{product.discountPercentage}%
-                          td.td-status
-                              if product.status === 'active'
-                                  a.badge.badge-success(
-                                      href="javascript:;"
-                                      button-change-status
-                                      data-id=product.id
-                                      data-status=product.status
-                                  ) Hoạt động
-                              else if product.status === 'inactive'
-                                  a.badge.badge-inactive(
-                                      href="javascript:;"
-                                      button-change-status
-                                      data-id=product.id
-                                      data-status=product.status
-                                  ) Không hoạt động
-                              else
-                                  span.badge.badge-default #{product.status || 'Chưa xác định'}
-                          td.td-actions
-                              a.btn-edit(href='#', title='Chỉnh sửa') Sửa
-                              a.btn-delete(href='#', title='Xóa' data-id=product.id button-delete) Xóa
+                    each product in products
+                        tr.table-row
+                            td
+                                input(
+                                    type="checkbox"
+                                    name="id"
+                                    value=product.id
+                                )
+                            td.td-thumb
+                                img(src=product.thumbnail, alt=product.title)
+                            td.td-name #{product.title}
+                            td.td-desc #{product.description}
+                            td.td-price
+                                span.price-new #{product.newPrice}$
+                                br
+                                span.price-old #{product.price}$
+                            td
+                                input(
+                                    type="number"
+                                    value=product.position
+                                    style="width: 60px; text-align: center;"
+                                    min="1"
+                                    name="position"
+                                )
+                            td.td-discount
+                                span.badge-discount -#{product.discountPercentage}%
+                            td.td-status
+                                if product.status === 'active'
+                                    a.badge.badge-success(
+                                        href="javascript:;"
+                                        button-change-status
+                                        data-id=product.id
+                                        data-status=product.status
+                                    ) Hoạt động
+                                else if product.status === 'inactive'
+                                    a.badge.badge-inactive(
+                                        href="javascript:;"
+                                        button-change-status
+                                        data-id=product.id
+                                        data-status=product.status
+                                    ) Không hoạt động
+                                else
+                                    span.badge.badge-default #{product.status || 'Chưa xác định'}
+                            td.td-actions
+                                a.btn-edit(href=`${prefixAdmin}/products/edit/${product.id}`, title='Chỉnh sửa') Sửa
+                                a.btn-delete(href='#', title='Xóa' data-id=product.id button-delete) Xóa
         +pagination(pagination)
 
     form(

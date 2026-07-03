@@ -1,0 +1,137 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert
+
+block main
+    +alert-error(5000)
+    +alert-success(4000)
+    .container-fluid.px-4.py-4
+        .row.justify-content-center
+            .col-xl-8.col-lg-10
+                // Header
+                .d-flex.align-items-center.justify-content-between.mb-4
+                    div
+                        h1.h3.font-weight-extrabold.text-dark.mb-1 Cập nhật sản phẩm
+                        p.text-muted.small.mb-0 Sửa thông tin sản phẩm mới vào hệ thống
+                    a.btn-back(href=`${prefixAdmin}/products`)
+                        span.mr-1 &larr;
+                        | Quay lại danh sách
+
+                // Form Card
+                .admin-card
+                    form(
+                        action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
+                        method="POST"
+                        id="form-edit-product"
+                        enctype="multipart/form-data"
+                    )
+                        // Tên sản phẩm
+                        .form-group.mb-4
+                            label.form-label Tên sản phẩm
+                            input.form-control-custom(
+                                type="text"
+                                name="title"
+                                placeholder="Ví dụ: iPhone 15 Pro Max"
+                                value=product.title
+                                required
+                            )
+
+                        // Mô tả
+                        .form-group.mb-4
+                            label.form-label Mô tả chi tiết
+                            textarea.form-control-custom(
+                                name="description"
+                                placeholder="Nhập mô tả sản phẩm của bạn..."
+                                required
+                            ) #{product.description}
+
+                        .row
+                            // Giá và Giảm giá
+                            .col-md-6
+                                .form-group.mb-4
+                                    label.form-label Giá gốc ($)
+                                    input.form-control-custom(
+                                        type="number"
+                                        name="price"
+                                        placeholder="0.00"
+                                        min="0"
+                                        step="0.01"
+                                        value=product.price
+                                        required
+                                    )
+                            .col-md-6
+                                .form-group.mb-4
+                                    label.form-label Tỉ lệ giảm giá (%)
+                                    input.form-control-custom(
+                                        type="number"
+                                        name="discountPercentage"
+                                        placeholder="0"
+                                        min="0"
+                                        max="100"
+                                        step="0.1"
+                                        value=product.discountPercentage
+                                    )
+
+                        .row
+                            // Số lượng và Vị trí
+                            .col-md-6
+                                .form-group.mb-4
+                                    label.form-label Số lượng sản phẩm
+                                    input.form-control-custom(
+                                        type="number"
+                                        name="stock"
+                                        placeholder="Nhập số lượng..."
+                                        min="0"
+                                        value=product.stock
+                                        required
+                                    )
+                            .col-md-6
+                                .form-group.mb-4
+                                    label.form-label Vị trí hiển thị
+                                    select.form-control-custom(name="position")
+                                        option(value="-1") Tự động tăng
+                                        option(value=product.position selected) Tự thiết lập
+
+                        .row
+                            // Ảnh và Trạng thái
+                            .col-md-6
+                                .form-group.mb-4(upload-image)
+                                    label.form-label Ảnh sản phẩm
+                                    input.form-control-custom(
+                                        type="file"
+                                        name="thumbnail"
+                                        placeholder="Chọn ảnh sản phẩm..."
+                                        accept="image/*"
+                                        upload-preview-input
+                                    )
+                                    .image-preview-container.mt-2
+                                        .preview-wrapper
+                                            img( upload-preview, src=product.thumbnail alt="Ảnh xem trước")
+                                        button.close-preview-btn(type="button" close-preview) X
+                            .col-md-6
+                                .form-group.mb-4
+                                    label.form-label Trạng thái sản phẩm
+                                    .status-options-wrapper
+                                        .flex-fill
+                                            input.status-radio-input(
+                                                type="radio"
+                                                id="status-active"
+                                                name="status"
+                                                value="active"
+                                                checked
+                                            )
+                                            label.status-option-card.active-card(for="status-active")
+                                                span Hoạt động
+                                        .flex-fill
+                                            input.status-radio-input(
+                                                type="radio"
+                                                id="status-inactive"
+                                                name="status"
+                                                value="inactive"
+                                            )
+                                            label.status-option-card.inactive-card(for="status-inactive")
+                                                span Dừng hoạt động
+
+                        // Actions
+                        .form-actions.text-right.mt-4.pt-4.border-top
+                            button.btn-submit(type="submit")
+                                span Cập sản phẩm
