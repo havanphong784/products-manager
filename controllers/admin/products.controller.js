@@ -111,11 +111,15 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/prodcuts/create
 module.exports.createPost = async (req, res) => {
-  if (req.body.position != -1) {
+
+  if (req.body.position == -1) {
     const countProduct = await Product.countDocuments();
     req.body.position = countProduct + 1;
   }
-  req.body.thumbnail = `/uploads/${req.file.filename}`;
+
+  if (req.file) {
+    req.body.thumbnail = `/uploads/${req.file.filename}`;
+  }
 
   const product = new Product(req.body);
   await product.save();

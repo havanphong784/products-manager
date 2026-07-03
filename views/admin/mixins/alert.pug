@@ -7,3 +7,13 @@ mixin alert-success(time)
                   show-alert
           ) #{messages.success}
               button(class="" closeAlert) x
+
+mixin alert-error(time)
+    - if (messages.error)
+        .message.info
+          div(
+              data-time=time
+              class="alert alert-danger"
+                  show-alert
+          ) #{messages.error}
+              button(class="" closeAlert) x
