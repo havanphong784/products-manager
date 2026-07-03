@@ -19,6 +19,9 @@ app.use(methodOverrides('_method'));
 // app.use(express.static('public'));
 app.use(express.static(`${__dirname}/public`));
 
+app.set('views', `${__dirname}/views`);
+app.set('view engine', 'pug');
+
 app.use(cookieParser('hocbackendnodejs'));
 app.use(session({cookie: {maxAge: 60000}}));
 app.use(flash());
