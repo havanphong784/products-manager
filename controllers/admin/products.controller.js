@@ -189,3 +189,28 @@ module.exports.editPatch = async (req, res) => {
 
     res.redirect(`${prefixAdmin}/products`);
 };
+
+// [GET] /admin/prodcuts/detail/:id
+module.exports.detail = async (req, res) => {
+    try {
+        const find = {
+            deleted: false,
+            _id: req.params.id,
+        }
+        const product = await Product.findOne(find);
+
+        if (product.price && product.discountPercentage) {
+            product.newPrice = (
+                (product.price * (100 - product.discountPercentage)) / 100
+            ).toFixed(0);
+        }
+
+        res.render("admin/pages/products/detail.pug", {
+            pageTitle: "Chi tiết sản phẩm",
+            product: product,
+        })
+    } catch (e) {
+        console.error("Detail page error:", e);
+        res.redirect(`${prefixAdmin}/products`);
+    }
+}

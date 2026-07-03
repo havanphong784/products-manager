@@ -88,6 +88,7 @@ block main
                             td.td-actions
                                 a.btn-edit(href=`${prefixAdmin}/products/edit/${product.id}`, title='Chỉnh sửa') Sửa
                                 a.btn-delete(href='#', title='Xóa' data-id=product.id button-delete) Xóa
+                                a.btn-detail(href=`${prefixAdmin}/products/detail/${product.id}`, title='Chi tiết' data-id=product.id button-detail) Chi tiết
         +pagination(pagination)
 
     form(

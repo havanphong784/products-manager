@@ -493,7 +493,8 @@ body {
 
 /* Actions Column Buttons */
 .btn-edit,
-.btn-delete {
+.btn-delete,
+.btn-detail {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -521,6 +522,11 @@ body {
 .btn-delete {
     background-color: #fff;
     color: #ef4444;
+}
+
+.btn-detail {
+    background-color: #fff;
+    color: #f6fd34;
 }
 
 .btn-delete:hover {

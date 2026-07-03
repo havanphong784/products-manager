@@ -1,0 +1,69 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert
+
+block main
+    .container-fluid.px-4.py-4
+        .row.justify-content-center
+            .col-xl-8.col-lg-10
+                // Header
+                .d-flex.align-items-center.justify-content-between.mb-4
+                    div
+                        h1.h3.font-weight-extrabold.text-dark.mb-1 #{pageTitle}
+                        p.text-muted.small.mb-0 Xem chi tiết thông tin sản phẩm
+                    a.btn-back(href=`${prefixAdmin}/products`)
+                        span.mr-1 &larr;
+                        | Quay lại danh sách
+
+                // Detail Card
+                .admin-card.p-4
+                    if (product.title)
+                        h2.mb-4.font-weight-bold.text-primary #{product.title}
+
+                    .row.mb-4
+                        .col-md-6
+                            if (product.price)
+                                .mb-3
+                                    span.text-muted.mr-2 Giá gốc:
+                                    span.font-weight-bold.text-danger(style="font-size: 1.2rem;") #{product.price}$
+                            if (product.newPrice)
+                                .mb-3
+                                    span.text-muted.mr-2 Giá mới:
+                                    span.font-weight-bold.text-success(style="font-size: 1.2rem;") #{product.newPrice}$
+                            if (product.discountPercentage)
+                                .mb-3
+                                    span.text-muted.mr-2 Giảm giá:
+                                    span.badge.badge-danger -#{product.discountPercentage}%
+                            if (product.stock)
+                                .mb-3
+                                    span.text-muted.mr-2 Số lượng còn lại:
+                                    span.font-weight-bold #{product.stock}
+                            if (product.position)
+                                .mb-3
+                                    span.text-muted.mr-2 Vị trí:
+                                    span.font-weight-bold #{product.position}
+                            if (product.status)
+                                .mb-3
+                                    span.text-muted.mr-2 Trạng thái:
+                                    if (product.status === "active")
+                                        span.badge.badge-success Hoạt động
+                                    else
+                                        span.badge.badge-danger Dừng hoạt động
+
+                        .col-md-6.text-center
+                            if (product.thumbnail)
+                                img.img-fluid.rounded.shadow-sm(
+                                    src=product.thumbnail
+                                    alt=product.title
+                                    style="max-height: 250px;"
+                                )
+
+                    if (product.description)
+                        .mt-4.pt-4.border-top
+                            h5.font-weight-bold.mb-3 Mô tả chi tiết:
+                            .text-muted !{product.description}
+
+                    // Actions
+                    .text-right.mt-4.pt-4.border-top
+                        a.btn.btn-warning(href=`${prefixAdmin}/products/edit/${product.id}`)
+                            span.mr-2 ✏️
+                            | Chỉnh sửa sản phẩm
