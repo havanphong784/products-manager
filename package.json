@@ -25,7 +25,8 @@
     "mongoose-slug-updater": "^3.3.0",
     "multer": "^2.2.0",
     "pug": "^3.0.4",
-    "streamifier": "^0.1.1"
+    "streamifier": "^0.1.1",
+    "tinymce": "^8.7.0"
   },
   "devDependencies": {
     "@prettier/plugin-pug": "^3.4.2",

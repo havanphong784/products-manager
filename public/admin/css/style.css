@@ -802,7 +802,7 @@ body {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
 }
 
-textarea.form-control-custom {
+textarea.textarea-mce.form-control-custom {
     height: auto;
     min-height: 120px;
     resize: vertical;

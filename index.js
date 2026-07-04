@@ -11,6 +11,7 @@ const bodyParser = require('body-parser');
 const flash = require('express-flash')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
+const path = require('path');
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -26,6 +27,8 @@ app.use(cookieParser('hocbackendnodejs'));
 app.use(session({cookie: {maxAge: 60000}}));
 app.use(flash());
 
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
 database.connection();
@@ -33,9 +36,9 @@ database.connection();
 routeAdmin(app);
 route(app);
 if (process.env.NODE_ENV !== 'production') {
-    app.listen(port, () => {
-        console.log(`Backend đang chạy ở port ${port}`);
-    });
+  app.listen(port, () => {
+    console.log(`Backend đang chạy ở port ${port}`);
+  });
 }
 
 module.exports = app;

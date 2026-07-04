@@ -57,7 +57,7 @@ block main
                           td.td-thumb
                               img(src=product.thumbnail, alt=product.title)
                           td.td-name #{product.title}
-                          td.td-desc #{product.description}
+                          td.td-desc !{product.description}
                           td.td-price
                               span.price-new #{product.newPrice}$
                               br
