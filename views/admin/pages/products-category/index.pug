@@ -1,0 +1,56 @@
+extends ../../layouts/default.pug
+
+block main
+    .container-fluid.px-4.py-4
+        .d-flex.align-items-center.justify-content-between.mb-4
+            div
+                h1.h3.font-weight-extrabold.text-dark.mb-1 Danh mục sản phẩm
+                p.text-muted.small.mb-0 Quản lý danh sách các danh mục sản phẩm
+            a.btn-create(href=`${prefixAdmin}/products-category/create`)
+                span.mr-1 +
+                | Thêm mới
+
+        .admin-card
+            .table-responsive
+                table.table.table-hover.align-middle
+                    thead
+                        tr
+                            th(width="5%") STT
+                            th(width="15%") Hình ảnh
+                            th(width="30%") Tiêu đề
+                            th(width="15%") Vị trí
+                            th(width="15%") Trạng thái
+                            th(width="20%") Hành động
+                    tbody
+                        if records.length > 0
+                          each item, index in records
+                              tr
+                                  td #{index + 1}
+                                  td
+                                      img(
+                                          src=item.thumbnail
+                                          alt=item.title
+                                          width="80px"
+                                          height="auto"
+                                          style="border-radius: 8px; object-fit: cover;"
+                                      )
+                                  td #{item.title}
+                                  td
+                                      input(
+                                          type="number"
+                                          value=item.position
+                                          style="width: 60px"
+                                          min="1"
+                                          name="position"
+                                      )
+                                  td
+                                      if item.status == "active"
+                                          a.badge.badge-success(href="javascript:;") Hoạt động
+                                      else
+                                          a.badge.badge-danger(href="javascript:;") Dừng hoạt động
+                                  td
+                                      a.btn.btn-warning.btn-sm.mr-2(href=`${prefixAdmin}/products-category/edit/${item.id}`) Sửa
+                                      button.btn.btn-danger.btn-sm Xóa
+                        else
+                            tr
+                                td(colspan="6" class="text-center py-4") Chưa có danh mục nào được tạo.

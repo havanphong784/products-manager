@@ -1,0 +1,104 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert
+
+block main
+    +alert-error(5000)
+    .container-fluid.px-4.py-4
+        .row.justify-content-center
+            .col-xl-8.col-lg-10
+                // Header
+                .d-flex.align-items-center.justify-content-between.mb-4
+                    div
+                        h1.h3.font-weight-extrabold.text-dark.mb-1 Tạo danh mục sản phẩm
+                        p.text-muted.small.mb-0 Nhập thông tin để thêm danh mục mới vào hệ thống
+                    a.btn-back(href=`${prefixAdmin}/products-category`)
+                        span.mr-1 &larr;
+                        | Quay lại danh sách
+
+                // Form Card
+                .admin-card
+                    form(
+                        action=`${prefixAdmin}/products-category/create`
+                        method="POST"
+                        id="form-create-product-category"
+                        enctype="multipart/form-data"
+                    )
+                        .form-group.mb-4
+                            label.form-label(for=title) Tên danh mục
+                            input.form-control-custom(
+                                type="text"
+                                name="title"
+                                placeholder="Ví dụ: Điện thoại thông minh"
+                                required
+                            )
+
+                        .form-group.mb-4
+                            label.form-label Danh mục cha
+                            input.form-control-custom(
+                                type="text"
+                                name="parent_id"
+                                placeholder="Id danh mục cha"
+                            )
+
+                        .form-group.mb-4
+                            label.form-label Mô tả chi tiết
+                            textarea.textarea-mce.form-control-custom(
+                                name="description"
+                                placeholder="Nhập mô tả danh mục của bạn..."
+                            )
+
+                        .row
+                            .col-md-6
+                                .form-group.mb-4
+                                    label.form-label Vị trí hiển thị
+                                    input.form-control-custom(
+                                        type="number"
+                                        name="position"
+                                        placeholder="Tự động tăng"
+                                        min="1"
+                                    )
+
+                        .row
+                            // Ảnh và Trạng thái
+                            .col-md-6
+                                .form-group.mb-4(upload-image)
+                                    label.form-label Ảnh danh mục
+                                    input.form-control-custom(
+                                        type="file"
+                                        name="thumbnail"
+                                        placeholder="Chọn ảnh danh mục..."
+                                        accept="image/*"
+                                        upload-preview-input
+                                    )
+                                    .image-preview-container.mt-2.d-none
+                                        .preview-wrapper
+                                            img( upload-preview, alt="Ảnh xem trước")
+                                        button.close-preview-btn(type="button" close-preview) X
+                            .col-md-6
+                                .form-group.mb-4
+                                    label.form-label Trạng thái danh mục
+                                    .status-options-wrapper
+                                        .flex-fill
+                                            input.status-radio-input(
+                                                type="radio"
+                                                id="status-active"
+                                                name="status"
+                                                value="active"
+                                                checked
+                                            )
+                                            label.status-option-card.active-card(for="status-active")
+                                                span Hoạt động
+                                        .flex-fill
+                                            input.status-radio-input(
+                                                type="radio"
+                                                id="status-inactive"
+                                                name="status"
+                                                value="inactive"
+                                            )
+                                            label.status-option-card.inactive-card(for="status-inactive")
+                                                span Dừng hoạt động
+
+                        // Actions
+                        .form-actions.text-right.mt-4.pt-4.border-top
+                            button.btn-submit(type="submit")
+                                span Tạo danh mục mới

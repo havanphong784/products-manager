@@ -24,7 +24,12 @@ app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
 
 app.use(cookieParser('hocbackendnodejs'));
-app.use(session({cookie: {maxAge: 60000}}));
+app.use(session({
+  secret: 'JSAJDJAJDSAJDKA',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {maxAge: 60000}
+}));
 app.use(flash());
 
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
