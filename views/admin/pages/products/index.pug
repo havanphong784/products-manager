@@ -37,6 +37,7 @@ block main
                                 type="checkbox"
                                 name="checkAll"
                             )
+                        th.th-thumb STT
                         th.th-thumb Ảnh
                         th.th-name Tên sản phẩm
                         th.th-desc Mô tả
@@ -46,7 +47,7 @@ block main
                         th.th-status Trạng thái
                         th.th-actions Hành động
                 tbody
-                  each product in products
+                  each product,index in products
                       tr.table-row
                           td
                               input(
@@ -54,6 +55,7 @@ block main
                                   name="id"
                                   value=product.id
                               )
+                          td #{pagination.limit * (pagination.currentPage - 1) + (index + 1)}
                           td.td-thumb
                               img(src=product.thumbnail, alt=product.title)
                           td.td-name #{product.title}
