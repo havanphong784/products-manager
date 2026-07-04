@@ -87,9 +87,13 @@ block main
                             .col-md-6
                                 .form-group.mb-4
                                     label.form-label Vị trí hiển thị
-                                    select.form-control-custom(name="position")
-                                        option(value="-1") Tự động tăng
-                                        option(value=product.position selected) Tự thiết lập
+                                    input.form-control-custom(
+                                        type="number"
+                                        name="position"
+                                        placeholder="Tự động tăng"
+                                        min="1"
+                                        value=product.position
+                                    )
 
                         .row
                             // Ảnh và Trạng thái

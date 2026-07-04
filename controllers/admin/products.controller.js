@@ -131,14 +131,16 @@ module.exports.create = async (req, res) => {
 
 // [POST] /admin/prodcuts/create
 module.exports.createPost = async (req, res) => {
-    if (req.body.position == -1) {
+    if (!req.body.position) {
         const countProduct = await Product.countDocuments();
         req.body.position = countProduct + 1;
+    } else {
+        req.body.position = parseInt(req.body.position);
     }
 
-    if (req.file) {
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
+    // if (req.file) {
+    //     req.body.thumbnail = `/uploads/${req.file.filename}`;
+    // }
 
     const product = new Product(req.body);
     await product.save();
@@ -169,15 +171,16 @@ module.exports.editPatch = async (req, res) => {
     req.body.price = parseInt(req.body.price);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
-    req.body.position = parseInt(req.body.position);
-    if (req.body.position === -1) {
+    if (!req.body.position) {
         const countProduct = await Product.countDocuments();
         req.body.position = countProduct + 1;
+    } else {
+        req.body.position = parseInt(req.body.position);
     }
 
-    if (req.file) {
-        req.body.thumbnail = `/uploads/${req.file.filename}`;
-    }
+    // if (req.file) {
+    //     req.body.thumbnail = `/uploads/${req.file.filename}`;
+    // }
 
     try {
         await Product.updateOne({_id: id}, req.body);
