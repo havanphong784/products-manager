@@ -5,11 +5,12 @@ include ../../mixins/search
 include ../../mixins/form-change-multi
 include ../../mixins/pagination
 include ../../mixins/alert
+include ../../mixins/sort
 
 block main
     +alert-success(4000)
     .container.my-3
-        +box-head('Bộ lọc & Tìm kiếm')
+        +box-head('Tìm kiếm')
         .filter-container.mb-4
             .row.align-items-center
                 .col-lg-7.col-md-12.mb-3.mb-lg-0.d-flex.align-items-center.flex-wrap
@@ -17,6 +18,9 @@ block main
                     +filter-status(filterStatus)
                 .col-lg-5.col-md-12
                     +search-box(keyword)
+
+        +box-head('Bộ lọc')
+        +sort()
 
         +box-head('Danh sách sản phẩm')
         .action-bar.mb-3.d-flex.align-items-center.justify-content-between
@@ -42,53 +46,53 @@ block main
                         th.th-status Trạng thái
                         th.th-actions Hành động
                 tbody
-                    each product in products
-                        tr.table-row
-                            td
-                                input(
-                                    type="checkbox"
-                                    name="id"
-                                    value=product.id
-                                )
-                            td.td-thumb
-                                img(src=product.thumbnail, alt=product.title)
-                            td.td-name #{product.title}
-                            td.td-desc #{product.description}
-                            td.td-price
-                                span.price-new #{product.newPrice}$
-                                br
-                                span.price-old #{product.price}$
-                            td
-                                input(
-                                    type="number"
-                                    value=product.position
-                                    style="width: 60px; text-align: center;"
-                                    min="1"
-                                    name="position"
-                                )
-                            td.td-discount
-                                span.badge-discount -#{product.discountPercentage}%
-                            td.td-status
-                                if product.status === 'active'
-                                    a.badge.badge-success(
-                                        href="javascript:;"
-                                        button-change-status
-                                        data-id=product.id
-                                        data-status=product.status
-                                    ) Hoạt động
-                                else if product.status === 'inactive'
-                                    a.badge.badge-inactive(
-                                        href="javascript:;"
-                                        button-change-status
-                                        data-id=product.id
-                                        data-status=product.status
-                                    ) Không hoạt động
-                                else
-                                    span.badge.badge-default #{product.status || 'Chưa xác định'}
-                            td.td-actions
-                                a.btn-edit(href=`${prefixAdmin}/products/edit/${product.id}`, title='Chỉnh sửa') Sửa
-                                a.btn-delete(href='#', title='Xóa' data-id=product.id button-delete) Xóa
-                                a.btn-detail(href=`${prefixAdmin}/products/detail/${product.id}`, title='Chi tiết' data-id=product.id button-detail) Chi tiết
+                  each product in products
+                      tr.table-row
+                          td
+                              input(
+                                  type="checkbox"
+                                  name="id"
+                                  value=product.id
+                              )
+                          td.td-thumb
+                              img(src=product.thumbnail, alt=product.title)
+                          td.td-name #{product.title}
+                          td.td-desc #{product.description}
+                          td.td-price
+                              span.price-new #{product.newPrice}$
+                              br
+                              span.price-old #{product.price}$
+                          td
+                              input(
+                                  type="number"
+                                  value=product.position
+                                  style="width: 60px; text-align: center;"
+                                  min="1"
+                                  name="position"
+                              )
+                          td.td-discount
+                              span.badge-discount -#{product.discountPercentage}%
+                          td.td-status
+                              if product.status === 'active'
+                                  a.badge.badge-success(
+                                      href="javascript:;"
+                                      button-change-status
+                                      data-id=product.id
+                                      data-status=product.status
+                                  ) Hoạt động
+                              else if product.status === 'inactive'
+                                  a.badge.badge-inactive(
+                                      href="javascript:;"
+                                      button-change-status
+                                      data-id=product.id
+                                      data-status=product.status
+                                  ) Không hoạt động
+                              else
+                                  span.badge.badge-default #{product.status || 'Chưa xác định'}
+                          td.td-actions
+                              a.btn-edit(href=`${prefixAdmin}/products/edit/${product.id}`, title='Chỉnh sửa') Sửa
+                              a.btn-delete(href='#', title='Xóa' data-id=product.id button-delete) Xóa
+                              a.btn-detail(href=`${prefixAdmin}/products/detail/${product.id}`, title='Chi tiết' data-id=product.id button-detail) Chi tiết
         +pagination(pagination)
 
     form(

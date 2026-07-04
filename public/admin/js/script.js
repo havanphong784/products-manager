@@ -154,3 +154,34 @@ if (uploadImage) {
     });
   }
 }
+
+const sort = document.querySelector("[sort]");
+if (sort) {
+  const sortSelect = sort.querySelector("[sort-select]");
+  const sortClear = sort.querySelector("[sort-clear]");
+
+  const url = new URL(window.location.href);
+  sortSelect.addEventListener("change", (e) => {
+    const [sortKey, sortValue] = e.target.value.split("-");
+
+    url.searchParams.set("sortKey", sortKey);
+    url.searchParams.set("sortValue", sortValue);
+    window.location.href = url.href;
+  })
+
+  sortClear.addEventListener("click", (e) => {
+    url.searchParams.delete("sortKey");
+    url.searchParams.delete("sortValue");
+    window.location.href = url.href;
+  })
+
+  const sortKey = url.searchParams.get("sortKey");
+  const sortValue = url.searchParams.get("sortValue");
+  if (sortValue && sortKey) {
+    const stringSort = `${sortKey}-${sortValue}`;
+    const option = sort.querySelector(`option[value='${stringSort}']`);
+    if (option) {
+      option.selected = true
+    }
+  }
+}
