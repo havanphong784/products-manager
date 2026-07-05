@@ -1,7 +1,10 @@
 extends ../../layouts/default.pug
 include ../../mixins/table-tree
+include ../../mixins/alert
 
 block main
+    +alert-success(5000)
+    +alert-error(5000)
     .container-fluid.px-4.py-4
         .d-flex.align-items-center.justify-content-between.mb-4
             div
