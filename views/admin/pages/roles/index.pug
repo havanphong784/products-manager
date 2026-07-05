@@ -1,0 +1,45 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert
+
+block main
+    +alert-success(4000)
+    +alert-error(4000)
+    .container-fluid.px-4.py-4
+        .d-flex.align-items-center.justify-content-between.mb-4
+            div
+                h1.h3.font-weight-extrabold.text-dark.mb-1 Nhóm quyền
+                p.text-muted.small.mb-0 Quản lý danh sách các nhóm quyền
+            a.btn-create(href=`${prefixAdmin}/roles/create`)
+                span.mr-1 +
+                | Thêm mới
+
+        .admin-card
+            .table-responsive
+                table.admin-table
+                    thead
+                        tr
+                            th(width="5%") STT
+                            th(width="30%") Nhóm quyền
+                            th(width="40%") Mô tả ngắn
+                            th(width="25%") Hành động
+                    tbody
+                        if roles && roles.length > 0
+                          each item, index in roles
+                              tr.table-row
+                                  td #{index + 1}
+                                  td.td-name #{item.title}
+                                  td.td-desc #{item.description}
+                                  td.td-actions
+                                      a.btn-detail(href=`${prefixAdmin}/roles/detail/${item.id}`, title='Chi tiết' data-id=item.id button-detail) Chi tiết
+                                      a.btn-edit(href=`${prefixAdmin}/roles/edit/${item.id}`, title='Chỉnh sửa') Sửa
+                                      a.btn-delete(href='#', title='Xóa' data-id=item.id button-delete) Xóa
+                        else
+                            tr
+                                td(colspan="4" class="text-center py-4") Chưa có nhóm quyền nào được tạo.
+
+    form(
+        action=""
+        method="POST"
+        id="form-delete-item"
+        data-path=`${prefixAdmin}/roles/delete/`
+    )
