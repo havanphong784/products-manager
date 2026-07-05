@@ -1,5 +1,6 @@
 extends ../../layouts/default.pug
 include ../../mixins/alert
+include ../../mixins/select-tree
 
 block main
     +alert-error(5000)
@@ -32,6 +33,14 @@ block main
                                 placeholder="Ví dụ: iPhone 15 Pro Max"
                                 required
                             )
+                        .form-group.mb-4
+                            label.form-label Danh mục
+                            select(name="products_category_id"
+                                class="form-control"
+                            )
+                                option(value="") --Chọn danh mục--
+                                if (records)
+                                    +select-tree(records,1)
 
                         // Mô tả
                         .form-group.mb-4

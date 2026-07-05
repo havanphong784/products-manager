@@ -1,11 +1,13 @@
 // [GET] /admin/products
 
 const Product = require("../../models/products.model");
+const ProductsCategory = require("../../models/products-category.model");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchObjectHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 const {prefixAdmin} = require("../../config/system");
 const {parse} = require("dotenv");
+const createTree = require("../../helpers/create-tree");
 
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
@@ -41,12 +43,16 @@ module.exports.index = async (req, res) => {
     .limit(paginationObject.limit)
     .skip(paginationObject.skip)
     .sort({position: "desc"});
-  products.forEach((product) => {
+  for (const product of products) {
     product.newPrice = (
       (product.price * (100 - product.discountPercentage)) /
       100
     ).toFixed(0);
-  });
+    const categoryDoc = product.products_category_id
+      ? await ProductsCategory.findOne({_id: product.products_category_id})
+      : null;
+    product.category_name = categoryDoc ? categoryDoc.title : null;
+  }
   res.render("admin/pages/products/index.pug", {
     pageTitle: "Products",
     products: products,
@@ -131,8 +137,11 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/prodcuts/create
 module.exports.create = async (req, res) => {
+  let records = await ProductsCategory.find({deleted: false});
+  const newRecords = createTree.tree(records);
   res.render("admin/pages/products/create.pug", {
     pageTitle: "Thêm mới sản ",
+    records: newRecords,
   });
 };
 
@@ -164,12 +173,16 @@ module.exports.edit = async (req, res) => {
     _id: req.params.id,
   };
 
+  let records = await ProductsCategory.find({deleted: false});
+  const newRecords = createTree.tree(records);
+
   const product = await Product.findOne(find);
   console.log(product);
 
   res.render("admin/pages/products/edit.pug", {
     pageTitle: "Chỉnh sửa sản phẩm",
     product: product,
+    records: newRecords
   });
 };
 
