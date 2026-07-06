@@ -69,5 +69,5 @@ module.exports.editPatch = async (req, res) => {
   } catch (err) {
     req.flash("error", "Cập nhật danh mục thất bại")
   }
-  res.redirect(res.get("referer"));
+  res.redirect(req.get("referer"));
 }

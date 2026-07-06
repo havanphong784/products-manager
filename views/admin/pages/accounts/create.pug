@@ -1,0 +1,107 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert
+
+block main
+    +alert-success(4000)
+    +alert-error(4000)
+    .container-fluid.px-4.py-4
+        .row.justify-content-center
+            .col-xl-8.col-lg-10
+                // Header
+                .d-flex.align-items-center.justify-content-between.mb-4
+                    div
+                        h1.h3.font-weight-extrabold.text-dark.mb-1 Tạo tài khoản
+                        p.text-muted.small.mb-0 Nhập thông tin để thêm tài khoản mới vào hệ thống
+                    a.btn-back(href=`${prefixAdmin}/accounts`)
+                        span.mr-1 &larr;
+                        | Quay lại danh sách
+
+                // Form Card
+                .admin-card
+                    form(
+                        action=`${prefixAdmin}/accounts/create`
+                        method="POST"
+                        id="form-create-account"
+                        enctype="multipart/form-data"
+                    )
+                        .form-group.mb-4
+                            label.form-label Họ tên *
+                            input.form-control-custom(
+                                type="text"
+                                name="fullName"
+                                required
+                            )
+                        .form-group.mb-4
+                            label.form-label Email *
+                            input.form-control-custom(
+                                type="email"
+                                name="email"
+                                required
+                            )
+                        .row
+                            .col-md-6
+                                .form-group.mb-4
+                                    label.form-label Mật khẩu *
+                                    input.form-control-custom(
+                                        type="password"
+                                        name="password"
+                                        required
+                                    )
+                            .col-md-6
+                                .form-group.mb-4
+                                    label.form-label Số điện thoại
+                                    input.form-control-custom(
+                                        type="text"
+                                        name="phone"
+                                    )
+                        .row
+                            .col-md-6
+                                .form-group.mb-4(upload-image)
+                                    label.form-label Avatar
+                                    input.form-control-custom(
+                                        type="file"
+                                        name="thumbnail"
+                                        placeholder="Chọn ảnh đại diện..."
+                                        accept="image/*"
+                                        upload-preview-input
+                                    )
+                                    .image-preview-container.mt-2.d-none
+                                        .preview-wrapper
+                                            img(upload-preview, alt="Ảnh xem trước")
+                                        button.close-preview-btn(type="button" close-preview) X
+                            .col-md-6
+                                .form-group.mb-4
+                                    label.form-label Phân quyền
+                                    select.form-control-custom(name="role_id")
+                                        option(value="") -- Chọn phân quyền --
+                                        if roles
+                                            each item in roles
+                                                option(value=item.id) #{item.title}
+                        
+                        .form-group.mb-4
+                            label.form-label Trạng thái tài khoản
+                            .status-options-wrapper
+                                .flex-fill
+                                    input.status-radio-input(
+                                        type="radio"
+                                        id="status-active"
+                                        name="status"
+                                        value="active"
+                                        checked
+                                    )
+                                    label.status-option-card.active-card(for="status-active")
+                                        span Hoạt động
+                                .flex-fill
+                                    input.status-radio-input(
+                                        type="radio"
+                                        id="status-inactive"
+                                        name="status"
+                                        value="inactive"
+                                    )
+                                    label.status-option-card.inactive-card(for="status-inactive")
+                                        span Dừng hoạt động
+
+                        // Actions
+                        .form-actions.text-right.mt-4.pt-4.border-top
+                            button.btn-submit(type="submit")
+                                span Tạo mới
