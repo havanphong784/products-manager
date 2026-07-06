@@ -23,7 +23,7 @@ module.exports.createPost = async (req, res) => {
     await role.save();
     res.redirect(`${prefixAdmin}/roles`);
   } catch (error) {
-    res.redirect(res.get("referer"));
+    res.redirect(req.get("referer") || "/");
   }
 };
 
@@ -37,7 +37,7 @@ module.exports.edit = async (req, res) => {
       role: role
     })
   } catch (error) {
-    res.redirect(res.get("referer"));
+    res.redirect(req.get("referer") || "/");
   }
 };
 
@@ -49,7 +49,20 @@ module.exports.editPost = async (req, res) => {
     req.flash("success", "Cập nhật nhóm quyền thành công");
   } catch (error) {
     req.flash("error", "Cập nhật nhóm quyền thất bại");
-    res.redirect(res.get("referer"));
+    res.redirect(req.get("referer") || "/");
+  }
+};
+
+//[PATCH] /admin/roles/delete/:id
+module.exports.deletePatch = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await Roles.updateOne({_id: id}, {deleted: true, deletedAt: new Date()});
+    req.flash("success", "Xóa nhóm quyền thành công");
+    res.redirect(req.get("referer") || "/");
+  } catch (error) {
+    req.flash("error", "Xóa nhóm quyền thất bại");
+    res.redirect(req.get("referer") || "/");
   }
 };
 

@@ -7,6 +7,7 @@ router.get("/create", controller.create)
 router.post("/create", controller.createPost)
 router.get("/edit/:id", controller.edit)
 router.patch("/edit/:id", controller.editPost)
+router.patch("/delete/:id", controller.deletePatch)
 router.get("/permissions", controller.permissions)
 router.patch("/permissions", controller.permissionsPatch)
 
