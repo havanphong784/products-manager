@@ -1,0 +1,140 @@
+extends ../../layouts/default
+include ../../mixins/alert
+
+block main
+    +alert-success(5000)
+    +alert-error(5000)
+
+    .container-fluid.px-4.py-4
+        .d-flex.align-items-center.justify-content-between.mb-4
+            div
+                h1.h3.font-weight-extrabold.text-dark.mb-1 Phân quyền
+                p.text-muted.small.mb-0 Quản lý phân quyền cho các nhóm quyền
+            div
+                button.btn-submit(
+                    type="submit"
+                    button-submit
+                ) Cập nhật
+
+        if (records)
+            div(data-records=records)
+
+        .admin-table-wrapper
+            table.admin-table(table-permissions)
+                thead
+                    tr
+                        th(width="30%") Tính năng
+                        each item in records
+                            th.text-center #{item.title}
+                tbody
+                    // ẩn đi
+                    tr.d-none(data-name="id")
+                        td id
+                        each item in records
+                            td.text-center
+                                input(value=item.id)
+                    
+                    tr.table-row.bg-light
+                        td(colspan=records.length + 1).td-name
+                            b Danh mục sản phẩm
+
+                    tr.table-row(data-name="product-category_view")
+                        td.td-desc Xem
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="product-category_create")
+                        td.td-desc Thêm
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="product-category_edit")
+                        td.td-desc Sửa
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="product-category_delete")
+                        td.td-desc Xóa
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row.bg-light
+                        td(colspan=records.length + 1).td-name
+                            b Sản phẩm
+
+                    tr.table-row(data-name="product_view")
+                        td.td-desc Xem
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="product_create")
+                        td.td-desc Thêm
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="product_edit")
+                        td.td-desc Sửa
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="product_delete")
+                        td.td-desc Xóa
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row.bg-light
+                        td(colspan=records.length + 1).td-name
+                            b Nhóm quyền
+
+                    tr.table-row(data-name="roles_view")
+                        td.td-desc Xem
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="roles_create")
+                        td.td-desc Thêm
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="roles_edit")
+                        td.td-desc Sửa
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="roles_delete")
+                        td.td-desc Xóa
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="roles_permissions")
+                        td.td-desc Phân quyền
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+    // ẩn đi
+    form.d-none(
+        id="form-change-permissions"
+        method="POST"
+        action=`${prefixAdmin}/roles/permissions?_method=PATCH`
+    )
+        div(class="form-group")
+            input(
+                type="text"
+                class="form-control"
+                name="permissions"
+            )
+
+    script(src="/admin/js/roles.js")

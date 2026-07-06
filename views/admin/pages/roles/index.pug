@@ -13,16 +13,15 @@ block main
                 span.mr-1 +
                 | Thêm mới
 
-        .admin-card
-            .table-responsive
-                table.admin-table
-                    thead
-                        tr
-                            th(width="5%") STT
-                            th(width="30%") Nhóm quyền
-                            th(width="40%") Mô tả ngắn
-                            th(width="25%") Hành động
-                    tbody
+        .admin-table-wrapper
+            table.admin-table
+                thead
+                    tr
+                        th(width="5%") STT
+                        th.th-name(width="30%") Nhóm quyền
+                        th.th-desc(width="40%") Mô tả ngắn
+                        th.th-actions(width="25%") Hành động
+                tbody
                         if roles && roles.length > 0
                           each item, index in roles
                               tr.table-row
