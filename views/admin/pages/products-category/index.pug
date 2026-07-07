@@ -10,9 +10,10 @@ block main
             div
                 h1.h3.font-weight-extrabold.text-dark.mb-1 Danh mục sản phẩm
                 p.text-muted.small.mb-0 Quản lý danh sách các danh mục sản phẩm
-            a.btn-create(href=`${prefixAdmin}/products-category/create`)
-                span.mr-1 +
-                | Thêm mới
+            if(role.permissions.includes("product-category_create"))
+                a.btn-create(href=`${prefixAdmin}/products-category/create`)
+                    span.mr-1 +
+                    | Thêm mới
 
         .admin-card
             .table-responsive

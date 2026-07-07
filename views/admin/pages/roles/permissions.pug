@@ -10,11 +10,12 @@ block main
             div
                 h1.h3.font-weight-extrabold.text-dark.mb-1 Phân quyền
                 p.text-muted.small.mb-0 Quản lý phân quyền cho các nhóm quyền
-            div
-                button.btn-submit(
-                    type="submit"
-                    button-submit
-                ) Cập nhật
+            if(role.permissions.includes("roles_permissions"))
+                div
+                    button.btn-submit(
+                        type="submit"
+                        button-submit
+                    ) Cập nhật
 
         if (records)
             div(data-records=records)
@@ -120,6 +121,33 @@ block main
 
                     tr.table-row(data-name="roles_permissions")
                         td.td-desc Phân quyền
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+                    tr.table-row.bg-light
+                        td(colspan=records.length + 1).td-name
+                            b Tài khoản
+
+                    tr.table-row(data-name="account_view")
+                        td.td-desc Xem
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="account_create")
+                        td.td-desc Thêm
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="account_edit")
+                        td.td-desc Sửa
+                        each item in records
+                            td.text-center
+                                input(type="checkbox")
+
+                    tr.table-row(data-name="account_delete")
+                        td.td-desc Xóa
                         each item in records
                             td.text-center
                                 input(type="checkbox")

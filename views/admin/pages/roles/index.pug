@@ -9,9 +9,10 @@ block main
             div
                 h1.h3.font-weight-extrabold.text-dark.mb-1 Nhóm quyền
                 p.text-muted.small.mb-0 Quản lý danh sách các nhóm quyền
-            a.btn-create(href=`${prefixAdmin}/roles/create`)
-                span.mr-1 +
-                | Thêm mới
+            if(role.permissions.includes("roles_create"))
+                a.btn-create(href=`${prefixAdmin}/roles/create`)
+                    span.mr-1 +
+                    | Thêm mới
 
         .admin-table-wrapper
             table.admin-table
@@ -30,8 +31,10 @@ block main
                                   td.td-desc #{item.description}
                                   td.td-actions
                                       a.btn-detail(href=`${prefixAdmin}/roles/detail/${item.id}`, title='Chi tiết' data-id=item.id button-detail) Chi tiết
-                                      a.btn-edit(href=`${prefixAdmin}/roles/edit/${item.id}`, title='Chỉnh sửa') Sửa
-                                      a.btn-delete(href='#', title='Xóa' data-id=item.id button-delete) Xóa
+                                      if(role.permissions.includes("roles_edit"))
+                                          a.btn-edit(href=`${prefixAdmin}/roles/edit/${item.id}`, title='Chỉnh sửa') Sửa
+                                      if(role.permissions.includes("roles_delete"))
+                                          a.btn-delete(href='#', title='Xóa' data-id=item.id button-delete) Xóa
                         else
                             tr
                                 td(colspan="4" class="text-center py-4") Chưa có nhóm quyền nào được tạo.

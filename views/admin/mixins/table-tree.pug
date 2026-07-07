@@ -26,8 +26,10 @@ mixin table-tree(records,level=1)
             else
                 a.badge.badge-danger(href="javascript:;") Dừng hoạt động
         td
-            a.btn.btn-warning.btn-sm.mr-2(href=`${prefixAdmin}/products-category/edit/${item.id}`) Sửa
-            button.btn.btn-danger.btn-sm Xóa
+            if(role.permissions.includes("product-category_edit"))
+                a.btn.btn-warning.btn-sm.mr-2(href=`${prefixAdmin}/products-category/edit/${item.id}`) Sửa
+            if(role.permissions.includes("product-category_delete"))
+                button.btn.btn-danger.btn-sm Xóa
 
     if item.children && item.children.length > 0
         +table-tree(item.children,level + 1)

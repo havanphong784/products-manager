@@ -8,13 +8,16 @@ html
         link(href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap", rel="stylesheet")
         link(rel='stylesheet', href='/admin/css/style.css')
     body
-        include ../partials/header.pug
+        if (role.permissions.length > 0 )
+            include ../partials/header.pug
 
-        .admin-shell
-            include ../partials/sidebar.pug
+            .admin-shell
+                include ../partials/sidebar.pug
 
-            main.admin-content
-                block main
+                main.admin-content
+                    block main
+        else
+            h1 Không có quyền truy cập
 
         script(src='/admin/js/script.js')
         script(type="application/javascript" src="/tinymce/tinymce.min.js")

@@ -24,10 +24,12 @@ block main
 
         +box-head('Danh sách sản phẩm')
         .action-bar.mb-3.d-flex.align-items-center.justify-content-between
-            +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
-            a.btn-create(href=`${prefixAdmin}/products/create`)
-                span.mr-1 +
-                | Thêm mới
+            if(role.permissions.includes("product_edit") || role.permissions.includes("product_delete"))
+                +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+            if(role.permissions.includes("product_create"))
+                a.btn-create(href=`${prefixAdmin}/products/create`)
+                    span.mr-1 +
+                    | Thêm mới
         .admin-table-wrapper
             table.admin-table( checkbox-multi )
                 thead
@@ -78,25 +80,33 @@ block main
                               span.badge-discount -#{product.discountPercentage}%
                           td.td-status
                               if product.status === 'active'
-                                  a.badge.badge-success(
-                                      href="javascript:;"
-                                      button-change-status
-                                      data-id=product.id
-                                      data-status=product.status
-                                  ) Hoạt động
+                                  if(role.permissions.includes("product_edit"))
+                                      a.badge.badge-success(
+                                          href="javascript:;"
+                                          button-change-status
+                                          data-id=product.id
+                                          data-status=product.status
+                                      ) Hoạt động
+                                  else
+                                      span.badge.badge-success Hoạt động
                               else if product.status === 'inactive'
-                                  a.badge.badge-inactive(
-                                      href="javascript:;"
-                                      button-change-status
-                                      data-id=product.id
-                                      data-status=product.status
-                                  ) Không hoạt động
+                                  if(role.permissions.includes("product_edit"))
+                                      a.badge.badge-inactive(
+                                          href="javascript:;"
+                                          button-change-status
+                                          data-id=product.id
+                                          data-status=product.status
+                                      ) Không hoạt động
+                                  else
+                                      span.badge.badge-inactive Không hoạt động
                               else
                                   span.badge.badge-default #{product.status || 'Chưa xác định'}
                           td.td-actions
-                              a.btn-edit(href=`${prefixAdmin}/products/edit/${product.id}`, title='Chỉnh sửa') Sửa
-                              a.btn-delete(href='#', title='Xóa' data-id=product.id button-delete) Xóa
-                              a.btn-detail(href=`${prefixAdmin}/products/detail/${product.id}`, title='Chi tiết' data-id=product.id button-detail) Chi tiết
+                            if(role.permissions.includes("product_edit"))
+                                a.btn-edit(href=`${prefixAdmin}/products/edit/${product.id}`, title='Chỉnh sửa') Sửa
+                            if(role.permissions.includes("product_delete"))
+                                a.btn-delete(href='#', title='Xóa' data-id=product.id button-delete) Xóa
+                            a.btn-detail(href=`${prefixAdmin}/products/detail/${product.id}`, title='Chi tiết' data-id=product.id button-detail) Chi tiết
         +pagination(pagination)
 
     form(
