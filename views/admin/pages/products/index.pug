@@ -6,6 +6,7 @@ include ../../mixins/form-change-multi
 include ../../mixins/pagination
 include ../../mixins/alert
 include ../../mixins/sort
+include ../../mixins/moment
 
 block main
     +alert-success(4000)
@@ -47,6 +48,7 @@ block main
                         th.th-price <Giá></Giá>
                         th Thứ tự
                         th.th-discount Giảm giá
+                        th Người thêm
                         th.th-status Trạng thái
                         th.th-actions Hành động
                 tbody
@@ -78,6 +80,11 @@ block main
                               )
                           td.td-discount
                               span.badge-discount -#{product.discountPercentage}%
+                          td
+                              span #{product.accountFullName}
+                              div
+                                if (product.createdBy)
+                                    +formatDate(product.createdBy.createdAt)
                           td.td-status
                               if product.status === 'active'
                                   if(role.permissions.includes("product_edit"))

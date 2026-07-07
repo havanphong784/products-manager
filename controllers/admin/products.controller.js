@@ -1,6 +1,7 @@
 // [GET] /admin/products
 
 const Product = require("../../models/products.model");
+const Accounts = require("../../models/account.model");
 const ProductsCategory = require("../../models/products-category.model");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchObjectHelper = require("../../helpers/search");
@@ -52,6 +53,13 @@ module.exports.index = async (req, res) => {
       ? await ProductsCategory.findOne({_id: product.products_category_id})
       : null;
     product.category_name = categoryDoc ? categoryDoc.title : null;
+
+    if (product.createdBy && product.createdBy.account_id) {
+      const account = await Accounts.findOne({_id: product.createdBy.account_id});
+      product.accountFullName = account ? account.fullName : null;
+    } else {
+      product.accountFullName = null;
+    }
   }
   res.render("admin/pages/products/index.pug", {
     pageTitle: "Products",
@@ -160,7 +168,7 @@ module.exports.createPost = async (req, res) => {
   // if (req.file) {
   //     req.body.thumbnail = `/uploads/${req.file.filename}`;
   // }
-
+  req.body.createdBy = {account_id: res.locals.user.id};
   const product = new Product(req.body);
   await product.save();
   res.redirect(`${prefixAdmin}/products`);
