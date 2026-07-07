@@ -1,0 +1,38 @@
+extends ../../layouts/auth.pug
+include ../../mixins/alert.pug
+
+block main
+    +alert-success(5000)
+    +alert-error(5000)
+
+    .auth-container
+        .auth-card
+            .auth-header
+                h2 Đăng nhập
+                p Hệ thống quản trị Admin
+            
+            form(
+                action=`${prefixAdmin}/auth/login`
+                method="POST"
+            )
+                .auth-form-group
+                    label(for="email") Email
+                    input.auth-form-control(
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Nhập email của bạn"
+                        required
+                    )
+                
+                .auth-form-group
+                    label(for="password") Mật khẩu
+                    input.auth-form-control(
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Nhập mật khẩu"
+                        required
+                    )
+                
+                button.btn-auth(type="submit") Đăng nhập
