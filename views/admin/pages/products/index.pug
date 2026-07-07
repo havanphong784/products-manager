@@ -49,6 +49,7 @@ block main
                         th Thứ tự
                         th.th-discount Giảm giá
                         th Người thêm
+                        th Người sửa
                         th.th-status Trạng thái
                         th.th-actions Hành động
                 tbody
@@ -81,10 +82,17 @@ block main
                           td.td-discount
                               span.badge-discount -#{product.discountPercentage}%
                           td
-                              span #{product.accountFullName}
                               div
                                 if (product.createdBy)
+                                    span #{product.accountFullName}
                                     +formatDate(product.createdBy.createdAt)
+                          td
+                            div
+                                if (product.updatedBy && product.updatedBy.length > 0)
+                                    - const updated = product.updatedBy.slice(-1)[0]
+                                    span #{updated.accountFullName}
+                                    +formatDateTime(updated.updatedAt)
+
                           td.td-status
                               if product.status === 'active'
                                   if(role.permissions.includes("product_edit"))

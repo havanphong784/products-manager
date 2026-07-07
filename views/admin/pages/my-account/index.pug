@@ -1,0 +1,55 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+    .container-fluid.px-4.py-4
+        .row.justify-content-center
+            .col-xl-8.col-lg-10
+                // Header
+                .d-flex.align-items-center.justify-content-between.mb-4
+                    div
+                        h1.h3.font-weight-extrabold.text-dark.mb-1 Thông tin cá nhân
+                        p.text-muted.small.mb-0 Xem và quản lý thông tin tài khoản của bạn
+                    a.btn.btn-primary.btn-sm.shadow-sm.rounded-pill.px-3(href=`${prefixAdmin}/my-account/edit`)
+                        i.fas.fa-edit.mr-2
+                        | Chỉnh sửa thông tin
+
+                // Account Card
+                .card.border-0.shadow-sm.rounded-lg.mb-4
+                    .card-body.p-4
+                        .row.align-items-center
+                            .col-md-4.text-center.mb-4.mb-md-0
+                                if (user.avatar)
+                                    img.img-thumbnail.rounded-circle.shadow-sm.mb-3(
+                                        src=user.avatar 
+                                        alt=user.fullName 
+                                        style="width: 150px; height: 150px; object-fit: cover; border: 3px solid #fff;"
+                                    )
+                                else
+                                    .d-inline-flex.align-items-center.justify-content-center.bg-primary.text-white.rounded-circle.shadow-sm.mb-3(
+                                        style="width: 150px; height: 150px; font-size: 3rem; border: 3px solid #fff;"
+                                    )
+                                        i.fas.fa-user
+                                h4.font-weight-bold.text-dark.mb-1 #{user.fullName}
+                                if (role && role.title)
+                                    span.badge.badge-primary.px-3.py-2.rounded-pill #{role.title}
+                                
+                            .col-md-8
+                                table.table.table-borderless.table-sm.mb-0
+                                    tbody
+                                        tr
+                                            th.text-muted.font-weight-normal(width="140px") Họ và tên:
+                                            td.font-weight-bold.text-dark #{user.fullName}
+                                        tr
+                                            th.text-muted.font-weight-normal Email:
+                                            td.font-weight-bold.text-dark #{user.email}
+                                        tr
+                                            th.text-muted.font-weight-normal Số điện thoại:
+                                            td.font-weight-bold.text-dark #{user.phone || 'Chưa cập nhật'}
+                                        tr
+                                            th.text-muted.font-weight-normal Trạng thái:
+                                            td
+                                                if (user.status === "active")
+                                                    span.badge.badge-success.px-2.py-1 Hoạt động
+                                                else
+                                                    span.badge.badge-danger.px-2.py-1 Dừng hoạt động

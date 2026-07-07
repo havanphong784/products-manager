@@ -1,5 +1,3 @@
-// [GET] /admin/products
-
 const Product = require("../../models/products.model");
 const Accounts = require("../../models/account.model");
 const ProductsCategory = require("../../models/products-category.model");
@@ -10,6 +8,7 @@ const {prefixAdmin} = require("../../config/system");
 const {parse} = require("dotenv");
 const createTree = require("../../helpers/create-tree");
 
+// [GET] /admin/products
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
   let find = {
@@ -60,6 +59,14 @@ module.exports.index = async (req, res) => {
     } else {
       product.accountFullName = null;
     }
+
+    if (product.updatedBy && product.updatedBy.length > 0) {
+      const updatedBy = product.updatedBy[product.updatedBy.length - 1];
+      const account = await Accounts.findOne({
+        _id: updatedBy.account_id,
+      });
+      updatedBy.accountFullName = account ? account.fullName : "";
+    }
   }
   res.render("admin/pages/products/index.pug", {
     pageTitle: "Products",
@@ -106,7 +113,11 @@ module.exports.changeMulti = async (req, res) => {
         {_id: {$in: ids}},
         {
           deleted: true,
-          deleteAt: new Date(),
+          // deleteAt: new Date(),
+          deletedBy: {
+            account_id: res.locals.user.id,
+            deletedAt: new Date()
+          }
         },
       );
       req.flash("success", `Đã xóa ${ids.length} sản phẩm thành công`);
@@ -136,7 +147,11 @@ module.exports.deleteItem = async (req, res) => {
     {_id: id},
     {
       deleted: true,
-      deleteAt: new Date(),
+      // deleteAt: new Date(),
+      deletedBy: {
+        account_id: res.locals.user.id,
+        deletedAt: new Date()
+      }
     },
   );
   req.flash("success", `Đã xóa sản phẩm thành công`);
@@ -212,7 +227,16 @@ module.exports.editPatch = async (req, res) => {
   // }
 
   try {
-    await Product.updateOne({_id: id}, req.body);
+    const updatedBy = {
+      account_id: res.locals.user.id,
+      updatedAt: new Date()
+    }
+    await Product.updateOne({_id: id},
+      {
+        ...req.body,
+        $push: {updatedBy: updatedBy}
+      }
+    );
     req.flash("success", "Cập nhật sản phẩm thành công !");
   } catch (e) {
     req.flash("error", "Cập nhật sản phẩm thất bại !");

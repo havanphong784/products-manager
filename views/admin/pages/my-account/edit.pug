@@ -1,0 +1,99 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/alert.pug
+
+block main
+    +alert-success(5000)
+    +alert-error(5000)
+
+    .container-fluid.px-4.py-4
+        .row.justify-content-center
+            .col-xl-8.col-lg-10
+                // Header
+                .d-flex.align-items-center.justify-content-between.mb-4
+                    div
+                        h1.h3.font-weight-extrabold.text-dark.mb-1 Chỉnh sửa thông tin
+                        p.text-muted.small.mb-0 Cập nhật thông tin tài khoản cá nhân của bạn
+                    a.btn.btn-outline-secondary.btn-sm.shadow-sm.rounded-pill.px-3(href=`${prefixAdmin}/my-account`)
+                        i.fas.fa-arrow-left.mr-2
+                        | Quay lại
+
+                .card.border-0.shadow-sm.rounded-lg
+                    .card-body.p-4
+                        form(
+                            action=`${prefixAdmin}/my-account/edit?_method=PATCH`
+                            method="POST"
+                            enctype="multipart/form-data"
+                        )
+                            .row
+                                .col-md-8
+                                    .form-group.mb-3
+                                        label(for="fullName" class="font-weight-bold text-dark") Họ tên *
+                                        input(
+                                            type="text"
+                                            class="form-control form-control-custom"
+                                            id="fullName"
+                                            name="fullName"
+                                            required
+                                            value=user.fullName
+                                        )
+
+                                    .form-group.mb-3
+                                        label(for="email" class="font-weight-bold text-dark") Email *
+                                        input(
+                                            type="email"
+                                            class="form-control form-control-custom"
+                                            id="email"
+                                            name="email"
+                                            required
+                                            value=user.email
+                                        )
+
+                                    .form-group.mb-3
+                                        label(for="password" class="font-weight-bold text-dark") Mật khẩu mới
+                                        input(
+                                            type="password"
+                                            class="form-control form-control-custom"
+                                            id="password"
+                                            name="password"
+                                            placeholder="Để trống nếu không muốn đổi mật khẩu"
+                                        )
+
+                                    .form-group.mb-4
+                                        label(for="phone" class="font-weight-bold text-dark") Số điện thoại
+                                        input(
+                                            type="text"
+                                            class="form-control form-control-custom"
+                                            id="phone"
+                                            name="phone"
+                                            value=user.phone
+                                        )
+
+                                .col-md-4
+                                    .form-group.mb-3(upload-image)
+                                        label(for="avatar" class="font-weight-bold text-dark") Ảnh đại diện
+                                        input(
+                                            type="file"
+                                            class="form-control-file d-none"
+                                            id="avatar"
+                                            name="avatar"
+                                            accept="image/*"
+                                            upload-image-input
+                                        )
+                                        .mt-2.text-center
+                                            label(for="avatar" style="cursor: pointer;")
+                                                img(
+                                                    src=(user.avatar ? user.avatar : "/admin/images/avatar.png")
+                                                    class="img-thumbnail rounded-circle shadow-sm"
+                                                    style="width: 150px; height: 150px; object-fit: cover;"
+                                                    upload-image-preview
+                                                )
+                                                .small.text-primary.mt-2 Nhấn vào ảnh để thay đổi
+                                                
+                            .form-group.mt-4.mb-0.text-right
+                                button(
+                                    type="submit"
+                                    class="btn btn-primary rounded-pill px-4 shadow-sm"
+                                ) 
+                                    i.fas.fa-save.mr-2
+                                    | Cập nhật
