@@ -52,3 +52,43 @@ module.exports.createPost = async (req, res) => {
     res.redirect(req.get("referer") || `${prefixAdmin}/accounts/create`);
   }
 }
+
+// [GET] /admin/accounts/edit/:id
+module.exports.edit = async (req, res) => {
+  const id = req.params.id;
+  const account = await Accounts.findOne({_id: id, deleted: false});
+
+  const roles = await Roles.find({deleted: false})
+  res.render("admin/pages/accounts/edit", {
+    pageTitle: "Sửa tài khoản",
+    account: account,
+    roles: roles
+  })
+}
+
+// [PATCH] /admin/accounts/edit/:id
+module.exports.editPatch = async (req, res) => {
+  const id = req.params.id;
+  if (req.body.password) {
+    req.body.password = md5(req.body.password);
+  } else {
+    delete req.body.password;
+  }
+  const emailExist = await Accounts.findOne({
+    email: req.body.email,
+    _id: { $ne: id },
+    deleted: false
+  });
+  if (emailExist) {
+    req.flash("error", "Email đã tồn tại !")
+    res.redirect(req.get("referer"));
+    return;
+  }
+  try {
+    await Accounts.updateOne({_id: id}, req.body)
+    req.flash("success", "Cập nhật tài khoản thành công")
+  } catch {
+    req.flash("error", "Cập nhật tài khoản thất bại")
+  }
+  res.redirect(req.get("referer") || `${prefixAdmin}/accounts`);
+}
