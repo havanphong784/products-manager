@@ -144,6 +144,31 @@ block main
                                             label.status-option-card.inactive-card(for="status-inactive")
                                                 span Dừng hoạt động
 
+                            .col-md-6
+                                .form-group.mb-4
+                                    label.form-label Sản phẩm nổi bật
+                                    .status-options-wrapper
+                                        .flex-fill
+                                            input.status-radio-input(
+                                                type="radio"
+                                                name="featured"
+                                                id="featured-1"
+                                                value="1"
+                                                checked=(product.featured == "1")
+                                            )
+                                            label.status-option-card.active-card(for="featured-1")
+                                                span Có
+                                        .flex-fill
+                                            input.status-radio-input(
+                                                type="radio"
+                                                name="featured"
+                                                id="featured-0"
+                                                value="0"
+                                                checked=(product.featured == "0")
+                                            )
+                                            label.status-option-card.inactive-card(for="featured-0")
+                                                span Không
+
                         // Actions
                         .form-actions.text-right.mt-4.pt-4.border-top
                             button.btn-submit(type="submit")

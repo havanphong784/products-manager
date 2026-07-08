@@ -48,6 +48,10 @@ block main
                                         span.badge.badge-success Hoạt động
                                     else
                                         span.badge.badge-danger Dừng hoạt động
+                            if (product.featured == "1")
+                                .mb-3
+                                    span.text-muted.mr-2 Nổi bật:
+                                    span.badge.badge-warning Có
 
                         .col-md-6.text-center
                             if (product.thumbnail)

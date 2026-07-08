@@ -51,6 +51,7 @@ block main
                         th Người thêm
                         th Người sửa
                         th.th-status Trạng thái
+                        th Nổi bật
                         th.th-actions Hành động
                 tbody
                   each product,index in products
@@ -116,6 +117,9 @@ block main
                                       span.badge.badge-inactive Không hoạt động
                               else
                                   span.badge.badge-default #{product.status || 'Chưa xác định'}
+                          td
+                              if product.featured == "1"
+                                  span.badge.badge-warning Nổi bật
                           td.td-actions
                             if(role.permissions.includes("product_edit"))
                                 a.btn-edit(href=`${prefixAdmin}/products/edit/${product.id}`, title='Chỉnh sửa') Sửa
