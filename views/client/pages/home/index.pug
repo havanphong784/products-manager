@@ -1,49 +1,10 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
+include ../../mixins/sub-menu.pug
 
 block main
     .hero-section
         .container
-            .row.align-items-center
-                .col-lg-6.hero-text
-                    h1.hero-title
-                        | Khám phá sản phẩm
-                        br
-                        span.text-gradient Hoàn hảo
-                        |  cho bạn
-                    p.hero-subtitle Khám phá bộ sưu tập sản phẩm chất lượng cao của chúng tôi với giá cả tốt nhất và nhiều ưu đãi lớn hàng ngày.
-                    .hero-buttons
-                        a(href='/products' class='btn-hero-primary') Mua sắm ngay
-                        a(href='/admin/products' class='btn-hero-secondary') Quản trị
-                .col-lg-6.d-none.d-lg-block
-                    .hero-visual
-                        .visual-blob
-                        .visual-card.card-1
-                            span.tag Mới nhất
-                            h4 Smartwatch Series 9
-                            p Trải nghiệm công nghệ đỉnh cao trên cổ tay bạn.
-                            span.price $399
-                        .visual-card.card-2
-                            span.tag Giảm 20%
-                            h4 Wireless Headphone
-                            p Âm thanh trung thực, chống ồn chủ động.
-                            span.price $199
-
-    .features-section
-        .container
-            .row
-                .col-md-4.mb-4
-                    .feature-card
-                        .feature-icon 🚀
-                        h3 Giao hàng siêu tốc
-                        p Cam kết giao hàng tận nơi trong thời gian nhanh nhất, đóng gói an toàn.
-                .col-md-4.mb-4
-                    .feature-card
-                        .feature-icon 🔒
-                        h3 Thanh toán an toàn
-                        p Đa dạng phương thức thanh toán bảo mật, mã hóa thông tin giao dịch.
-                .col-md-4.mb-4
-                    .feature-card
-                        .feature-icon 🎧
-                        h3 Hỗ trợ tận tâm
-                        p Đội ngũ chăm sóc khách hàng 24/7 luôn sẵn sàng giải đáp mọi thắc mắc.
+            li(class="sub-menu")
+                a(href="/products") San pham
+                +sub-menu(category, "/products")

@@ -78,17 +78,19 @@ block main
                                             id="avatar"
                                             name="avatar"
                                             accept="image/*"
-                                            upload-image-input
+                                            upload-preview-input
                                         )
                                         .mt-2.text-center
                                             label(for="avatar" style="cursor: pointer;")
-                                                img(
-                                                    src=(user.avatar ? user.avatar : "/admin/images/avatar.png")
-                                                    class="img-thumbnail rounded-circle shadow-sm"
-                                                    style="width: 150px; height: 150px; object-fit: cover;"
-                                                    upload-image-preview
-                                                )
-                                                .small.text-primary.mt-2 Nhấn vào ảnh để thay đổi
+                                                .image-preview-container.mt-2
+                                                    .preview-wrapper
+                                                        img(
+                                                            src=(user.avatar ? user.avatar : "")
+                                                            class="img-thumbnail rounded-circle shadow-sm"
+                                                            style="width: 150px; height: 150px; object-fit: cover;"
+                                                            upload-preview
+                                                        )
+                                                        .small.text-primary.mt-2 Nhấn vào ảnh để thay đổi
                                                 
                             .form-group.mt-4.mb-0.text-right
                                 button(

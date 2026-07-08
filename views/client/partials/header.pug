@@ -1,3 +1,5 @@
+include ../mixins/sub-menu.pug
+
 header.header
     .header-wrapper
         .container
@@ -11,8 +13,9 @@ header.header
                         ul
                             li
                                 a(href='/' class=(activePage === 'home' ? 'active' : '')) Trang chủ
-                            li
+                            li(class="sub-menu")
                                 a(href='/products' class=(activePage === 'products' ? 'active' : '')) Sản phẩm
+                                +sub-menu(category, "/products")
                 .inner-actions
                     a(href='#' class='btn-cart')
                         svg(xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
