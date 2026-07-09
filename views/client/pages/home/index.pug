@@ -1,10 +1,16 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/sub-menu.pug
+include ../../mixins/product-layout
 
 block main
-    .hero-section
-        .container
-            li(class="sub-menu")
-                a(href="/products") San pham
-                +sub-menu(category, "/products")
+    .container.my-5
+        .row.mb-4
+            .col-12
+                +box-head('Sản phẩm nổi bậc')
+        +product-grid(productFeatured)
+    .container.my-5
+        .row.mb-4
+            .col-12
+                +box-head('Sản phẩm mới nhất')
+        +product-grid(productsNew)
