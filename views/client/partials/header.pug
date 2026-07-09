@@ -8,6 +8,20 @@ header.header
                     a(href='/')
                         span.logo-text Store
                         span.logo-dot .
+
+                .inner-search
+                    form(
+                        action="/search"
+                        method="GET"
+                    )
+                        input(type="text"
+                            placeholder="Nhập từ khóa..."
+                            name="keyword"
+                            value=keyword
+                        )
+                        button(type="submit") Tìm
+
+
                 .inner-menu
                     nav
                         ul

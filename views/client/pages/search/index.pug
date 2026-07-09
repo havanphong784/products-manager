@@ -1,0 +1,11 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+include ../../mixins/product-layout
+
+block main
+    .container.my-5
+        .row.mb-4
+            .col-12
+                +box-head(pageTitle)
+        +product-grid(products)
+
