@@ -1,23 +1,23 @@
-const Accounts = require("../../models/account.model");
+const Account = require("../../models/account.model");
 const {prefixAdmin} = require("../../config/system");
 const md5 = require("md5");
-const Roles = require("../../models/roles.model");
+const Role = require("../../models/role.model");
 
 // [GET] /admin/accounts
 module.exports.index = async (req, res) => {
   let find = {
     deleted: false,
   }
-  const accounts = await Accounts.find(find).select("-password-token");
+  const accounts = await Account.find(find).select("-password-token");
   for (let account of accounts) {
-    if (account.role_id) {
-      let role = await Roles.findOne({_id: account.role_id, deleted: false})
+    if (account.roleId) {
+      let role = await Role.findOne({_id: account.roleId, deleted: false})
       account.role = role ? role : {title: ""};
     } else {
       account.role = {title: ""};
     }
   }
-  res.render("admin/pages/accounts/index", {
+  res.render("admin/pages/account/index", {
     pageTitle: "Quản lí tài khoản",
     accounts: accounts
   });
@@ -25,9 +25,9 @@ module.exports.index = async (req, res) => {
 
 // [GET] /admin/accounts/create
 module.exports.create = async (req, res) => {
-  const role = await Roles.find({deleted: false});
+  const role = await Role.find({deleted: false});
   console.log(req)
-  res.render("admin/pages/accounts/create", {
+  res.render("admin/pages/account/create", {
     pageTitle: "Tạo tài khoản",
     roles: role
   });
@@ -36,7 +36,7 @@ module.exports.create = async (req, res) => {
 // [POST] /admin/accounts/create
 module.exports.createPost = async (req, res) => {
   req.body.password = md5(req.body.password);
-  const emailExist = await Accounts.findOne({email: req.body.email, deleted: false});
+  const emailExist = await Account.findOne({email: req.body.email, deleted: false});
   if (emailExist) {
     req.flash("error", "Email đã tồn tại !")
     res.redirect(req.get("referer") || `${prefixAdmin}/accounts/create`);
@@ -56,10 +56,10 @@ module.exports.createPost = async (req, res) => {
 // [GET] /admin/accounts/edit/:id
 module.exports.edit = async (req, res) => {
   const id = req.params.id;
-  const account = await Accounts.findOne({_id: id, deleted: false});
+  const account = await Account.findOne({_id: id, deleted: false});
 
-  const roles = await Roles.find({deleted: false})
-  res.render("admin/pages/accounts/edit", {
+  const roles = await Role.find({deleted: false})
+  res.render("admin/pages/account/edit", {
     pageTitle: "Sửa tài khoản",
     account: account,
     roles: roles
@@ -74,7 +74,7 @@ module.exports.editPatch = async (req, res) => {
   } else {
     delete req.body.password;
   }
-  const emailExist = await Accounts.findOne({
+  const emailExist = await Account.findOne({
     email: req.body.email,
     _id: { $ne: id },
     deleted: false
@@ -85,10 +85,13 @@ module.exports.editPatch = async (req, res) => {
     return;
   }
   try {
-    await Accounts.updateOne({_id: id}, req.body)
+    await Account.updateOne({_id: id}, req.body)
     req.flash("success", "Cập nhật tài khoản thành công")
   } catch {
     req.flash("error", "Cập nhật tài khoản thất bại")
   }
   res.redirect(req.get("referer") || `${prefixAdmin}/accounts`);
 }
+
+
+

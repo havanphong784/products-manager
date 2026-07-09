@@ -1,11 +1,11 @@
-const ProductCategory = require('../models/products-category.model')
+const ProductCategory = require('../models/product-category.model')
 
 
 const getAllChildCategoryIds = async (parentId) => {
   let ids = [parentId];
 
   const childCategories = await ProductCategory.find({
-    parent_id: parentId,
+    parentId: parentId,
     deleted: false,
     status: "active"
   });
@@ -19,3 +19,4 @@ const getAllChildCategoryIds = async (parentId) => {
 }
 
 module.exports.getAllChildCategoryIds = getAllChildCategoryIds;
+

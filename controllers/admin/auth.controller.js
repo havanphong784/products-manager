@@ -1,5 +1,5 @@
 const {prefixAdmin} = require("../../config/system");
-const Accounts = require("../../models/account.model");
+const Account = require("../../models/account.model");
 const md5 = require("md5");
 
 // [GET] /admin/auth/login
@@ -17,7 +17,7 @@ module.exports.login = async (req, res) => {
 module.exports.loginPost = async (req, res) => {
   const {email, password} = req.body
 
-  const account = await Accounts.findOne({email: email, deleted: false});
+  const account = await Account.findOne({email: email, deleted: false});
   if (!account) {
     req.flash('error', 'Email không tồn tại');
     res.redirect(`${prefixAdmin}/auth/login`);
@@ -45,4 +45,5 @@ module.exports.logout = async (req, res) => {
   res.clearCookie("token");
   res.redirect(`${prefixAdmin}/auth/login`);
 }
+
 

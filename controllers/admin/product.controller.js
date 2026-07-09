@@ -1,6 +1,6 @@
-const Product = require("../../models/products.model");
-const Accounts = require("../../models/account.model");
-const ProductsCategory = require("../../models/products-category.model");
+const Product = require("../../models/product.model");
+const Account = require("../../models/account.model");
+const ProductCategory = require("../../models/product-category.model");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchObjectHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
@@ -48,13 +48,13 @@ module.exports.index = async (req, res) => {
       (product.price * (100 - product.discountPercentage)) /
       100
     ).toFixed(0);
-    const categoryDoc = product.products_category_id
-      ? await ProductsCategory.findOne({_id: product.products_category_id})
+    const categoryDoc = product.productCategoryId
+      ? await ProductCategory.findOne({_id: product.productCategoryId})
       : null;
     product.category_name = categoryDoc ? categoryDoc.title : null;
 
-    if (product.createdBy && product.createdBy.account_id) {
-      const account = await Accounts.findOne({_id: product.createdBy.account_id});
+    if (product.createdBy && product.createdBy.accountId) {
+      const account = await Account.findOne({_id: product.createdBy.accountId});
       product.accountFullName = account ? account.fullName : null;
     } else {
       product.accountFullName = null;
@@ -62,13 +62,13 @@ module.exports.index = async (req, res) => {
 
     if (product.updatedBy && product.updatedBy.length > 0) {
       const updatedBy = product.updatedBy[product.updatedBy.length - 1];
-      const account = await Accounts.findOne({
-        _id: updatedBy.account_id,
+      const account = await Account.findOne({
+        _id: updatedBy.accountId,
       });
       updatedBy.accountFullName = account ? account.fullName : "";
     }
   }
-  res.render("admin/pages/products/index.pug", {
+  res.render("admin/pages/product/index.pug", {
     pageTitle: "Products",
     products: products,
     filterStatus: filterStatus,
@@ -113,9 +113,9 @@ module.exports.changeMulti = async (req, res) => {
         {_id: {$in: ids}},
         {
           deleted: true,
-          // deleteAt: new Date(),
+          // deletedAt: new Date(),
           deletedBy: {
-            account_id: res.locals.user.id,
+            accountId: res.locals.user.id,
             deletedAt: new Date()
           }
         },
@@ -147,9 +147,9 @@ module.exports.deleteItem = async (req, res) => {
     {_id: id},
     {
       deleted: true,
-      // deleteAt: new Date(),
+      // deletedAt: new Date(),
       deletedBy: {
-        account_id: res.locals.user.id,
+        accountId: res.locals.user.id,
         deletedAt: new Date()
       }
     },
@@ -160,9 +160,9 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/prodcuts/create
 module.exports.create = async (req, res) => {
-  let records = await ProductsCategory.find({deleted: false});
+  let records = await ProductCategory.find({deleted: false});
   const newRecords = createTree.tree(records);
-  res.render("admin/pages/products/create.pug", {
+  res.render("admin/pages/product/create.pug", {
     pageTitle: "Thêm mới sản ",
     records: newRecords,
   });
@@ -183,7 +183,7 @@ module.exports.createPost = async (req, res) => {
   // if (req.file) {
   //     req.body.thumbnail = `/uploads/${req.file.filename}`;
   // }
-  req.body.createdBy = {account_id: res.locals.user.id};
+  req.body.createdBy = {accountId: res.locals.user.id};
   const product = new Product(req.body);
   await product.save();
   res.redirect(`${prefixAdmin}/products`);
@@ -196,13 +196,13 @@ module.exports.edit = async (req, res) => {
     _id: req.params.id,
   };
 
-  let records = await ProductsCategory.find({deleted: false});
+  let records = await ProductCategory.find({deleted: false});
   const newRecords = createTree.tree(records);
 
   const product = await Product.findOne(find);
   console.log(product);
 
-  res.render("admin/pages/products/edit.pug", {
+  res.render("admin/pages/product/edit.pug", {
     pageTitle: "Chỉnh sửa sản phẩm",
     product: product,
     records: newRecords
@@ -228,7 +228,7 @@ module.exports.editPatch = async (req, res) => {
 
   try {
     const updatedBy = {
-      account_id: res.locals.user.id,
+      accountId: res.locals.user.id,
       updatedAt: new Date()
     }
     await Product.updateOne({_id: id},
@@ -261,7 +261,7 @@ module.exports.detail = async (req, res) => {
       ).toFixed(0);
     }
 
-    res.render("admin/pages/products/detail.pug", {
+    res.render("admin/pages/product/detail.pug", {
       pageTitle: "Chi tiết sản phẩm",
       product: product,
     })
@@ -270,3 +270,6 @@ module.exports.detail = async (req, res) => {
     res.redirect(`${prefixAdmin}/products`);
   }
 }
+
+
+

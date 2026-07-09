@@ -1,5 +1,5 @@
-const Product = require('../../models/products.model')
-const ProductCategory = require('../../models/products-category.model')
+const Product = require('../../models/product.model')
+const ProductCategory = require('../../models/product-category.model')
 const productCategoryHelper = require('../../helpers/product-category')
 const productHelper = require('../../helpers/products')
 
@@ -13,7 +13,7 @@ module.exports.index = async (req, res) => {
     product.newPrice = (product.price * (100 - product.discountPercentage) / 100).toFixed(0)
   })
 
-  res.render('client/pages/products/index.pug', {
+  res.render('client/pages/product/index.pug', {
     pageTitle: 'Products', products: products,
   })
 }
@@ -24,14 +24,14 @@ module.exports.detail = async (req, res) => {
   try {
     const product = await Product.findOne({deleted: false, slug: slug})
     product.newPrice = productHelper.priceNewProduct(product);
-    if (product.products_category_id) {
+    if (product.productCategoryId) {
       product.category = await ProductCategory.findOne({
         deleted: false,
-        _id: product.products_category_id,
+        _id: product.productCategoryId,
         status: "active"
       })
     }
-    res.render('client/pages/products/detail.pug', {
+    res.render('client/pages/product/detail.pug', {
       pageTitle: product.title, product: product
     })
   } catch (e) {
@@ -51,11 +51,12 @@ module.exports.category = async (req, res) => {
   const products = await Product.find({
     deleted: false,
     status: "active",
-    products_category_id: {$in: chillCategoryIds}
+    productCategoryId: {$in: chillCategoryIds}
   }).sort({position: "desc"});
 
-  res.render('client/pages/products/index.pug', {
+  res.render('client/pages/product/index.pug', {
     pageTitle: category.title,
     products: products,
   });
 }
+

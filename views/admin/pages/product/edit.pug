@@ -38,12 +38,12 @@ block main
 
                         .form-group.mb-4
                             label.form-label Danh mục
-                            select(name="products_category_id"
+                            select(name="productCategoryId"
                                 class="form-control"
                             )
                                 option(value="") --Chọn danh mục--
                                 if (records)
-                                    +select-tree(records,1,product.products_category_id)
+                                    +select-tree(records,1,product.productCategoryId)
 
                         // Mô tả
                         .form-group.mb-4
@@ -173,3 +173,4 @@ block main
                         .form-actions.text-right.mt-4.pt-4.border-top
                             button.btn-submit(type="submit")
                                 span Cập sản phẩm
+

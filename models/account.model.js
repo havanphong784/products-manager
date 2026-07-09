@@ -8,9 +8,9 @@ const accountSchema = new mongoose.Schema({
   token: {type: String, default: generate.generateRandomString(20)},
   phone: String,
   avatar: String,
-  role_id: String,
+  roleId: String,
   status: String,
-  deleteAt: Date,
+  deletedAt: Date,
   deleted: {type: Boolean, default: false},
 }, {timestamps: true});
 

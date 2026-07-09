@@ -1,10 +1,10 @@
 const express = require('express')
-const controller = require("../../controllers/admin/accounts.controller");
+const controller = require("../../controllers/admin/account.controller");
 const middleware = require("../../middlewares/admin/uploadCloud.middlewares");
 const multer = require("multer");
 const upload = multer();
 const router = express.Router()
-const validates = require("../../validates/admin/acounts.validates")
+const validates = require("../../validates/admin/account.validate")
 const permissionsMiddleware = require("../../middlewares/admin/permissions.middlewares")
 
 

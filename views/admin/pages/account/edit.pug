@@ -10,8 +10,8 @@ block main
                 // Header
                 .d-flex.align-items-center.justify-content-between.mb-4
                     div
-                        h1.h3.font-weight-extrabold.text-dark.mb-1 Tạo tài khoản
-                        p.text-muted.small.mb-0 Nhập thông tin để thêm tài khoản mới vào hệ thống
+                        h1.h3.font-weight-extrabold.text-dark.mb-1 Cập nhật tài khoản
+                        p.text-muted.small.mb-0 Nhập thông tin để cập nhật tài khoản mới vào hệ thống
                     a.btn-back(href=`${prefixAdmin}/accounts`)
                         span.mr-1 &larr;
                         | Quay lại danh sách
@@ -19,7 +19,7 @@ block main
                 // Form Card
                 .admin-card
                     form(
-                        action=`${prefixAdmin}/accounts/create`
+                        action=`${prefixAdmin}/accounts/edit/${account.id}?_method=PATCH`
                         method="POST"
                         id="form-create-account"
                         enctype="multipart/form-data"
@@ -29,6 +29,7 @@ block main
                             input.form-control-custom(
                                 type="text"
                                 name="fullName"
+                                value=account.fullName
                                 required
                             )
                         .form-group.mb-4
@@ -36,16 +37,16 @@ block main
                             input.form-control-custom(
                                 type="email"
                                 name="email"
+                                value=account.email
                                 required
                             )
                         .row
                             .col-md-6
                                 .form-group.mb-4
-                                    label.form-label Mật khẩu *
+                                    label.form-label Mật khẩu
                                     input.form-control-custom(
                                         type="password"
                                         name="password"
-                                        required
                                     )
                             .col-md-6
                                 .form-group.mb-4
@@ -53,6 +54,7 @@ block main
                                     input.form-control-custom(
                                         type="text"
                                         name="phone"
+                                        value=account.phone
                                     )
                         .row
                             .col-md-6
@@ -67,17 +69,20 @@ block main
                                     )
                                     .image-preview-container.mt-2.d-none
                                         .preview-wrapper
-                                            img(upload-preview, alt="Ảnh xem trước")
+                                            img(upload-preview, src=account.avatar alt="Ảnh xem trước")
                                         button.close-preview-btn(type="button" close-preview) X
                             .col-md-6
                                 .form-group.mb-4
                                     label.form-label Phân quyền
-                                    select.form-control-custom(name="role_id")
+                                    select.form-control-custom(name="roleId")
                                         option(value="") -- Chọn phân quyền --
                                         if roles
                                             each item in roles
-                                                option(value=item.id) #{item.title}
-                        
+                                                if (value=item.id === account.roleId)
+                                                    option(value=item.id selected ) #{item.title}
+                                                else
+                                                    option(value=item.id) #{item.title}
+
                         .form-group.mb-4
                             label.form-label Trạng thái tài khoản
                             .status-options-wrapper
@@ -87,7 +92,7 @@ block main
                                         id="status-active"
                                         name="status"
                                         value="active"
-                                        checked
+                                        checked=(account.status === "active" ? true : false)
                                     )
                                     label.status-option-card.active-card(for="status-active")
                                         span Hoạt động
@@ -97,6 +102,7 @@ block main
                                         id="status-inactive"
                                         name="status"
                                         value="inactive"
+                                        checked=(account.status === "inactive" ? true : false)
                                     )
                                     label.status-option-card.inactive-card(for="status-inactive")
                                         span Dừng hoạt động
@@ -104,4 +110,4 @@ block main
                         // Actions
                         .form-actions.text-right.mt-4.pt-4.border-top
                             button.btn-submit(type="submit")
-                                span Tạo mới
+                                span Cập nhật

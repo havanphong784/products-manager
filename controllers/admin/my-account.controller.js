@@ -1,4 +1,4 @@
-const Accounts = require("../../models/account.model");
+const Account = require("../../models/account.model");
 const md5 = require("md5");
 const {prefixAdmin} = require("../../config/system");
 
@@ -20,7 +20,7 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
   const id = res.locals.user.id;
 
-  const emailExist = await Accounts.findOne({
+  const emailExist = await Account.findOne({
     _id: {$ne: id},
     email: req.body.email,
     deleted: false
@@ -35,9 +35,10 @@ module.exports.editPatch = async (req, res) => {
       delete req.body.password;
     }
 
-    await Accounts.updateOne({_id: id}, req.body);
+    await Account.updateOne({_id: id}, req.body);
     req.flash("success", "Cập nhật thông tin thành công!");
   }
 
   res.redirect(`${prefixAdmin}/my-account`);
 };
+

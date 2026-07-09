@@ -2,9 +2,9 @@ const express = require("express");
 const multer = require("multer");
 const upload = multer();
 const router = express.Router();
-const controller = require("../../controllers/admin/products-category.controller");
+const controller = require("../../controllers/admin/product-category.controller");
 const middleware = require("../../middlewares/admin/uploadCloud.middlewares");
-const validates = require("../../validates/admin/products-category.validates");
+const validates = require("../../validates/admin/product-category.validate");
 const permissionsMiddleware = require("../../middlewares/admin/permissions.middlewares");
 
 router.get("/", controller.index);
@@ -26,4 +26,5 @@ router.patch("/edit/:id",
 )
 
 module.exports = router;
+
 

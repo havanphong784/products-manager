@@ -2,7 +2,7 @@ let count = 0;
 const createTree = (arr, parentId = "") => {
   const tree = [];
   arr.forEach((item) => {
-    if (item.parent_id === parentId) {
+    if (item.parentId === parentId) {
       count++;
       const newItem = item.toObject();
       newItem.index = count;

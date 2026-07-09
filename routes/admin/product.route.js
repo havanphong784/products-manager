@@ -4,8 +4,8 @@ const multer = require("multer");
 // const upload = multer({storage: storageMulter()});
 const upload = multer();
 const router = express.Router();
-const controller = require("../../controllers/admin/products.controller");
-const validates = require("../../validates/admin/product.validates");
+const controller = require("../../controllers/admin/product.controller");
+const validates = require("../../validates/admin/product.validate");
 const middleware = require("../../middlewares/admin/uploadCloud.middlewares");
 const permissionsMiddleware = require("../../middlewares/admin/permissions.middlewares");
 
@@ -38,3 +38,4 @@ router.patch(
 router.get("/detail/:id", permissionsMiddleware.permissions("product_view"), controller.detail)
 
 module.exports = router;
+
