@@ -1,8 +1,11 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/product-layout
+include ../../mixins/alert
 
 block main
+    +alert-error(5000)
+    +alert-success(5000)
     .container.my-5
         .row.mb-4
             .col-12
