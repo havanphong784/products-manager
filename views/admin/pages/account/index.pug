@@ -10,7 +10,7 @@ block main
                 h1.h3.font-weight-extrabold.text-dark.mb-1 Quản lý tài khoản
                 p.text-muted.small.mb-0 Quản lý danh sách các tài khoản quản trị
             if(role.permissions.includes("account_create"))
-                a.btn-create(href=`${prefixAdmin}/accounts/create`)
+                a.btn-create(href=`${prefixAdmin}/account/create`)
                     span.mr-1 +
                     | Thêm mới
 
@@ -46,9 +46,9 @@ block main
                                     else
                                         span.badge.badge-danger Dừng hoạt động
                                 td.td-actions
-                                    a.btn-detail(href=`${prefixAdmin}/accounts/detail/${item.id}`, title='Chi tiết') Chi tiết
+                                    a.btn-detail(href=`${prefixAdmin}/account/detail/${item.id}`, title='Chi tiết') Chi tiết
                                     if(role.permissions.includes("account_edit"))
-                                        a.btn-edit(href=`${prefixAdmin}/accounts/edit/${item.id}`, title='Chỉnh sửa') Sửa
+                                        a.btn-edit(href=`${prefixAdmin}/account/edit/${item.id}`, title='Chỉnh sửa') Sửa
                                     if(role.permissions.includes("account_delete"))
                                         a.btn-delete(href='#', title='Xóa' data-id=item.id button-delete) Xóa
                     else

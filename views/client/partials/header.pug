@@ -14,8 +14,8 @@ header.header
                             li
                                 a(href='/' class=(activePage === 'home' ? 'active' : '')) Trang chủ
                             li(class="sub-menu")
-                                a(href='/products' class=(activePage === 'products' ? 'active' : '')) Sản phẩm
-                                +sub-menu(category, "/products")
+                                a(href='/product' class=(activePage === 'products' ? 'active' : '')) Sản phẩm
+                                +sub-menu(category, "/product")
                 .inner-actions
                     a(href='#' class='btn-cart')
                         svg(xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
@@ -23,4 +23,4 @@ header.header
                             circle(cx="20" cy="21" r="1")
                             path(d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6")
                         span.cart-count 0
-                    a(href='/admin/products' class='btn-login') Admin Panel
+                    a(href='/admin/product' class='btn-login') Admin Panel

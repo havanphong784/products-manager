@@ -3,7 +3,7 @@ const ProductCategory = require('../../models/product-category.model')
 const productCategoryHelper = require('../../helpers/product-category')
 const productHelper = require('../../helpers/products')
 
-// [GET] /products
+// [GET] /product
 module.exports.index = async (req, res) => {
   const products = await Product.find({
     status: "active", deleted: false,
@@ -18,7 +18,7 @@ module.exports.index = async (req, res) => {
   })
 }
 
-// [GET] /products/detail/:slugProduct
+// [GET] /product/detail/:slugProduct
 module.exports.detail = async (req, res) => {
   const slug = req.params.slugProduct
   try {
@@ -39,7 +39,7 @@ module.exports.detail = async (req, res) => {
   }
 }
 
-// [GET] /products/:slugCategory
+// [GET] /product/:slugCategory
 module.exports.category = async (req, res) => {
   const category = await ProductCategory.findOne({deleted: false, slug: req.params.slugCategory});
   if (!category) {

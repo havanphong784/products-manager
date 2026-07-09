@@ -21,7 +21,7 @@ module.exports.createPost = async (req, res) => {
   try {
     const role = new Roles(req.body);
     await role.save();
-    res.redirect(`${prefixAdmin}/roles`);
+    res.redirect(`${prefixAdmin}/role`);
   } catch (error) {
     res.redirect(req.get("referer"));
   }
@@ -88,9 +88,9 @@ module.exports.permissionsPatch = async (req, res) => {
       await Role.updateOne({_id: item.id}, {permissions: item.permissions})
     }
     req.flash("success", "Cập nhật phân quyền thành công")
-    res.redirect(`${prefixAdmin}/roles/permissions`);
+    res.redirect(`${prefixAdmin}/role/permissions`);
   } catch (error) {
-    res.redirect(`${prefixAdmin}/roles/permissions`);
+    res.redirect(`${prefixAdmin}/role/permissions`);
   }
 }
 

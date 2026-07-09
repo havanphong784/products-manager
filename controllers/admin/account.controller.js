@@ -39,17 +39,17 @@ module.exports.createPost = async (req, res) => {
   const emailExist = await Account.findOne({email: req.body.email, deleted: false});
   if (emailExist) {
     req.flash("error", "Email đã tồn tại !")
-    res.redirect(req.get("referer") || `${prefixAdmin}/accounts/create`);
+    res.redirect(req.get("referer") || `${prefixAdmin}/account/create`);
     return;
   }
   try {
     const account = new Accounts(req.body);
     await account.save();
     req.flash("success", "Tạo tài khoản thành công !");
-    res.redirect(`${prefixAdmin}/accounts`);
+    res.redirect(`${prefixAdmin}/account`);
   } catch (err) {
     req.flash("error", "Tạo tài khoản thất bại !")
-    res.redirect(req.get("referer") || `${prefixAdmin}/accounts/create`);
+    res.redirect(req.get("referer") || `${prefixAdmin}/account/create`);
   }
 }
 
@@ -90,7 +90,7 @@ module.exports.editPatch = async (req, res) => {
   } catch {
     req.flash("error", "Cập nhật tài khoản thất bại")
   }
-  res.redirect(req.get("referer") || `${prefixAdmin}/accounts`);
+  res.redirect(req.get("referer") || `${prefixAdmin}/account`);
 }
 
 

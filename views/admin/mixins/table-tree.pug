@@ -27,7 +27,7 @@ mixin table-tree(records,level=1)
                 a.badge.badge-danger(href="javascript:;") Dừng hoạt động
         td
             if(role.permissions.includes("product-category_edit"))
-                a.btn.btn-warning.btn-sm.mr-2(href=`${prefixAdmin}/products-category/edit/${item.id}`) Sửa
+                a.btn.btn-warning.btn-sm.mr-2(href=`${prefixAdmin}/product-category/edit/${item.id}`) Sửa
             if(role.permissions.includes("product-category_delete"))
                 button.btn.btn-danger.btn-sm Xóa
 

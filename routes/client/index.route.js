@@ -5,6 +5,6 @@ const homeRouter = require("./home.route");
 module.exports = (app) => {
   app.use(categoryMiddleware.categoryMiddleware)
   app.use('/', homeRouter);
-  app.use('/products', productRouter)
+  app.use('/product', productRouter)
 }
 

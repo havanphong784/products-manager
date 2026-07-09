@@ -13,14 +13,14 @@ block main
                     div
                         h1.h3.font-weight-extrabold.text-dark.mb-1 Cập nhật sản phẩm
                         p.text-muted.small.mb-0 Sửa thông tin sản phẩm mới vào hệ thống
-                    a.btn-back(href=`${prefixAdmin}/products`)
+                    a.btn-back(href=`${prefixAdmin}/product`)
                         span.mr-1 &larr;
                         | Quay lại danh sách
 
                 // Form Card
                 .admin-card
                     form(
-                        action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH`
+                        action=`${prefixAdmin}/product/edit/${product.id}?_method=PATCH`
                         method="POST"
                         id="form-edit-product"
                         enctype="multipart/form-data"

@@ -8,7 +8,7 @@ const {prefixAdmin} = require("../../config/system");
 const {parse} = require("dotenv");
 const createTree = require("../../helpers/create-tree");
 
-// [GET] /admin/products
+// [GET] /admin/product
 module.exports.index = async (req, res) => {
   const filterStatus = filterStatusHelper(req.query);
   let find = {
@@ -77,7 +77,7 @@ module.exports.index = async (req, res) => {
   });
 };
 
-// [PATCH] /admin/products/change-status/:status/:id
+// [PATCH] /admin/product/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
   const status = req.params.status;
   const id = req.params.id;
@@ -88,7 +88,7 @@ module.exports.changeStatus = async (req, res) => {
   res.redirect(req.get("referer"));
 };
 
-// [PATCH] /admin/products/change-multi
+// [PATCH] /admin/product/change-multi
 module.exports.changeMulti = async (req, res) => {
   const type = req.body.type;
   const ids = req.body.ids.split(", ");
@@ -137,7 +137,7 @@ module.exports.changeMulti = async (req, res) => {
   res.redirect(req.get("referer"));
 };
 
-// [DELETE] /admin/products/delete/:id
+// [DELETE] /admin/product/delete/:id
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
   // xóa cứng
@@ -186,7 +186,7 @@ module.exports.createPost = async (req, res) => {
   req.body.createdBy = {accountId: res.locals.user.id};
   const product = new Product(req.body);
   await product.save();
-  res.redirect(`${prefixAdmin}/products`);
+  res.redirect(`${prefixAdmin}/product`);
 };
 
 // [GET] /admin/prodcuts/edit/:id
@@ -243,7 +243,7 @@ module.exports.editPatch = async (req, res) => {
     console.log(e);
   }
 
-  res.redirect(`${prefixAdmin}/products`);
+  res.redirect(`${prefixAdmin}/product`);
 };
 
 // [GET] /admin/prodcuts/detail/:id
@@ -267,7 +267,7 @@ module.exports.detail = async (req, res) => {
     })
   } catch (e) {
     console.error("Detail page error:", e);
-    res.redirect(`${prefixAdmin}/products`);
+    res.redirect(`${prefixAdmin}/product`);
   }
 }
 

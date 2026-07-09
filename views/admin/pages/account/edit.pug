@@ -12,14 +12,14 @@ block main
                     div
                         h1.h3.font-weight-extrabold.text-dark.mb-1 Cập nhật tài khoản
                         p.text-muted.small.mb-0 Nhập thông tin để cập nhật tài khoản mới vào hệ thống
-                    a.btn-back(href=`${prefixAdmin}/accounts`)
+                    a.btn-back(href=`${prefixAdmin}/account`)
                         span.mr-1 &larr;
                         | Quay lại danh sách
 
                 // Form Card
                 .admin-card
                     form(
-                        action=`${prefixAdmin}/accounts/edit/${account.id}?_method=PATCH`
+                        action=`${prefixAdmin}/account/edit/${account.id}?_method=PATCH`
                         method="POST"
                         id="form-create-account"
                         enctype="multipart/form-data"

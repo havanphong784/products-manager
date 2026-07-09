@@ -11,14 +11,14 @@ block main
                     div
                         h1.h3.font-weight-extrabold.text-dark.mb-1 Tạo nhóm quyền
                         p.text-muted.small.mb-0 Nhập thông tin để thêm nhóm quyền mới vào hệ thống
-                    a.btn-back(href=`${prefixAdmin}/roles`)
+                    a.btn-back(href=`${prefixAdmin}/role`)
                         span.mr-1 &larr;
                         | Quay lại danh sách
 
                 // Form Card
                 .admin-card
                     form(
-                        action=`${prefixAdmin}/roles/edit/${role.id}?_method=PATCH`
+                        action=`${prefixAdmin}/role/edit/${role.id}?_method=PATCH`
                         method="POST"
                     )
                         .form-group.mb-4

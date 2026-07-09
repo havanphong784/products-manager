@@ -10,7 +10,7 @@ block main
                     div
                         h1.h3.font-weight-extrabold.text-dark.mb-1 #{pageTitle}
                         p.text-muted.small.mb-0 Xem chi tiết thông tin sản phẩm
-                    a.btn-back(href=`${prefixAdmin}/products`)
+                    a.btn-back(href=`${prefixAdmin}/product`)
                         span.mr-1 &larr;
                         | Quay lại danh sách
 
@@ -68,6 +68,6 @@ block main
 
                     // Actions
                     .text-right.mt-4.pt-4.border-top
-                        a.btn.btn-warning(href=`${prefixAdmin}/products/edit/${product.id}`)
+                        a.btn.btn-warning(href=`${prefixAdmin}/product/edit/${product.id}`)
                             span.mr-2 ✏️
                             | Chỉnh sửa sản phẩm

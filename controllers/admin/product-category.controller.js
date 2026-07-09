@@ -2,7 +2,7 @@ const ProductCategory = require("../../models/product-category.model");
 const {prefixAdmin} = require("../../config/system");
 const createTreeHelpers = require("../../helpers/create-tree");
 
-// [GET] /admin/products-category
+// [GET] /admin/product-category
 module.exports.index = async (req, res) => {
   let find = {
     deleted: false,
@@ -16,7 +16,7 @@ module.exports.index = async (req, res) => {
   });
 }
 
-// [GET] /admin/products-category/create
+// [GET] /admin/product-category/create
 module.exports.create = async (req, res) => {
   let records = await ProductCategory.find({deleted: false});
   const newRecords = createTreeHelpers.tree(records);
@@ -27,7 +27,7 @@ module.exports.create = async (req, res) => {
   });
 }
 
-// [POST] /admin/products-category/create
+// [POST] /admin/product-category/create
 module.exports.createPost = async (req, res) => {
   if (!req.body.position) {
     const countProduct = await ProductCategory.countDocuments();
@@ -38,10 +38,10 @@ module.exports.createPost = async (req, res) => {
 
   const record = new ProductCategory(req.body);
   await record.save();
-  res.redirect(`${prefixAdmin}/products-category`);
+  res.redirect(`${prefixAdmin}/product-category`);
 }
 
-// [GET] /admin/products-category/edit/:id
+// [GET] /admin/product-category/edit/:id
 module.exports.edit = async (req, res) => {
   try {
     const id = req.params.id;
@@ -55,11 +55,11 @@ module.exports.edit = async (req, res) => {
       records: newRecords,
     })
   } catch (err) {
-    res.redirect(`${prefixAdmin}/products-category`);
+    res.redirect(`${prefixAdmin}/product-category`);
   }
 }
 
-// [PATCH] /admin/products-category/edit/:id
+// [PATCH] /admin/product-category/edit/:id
 module.exports.editPatch = async (req, res) => {
   const id = req.params.id;
   req.body.position = parseInt(req.body.position);

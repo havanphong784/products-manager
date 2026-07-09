@@ -12,14 +12,14 @@ block main
                     div
                         h1.h3.font-weight-extrabold.text-dark.mb-1 Tạo sản phẩm mới
                         p.text-muted.small.mb-0 Nhập thông tin chi tiết để thêm sản phẩm mới vào hệ thống
-                    a.btn-back(href=`${prefixAdmin}/products`)
+                    a.btn-back(href=`${prefixAdmin}/product`)
                         span.mr-1 &larr;
                         | Quay lại danh sách
 
                 // Form Card
                 .admin-card
                     form(
-                        action=`${prefixAdmin}/products/create`
+                        action=`${prefixAdmin}/product/create`
                         method="POST"
                         id="form-create-product"
                         enctype="multipart/form-data"

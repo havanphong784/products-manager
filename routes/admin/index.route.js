@@ -11,10 +11,10 @@ const authMiddlewares = require('../../middlewares/admin/auth.middlewares');
 module.exports = (app) => {
   const PATH_ADMIN = systemConfig.prefixAdmin;
   app.use(PATH_ADMIN + '/dashboard', authMiddlewares.authRequire, dashboardRouter);
-  app.use(PATH_ADMIN + '/products', authMiddlewares.authRequire, productRouter)
-  app.use(PATH_ADMIN + '/products-category', authMiddlewares.authRequire, productCategoryRouter)
-  app.use(PATH_ADMIN + '/roles', authMiddlewares.authRequire, roleRouter)
-  app.use(PATH_ADMIN + '/accounts', authMiddlewares.authRequire, accountRouter)
+  app.use(PATH_ADMIN + '/product', authMiddlewares.authRequire, productRouter)
+  app.use(PATH_ADMIN + '/product-category', authMiddlewares.authRequire, productCategoryRouter)
+  app.use(PATH_ADMIN + '/role', authMiddlewares.authRequire, roleRouter)
+  app.use(PATH_ADMIN + '/account', authMiddlewares.authRequire, accountRouter)
   app.use(PATH_ADMIN + '/my-account', authMiddlewares.authRequire, myAccountRouter)
   app.use(PATH_ADMIN + '/auth', authRouter)
 }

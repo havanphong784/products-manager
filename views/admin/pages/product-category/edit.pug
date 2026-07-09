@@ -13,14 +13,14 @@ block main
                     div
                         h1.h3.font-weight-extrabold.text-dark.mb-1 Tạo danh mục sản phẩm
                         p.text-muted.small.mb-0 Nhập thông tin để thêm danh mục mới vào hệ thống
-                    a.btn-back(href=`${prefixAdmin}/products-category`)
+                    a.btn-back(href=`${prefixAdmin}/product-category`)
                         span.mr-1 &larr;
                         | Quay lại danh sách
 
                 // Form Card
                 .admin-card
                     form(
-                        action=`${prefixAdmin}/products-category/edit/${data.id}?_method=PATCH`
+                        action=`${prefixAdmin}/product-category/edit/${data.id}?_method=PATCH`
                         method="POST"
                         enctype="multipart/form-data"
                     )
