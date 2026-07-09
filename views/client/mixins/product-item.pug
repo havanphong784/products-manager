@@ -1,5 +1,5 @@
 mixin product-item(product)
-    a(href=`/products/${product.slug}`).product-item
+    a(href=`/products/detail/${product.slug}`).product-item
         .inner-image
             img(src=product.thumbnail, alt=product.title)
             if product.discountPercentage

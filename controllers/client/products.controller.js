@@ -1,6 +1,7 @@
 const Product = require('../../models/products.model')
 const ProductCategory = require('../../models/products-category.model')
 const productCategoryHelper = require('../../helpers/product-category')
+const productHelper = require('../../helpers/products')
 
 // [GET] /products
 module.exports.index = async (req, res) => {
@@ -17,16 +18,24 @@ module.exports.index = async (req, res) => {
   })
 }
 
-// [GET] /products/:slug
+// [GET] /products/detail/:slugProduct
 module.exports.detail = async (req, res) => {
-  const slug = req.params.slug
+  const slug = req.params.slugProduct
   try {
     const product = await Product.findOne({deleted: false, slug: slug})
+    product.newPrice = productHelper.priceNewProduct(product);
+    if (product.products_category_id) {
+      product.category = await ProductCategory.findOne({
+        deleted: false,
+        _id: product.products_category_id,
+        status: "active"
+      })
+    }
     res.render('client/pages/products/detail.pug', {
-      pageTitle: product.title, product: product, status: "active"
+      pageTitle: product.title, product: product
     })
   } catch (e) {
-    res.redirect("/products")
+    res.redirect(res.get("referer"))
   }
 }
 
