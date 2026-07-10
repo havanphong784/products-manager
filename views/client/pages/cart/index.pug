@@ -1,8 +1,10 @@
 extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 include ../../mixins/product-layout
+include ../../mixins/alert
 
 block main
+    +alert-success(5000)
     .container.my-5
         .row.mb-4
             .col-12
@@ -32,7 +34,7 @@ block main
                                             a.product-title-link(href=`/products/detail/${item.productInfo.slug}`) #{item.productInfo.title}
                                         td.fw-bold.text-danger #{item.productInfo.priceNew}$
                                         td.text-center
-                                            input.form-control.cart-quantity-input.mx-auto(type="number" value=item.quantity min="1" max=item.productInfo.stock)
+                                            input.form-control.cart-quantity-input.mx-auto(type="number" value=item.quantity name="quantity" productId=item.productId min="1" max=item.productInfo.stock)
                                         td.fw-bold #{(item.productInfo.priceNew * item.quantity).toFixed(2)}$
                                         td.text-center
                                             a.btn.btn-sm.btn-outline-danger(href=`/cart/delete/${item.productId}`) 
@@ -48,3 +50,4 @@ block main
                         img.mb-3(src="/images/empty-cart.png" alt="Empty Cart" width="150px")
                         h4.text-muted Giỏ hàng của bạn đang trống!
                         a.btn.btn-primary.mt-3(href="/product") Tiếp tục mua sắm
+    script(src="/client/js/cart.js")
