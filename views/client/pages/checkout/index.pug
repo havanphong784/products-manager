@@ -23,7 +23,6 @@ block main
                                     th Giá
                                     th.text-center Số lượng
                                     th Tổng tiền
-                                    th.text-center Hành động
                             tbody
                                 each item, index in cart.products
                                     tr
@@ -36,13 +35,8 @@ block main
                                         td.text-center
                                             input.form-control.cart-quantity-input.mx-auto(type="number" value=item.quantity name="quantity" productId=item.productId min="1" max=item.productInfo.stock)
                                         td.fw-bold #{(item.productInfo.priceNew * item.quantity).toFixed(2)}$
-                                        td.text-center
-                                            a.btn.btn-sm.btn-outline-danger(href=`/cart/delete/${item.productId}`)
-                                                i.fas.fa-trash-alt
-                                                |  Xóa
-                    
                     .cart-summary.mt-4.p-4.bg-light.rounded.shadow-sm.text-end
-                        h4.mb-3 Tổng đơn hàng: 
+                        h4.mb-3 Tổng đơn hàng:
                             span.text-danger.fw-bold #{cart.totalPrice ? cart.totalPrice.toFixed(2) : 0}$
                         a.btn.btn-checkout.btn-lg(href="/checkout") TIẾN HÀNH THANH TOÁN
                 else
@@ -50,4 +44,36 @@ block main
                         img.mb-3(src="/images/empty-cart.png" alt="Empty Cart" width="150px")
                         h4.text-muted Giỏ hàng của bạn đang trống!
                         a.btn.btn-primary.mt-3(href="/product") Tiếp tục mua sắm
+
+        .row
+            form(
+                action="/checkout/order"
+                method="POST"
+            )
+                div
+                    label Họ tên
+                    input(
+                        type="text"
+                        id="fullName"
+                        name="fullName"
+                        required
+                    )
+                div
+                    label SDT
+                        input(
+                            type="text"
+                            id="phone"
+                            name="phone"
+                            required
+                        )
+                div
+                    label Địa chỉ
+                        input(
+                            type="text"
+                            id="address"
+                            name="address"
+                            required
+                        )
+
+                button(type="submit") Đặt hàng
     script(src="/client/js/cart.js")
