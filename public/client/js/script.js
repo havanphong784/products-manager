@@ -10,3 +10,13 @@ if (showAlert) {
     showAlert.classList.add("alert-hidden");
   })
 }
+
+
+const buttonsGoBack = document.querySelectorAll("[button-go-back]");
+if (buttonsGoBack.length > 0) {
+  buttonsGoBack.forEach(button => {
+    button.addEventListener("click", (e) => {
+      history.back();
+    })
+  })
+}
