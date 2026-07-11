@@ -1,6 +1,6 @@
 const Cart = require("../../models/cart.model");
 const Product = require("../../models/product.model");
-consr Order = require("../../models/order.model");
+const Order = require("../../models/order.model");
 const productHelper = require("../../helpers/products");
 
 
@@ -23,7 +23,7 @@ module.exports.index = async (req, res) => {
   });
 }
 
-// [GET] /checkout
+// [POST] /checkout/order
 module.exports.orderPost = async (req, res) => {
   const cartId = req.cookies.cartId
   const userInfo = req.body;
@@ -44,18 +44,44 @@ module.exports.orderPost = async (req, res) => {
     objectProduct.price = productInfo.price;
     objectProduct.discountPercentage = productInfo.discountPercentage;
     products.push(objectProduct);
-
-    const objectOrder = {
-      cartId: cartId,
-      userInfo: userInfo,
-      products: products
-    }
-
-    const order = new Order(objectOrder);
-    await order.save()
-    await Cart.updateOne({_id: cartId},{
-      products: [],
-    })
   }
-  res.redirect(`client/pages/checkout/${order.id}`);
+
+  const objectOrder = {
+    cartId: cartId,
+    userInfo: userInfo,
+    products: products
+  }
+
+  const order = new Order(objectOrder);
+  await order.save()
+
+  await Cart.updateOne({_id: cartId}, {
+    products: [],
+  })
+
+  res.redirect(`/checkout/success/${order.id}`);
 }
+
+// [GET] /checkout/success
+module.exports.success = async (req, res) => {
+  const order = await Order.findOne({
+    _id: req.params.orderId,
+  });
+
+  let plainOrder = order;
+  if (order) {
+    plainOrder = order.toObject();
+    plainOrder.id = plainOrder._id;
+
+    for (const product of plainOrder.products) {
+      const productInfo = await Product.findOne({_id: product.productId}).select("title thumbnail");
+      product.productInfo = productInfo;
+      product.priceNew = productHelper.priceNewProduct(product);
+      product.totalPrice = product.priceNew * product.quantity;
+    }
+    plainOrder.totalPrice = plainOrder.products.reduce((sum, item) => sum + item.totalPrice, 0);
+  }
+
+  res.render("client/pages/checkout/success", {pageTitle: "Đặt hàng thành công ", order: plainOrder});
+}
+
