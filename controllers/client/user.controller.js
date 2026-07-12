@@ -22,7 +22,7 @@ module.exports.registerPost = async (req, res) => {
   req.body.password = await md5(req.body.password);
   const user = new User(req.body);
   await user.save();
-  res.cookie("tokenUser", user.token);
+  res.cookie("token", user.token);
   console.log(user)
 }
 
@@ -43,7 +43,7 @@ module.exports.loginPost = async (req, res) => {
     res.redirect(req.get("referer"));
     return;
   }
-  if (md5(req.body.password) !== user.password) {
+  if (md5(password) !== user.password) {
     req.flash('error', 'Sai mật khẩu');
     res.redirect(req.get("referer"));
     return;
@@ -54,6 +54,12 @@ module.exports.loginPost = async (req, res) => {
     return;
   }
 
-  res.cookie("tokenUser", user.token);
+  res.cookie("token", user.token);
+  res.redirect("/");
+}
+
+// [GET] /user/logout
+module.exports.logout = async (req, res) => {
+  res.clearCookie("token");
   res.redirect("/");
 }
