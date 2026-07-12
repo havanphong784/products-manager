@@ -1,5 +1,7 @@
 const User = require('../../models/user.model');
+const ForgotPassword = require('../../models/forgot-password.model');
 const md5 = require('md5');
+const generateHelper = require('../../helpers/generate');
 
 // [GET] /user/register
 module.exports.register = async (req, res) => {
@@ -62,4 +64,60 @@ module.exports.loginPost = async (req, res) => {
 module.exports.logout = async (req, res) => {
   res.clearCookie("token");
   res.redirect("/");
+}
+
+// [GET] /user/password/forgot
+module.exports.forgotPassword = async (req, res) => {
+  res.render("client/pages/user/forgot-password")
+}
+
+// [POST] /user/password/forgot
+module.exports.forgotPasswordPost = async (req, res) => {
+  const email = req.body.email;
+  const user = await User.findOne({email: email, deleted: false})
+
+  if (!user) {
+    req.flash("error", "Email không tồn tại")
+    res.redirect(req.get("referer"));
+    return;
+  }
+
+  const otp = generateHelper.generateRandomNumber(8);
+  const objectForgotPassword = {
+    email: email,
+    otp: otp,
+    expireAt: Date.now(),
+  };
+  const forgotPassword = new ForgotPassword(objectForgotPassword);
+  await forgotPassword.save();
+  res.redirect("/user/password/otp?email=" + email);
+}
+
+// [GET] /user/password/otp
+module.exports.otpPassword = async (req, res) => {
+  const email = req.query.email;
+  res.render("client/pages/user/otp-password", {
+    pageTitle: "Nhập mã OTP",
+    email: email,
+  });
+}
+
+// [GET] /user/password/otp
+module.exports.otpPasswordPost = async (req, res) => {
+  const email = req.body.email;
+  const otp = req.body.otp;
+
+  const result = await ForgotPassword.findOne({
+    email: email,
+    otp: otp
+  });
+
+  if (!result) {
+    req.flash("error", "OTP không tồn tại")
+    res.redirect(req.get("referer"));
+    return;
+  }
+  const user = await User.findOne({email: email})
+  res.cookie("token", user.token)
+  res.redirect("/user/password/reset");
 }
