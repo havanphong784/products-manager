@@ -3,10 +3,20 @@ footer.footer
         .footer-grid
             .footer-col
                 .footer-brand
-                    span.logo-text Store
-                    span.logo-dot .
+                    if settingGeneral && settingGeneral.logo
+                        img(src=settingGeneral.logo alt=(settingGeneral.websiteName ? settingGeneral.websiteName : "Store") style="max-height: 40px; margin-bottom: 10px;")
+                    else
+                        span.logo-text #{settingGeneral && settingGeneral.websiteName ? settingGeneral.websiteName : "Store"}
+                        span.logo-dot .
                 p.footer-desc Trải nghiệm mua sắm trực tuyến tuyệt vời với hàng ngàn sản phẩm chất lượng cao và dịch vụ chăm sóc khách hàng hàng đầu.
-            .footer-col
+                if settingGeneral
+                    ul.footer-contact(style="list-style: none; padding: 0; margin-top: 15px; color: var(--text-color); font-size: 14px;")
+                        if settingGeneral.address
+                            li(style="margin-bottom: 8px;") 📍 #{settingGeneral.address}
+                        if settingGeneral.phone
+                            li(style="margin-bottom: 8px;") 📞 #{settingGeneral.phone}
+                        if settingGeneral.email
+                            li(style="margin-bottom: 8px;") ✉️ #{settingGeneral.email}
                 h4.footer-title Khám phá
                 ul.footer-links
                     li
@@ -25,4 +35,4 @@ footer.footer
                     li
                         a(href='#') Liên hệ
         .footer-bottom
-            p &copy; 2026 Store. All rights reserved. Designed by Phong Ha.
+            p #{settingGeneral && settingGeneral.copyright ? settingGeneral.copyright : '© 2026 Store. All rights reserved.'} Designed by Phong Ha.

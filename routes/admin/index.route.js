@@ -6,10 +6,16 @@ const roleRouter = require('./role.route');
 const accountRouter = require('./account.route');
 const myAccountRouter = require('./my-account.route');
 const authRouter = require('./auth.route');
+const settingRouter = require('./setting.route');
 const authMiddlewares = require('../../middlewares/admin/auth.middlewares');
+const settingMiddleware = require('../../middlewares/client/setting.middleware');
 
 module.exports = (app) => {
   const PATH_ADMIN = systemConfig.prefixAdmin;
+  
+  // Apply setting middleware to all admin routes
+  app.use(PATH_ADMIN, settingMiddleware.settingGeneral);
+
   app.use(PATH_ADMIN + '/dashboard', authMiddlewares.authRequire, dashboardRouter);
   app.use(PATH_ADMIN + '/product', authMiddlewares.authRequire, productRouter)
   app.use(PATH_ADMIN + '/product-category', authMiddlewares.authRequire, productCategoryRouter)
@@ -17,5 +23,6 @@ module.exports = (app) => {
   app.use(PATH_ADMIN + '/account', authMiddlewares.authRequire, accountRouter)
   app.use(PATH_ADMIN + '/my-account', authMiddlewares.authRequire, myAccountRouter)
   app.use(PATH_ADMIN + '/auth', authRouter)
+  app.use(PATH_ADMIN + '/setting', authMiddlewares.authRequire, settingRouter)
 }
 

@@ -3,8 +3,11 @@ header.header
         .inner-header
             .inner-logo
                 a(href=`${prefixAdmin}/dashboard`)
-                    span.logo-text Admin
-                    span.logo-dot Panel
+                    if settingGeneral && settingGeneral.logo
+                        img(src=settingGeneral.logo alt=(settingGeneral.websiteName ? settingGeneral.websiteName : "Admin Panel") style="max-height: 40px;")
+                    else
+                        span.logo-text #{settingGeneral && settingGeneral.websiteName ? settingGeneral.websiteName : "Admin"}
+                        span.logo-dot Panel
             .inner-actions
                 a.view-website-btn(href='/' target='_blank')
                     span.icon 🔗
