@@ -39,6 +39,7 @@ header.header
                         span.cart-count #{miniCart ? miniCart.totalQuantity : 0}
                     a(href='/admin/product' class='btn-login') Admin Panel
                     if (user)
+                        a(href="/user/info") #{user.fullName}
                         a(href="/user/logout") Đăng xuất
                     else
                         a(href="/user/register") Đăng ký

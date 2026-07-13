@@ -1,0 +1,29 @@
+extends ../../layouts/default.pug
+
+block main
+  .container.my-5
+    .row.justify-content-center
+      .col-8
+        h1.text-center Thông tin cá nhân
+        
+        if (user)
+          .card
+            .card-header
+              | Thông tin tài khoản
+            .card-body
+              p
+                strong Họ và tên: 
+                | #{user.fullName}
+              p
+                strong Email: 
+                | #{user.email}
+              p
+                strong Trạng thái: 
+                if (user.status === 'active')
+                  span.badge.badge-success Hoạt động
+                else
+                  span.badge.badge-danger Khóa
+              
+              a(href="/user/edit" class="btn btn-primary mt-3") Chỉnh sửa thông tin
+        else
+          p Không tìm thấy thông tin cá nhân. Vui lòng đăng nhập lại.
