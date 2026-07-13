@@ -2,6 +2,7 @@ const User = require('../../models/user.model');
 const ForgotPassword = require('../../models/forgot-password.model');
 const md5 = require('md5');
 const generateHelper = require('../../helpers/generate');
+const sendMailHelper = require('../../helpers/sendMail');
 
 // [GET] /user/register
 module.exports.register = async (req, res) => {
@@ -24,8 +25,8 @@ module.exports.registerPost = async (req, res) => {
   req.body.password = await md5(req.body.password);
   const user = new User(req.body);
   await user.save();
-  res.cookie("token", user.token);
-  console.log(user)
+  res.cookie("tokenUser", user.tokenUser);
+  res.redirect("/");
 }
 
 // [GET] /user/login
@@ -56,13 +57,13 @@ module.exports.loginPost = async (req, res) => {
     return;
   }
 
-  res.cookie("token", user.token);
+  res.cookie("tokenUser", user.tokenUser);
   res.redirect("/");
 }
 
 // [GET] /user/logout
 module.exports.logout = async (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("tokenUser");
   res.redirect("/");
 }
 
@@ -90,6 +91,13 @@ module.exports.forgotPasswordPost = async (req, res) => {
   };
   const forgotPassword = new ForgotPassword(objectForgotPassword);
   await forgotPassword.save();
+
+  await sendMailHelper.sendMail(
+    email,
+    "Mã OTP",
+    `<h3>Đây là mã otp của bạn <b>${otp}</b></h3>`
+  );
+
   res.redirect("/user/password/otp?email=" + email);
 }
 
@@ -118,6 +126,25 @@ module.exports.otpPasswordPost = async (req, res) => {
     return;
   }
   const user = await User.findOne({email: email})
-  res.cookie("token", user.token)
+  res.cookie("tokenUser", user.tokenUser)
   res.redirect("/user/password/reset");
+}
+
+// [GET] /user/password/reset
+module.exports.resetPassword = async (req, res) => {
+  res.render("client/pages/user/reset-password", {
+    pageTitle: "Đổi mật khẩu"
+  })
+}
+
+// [GET] /user/password/reset
+module.exports.resetPasswordPost = async (req, res) => {
+  const password = md5(req.body.password);
+  const tokenUser = req.cookies.tokenUser;
+  await User.updateOne({
+    tokenUser: tokenUser
+  }, {
+    password: password,
+  })
+  res.redirect("/");
 }
