@@ -41,6 +41,12 @@ database.connection();
 
 routeAdmin(app);
 route(app);
+
+app.use((req, res) => {
+  res.status(404).render('client/pages/errors/404', {
+    pageTitle: '404 Not Found'
+  });
+});
 if (process.env.NODE_ENV !== 'production') {
   app.listen(port, () => {
     console.log(`Backend đang chạy ở port ${port}`);
