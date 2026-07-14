@@ -10,7 +10,7 @@ block main
             .col-12
                 .chat-container
                     // Nơi hiển thị nội dung chat
-                    .chat-body
+                    .chat-body(my-id=user.id)
                         if chats.length > 0
                             each chat in chats
                                 if (chat.userId == user.id)
