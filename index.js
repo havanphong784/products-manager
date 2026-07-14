@@ -6,6 +6,8 @@ const port = process.env.PORT || 3000;
 const route = require('./routes/client/index.route');
 const routeAdmin = require('./routes/admin/index.route');
 const systemConfig = require('./config/system');
+const http = require('http');
+const { Server } = require("socket.io");
 const methodOverrides = require('method-override');
 const bodyParser = require('body-parser');
 const flash = require('express-flash')
@@ -39,6 +41,11 @@ app.locals.prefixAdmin = systemConfig.prefixAdmin;
 app.locals.moment = moment;
 database.connection();
 
+// Socket.io
+const server = http.createServer(app);
+const io = new Server(server);
+global._io = io;
+
 routeAdmin(app);
 route(app);
 
@@ -48,7 +55,7 @@ app.use((req, res) => {
   });
 });
 if (process.env.NODE_ENV !== 'production') {
-  app.listen(port, () => {
+  server.listen(port, () => {
     console.log(`Backend đang chạy ở port ${port}`);
   });
 }
