@@ -1,7 +1,7 @@
+import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js';
+
 const form = document.getElementById('form-chat');
 const input = document.getElementById('input-chat');
-
-
 if (form) {
   form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -31,3 +31,31 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
   chatBody.appendChild(div);
   chatBody.scrollTop = chatBody.scrollHeight;
 });
+
+const chatBody = document.querySelector('.chat-body');
+if (chatBody) {
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+document.querySelector('emoji-picker')
+  .addEventListener('emoji-click', event => console.log(event.detail));
+
+const emojiPicker = document.querySelector('emoji-picker');
+if (emojiPicker) {
+  const input = document.getElementById('input-chat');
+  emojiPicker.addEventListener('emoji-click', (e) => {
+    input.value = input.value + e.detail.unicode
+  });
+}
+
+
+const button = document.querySelector('span[chat-icon]');
+if (button) {
+  console.log("ok")
+  const tooltip = document.querySelector('.tooltip')
+  Popper.createPopper(button, tooltip)
+  button.onclick = () => {
+    tooltip.classList.toggle('shown')
+  }
+}
+

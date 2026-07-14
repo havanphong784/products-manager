@@ -741,7 +741,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0;
-    
+
     visibility: hidden;
     opacity: 0;
     transform: translateY(15px);
@@ -913,7 +913,7 @@ body {
     font-size: 15px;
     line-height: 1.5;
     word-break: break-word;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .inner-outgoing .inner-content {
@@ -960,3 +960,11 @@ body {
     font-weight: 600;
 }
 
+/*Important*/
+.tooltip {
+    opacity: 1;
+}
+
+.tooltip:not(.shown) {
+    display: none;
+}

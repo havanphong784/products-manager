@@ -29,9 +29,7 @@ block main
                             .input-group
                                 input.form-control(type="text" placeholder="Nhập nội dung..." id="input-chat" autocomplete="off")
                                 .input-group-append
+                                    span.btn.btn-primary(chat-icon) Icon
                                     button.btn.btn-primary(type="submit") Gửi
-
-block script
-    //- Include socket.io client script
-    script(src="/client/js/socket.js")
-    script(src="/client/js/chat.js")
+    div(class="tooltip" role="tooltip")
+        emoji-picker(class="light")
