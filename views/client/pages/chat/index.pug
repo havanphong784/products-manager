@@ -3,6 +3,7 @@ include ../../mixins/box-head.pug
 
 block head
     link(rel="stylesheet" type="text/css" href="https://unpkg.com/file-upload-with-preview/dist/style.css")
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.css")
 
 block main
     .container.my-5
@@ -56,5 +57,7 @@ block script
     script(src="/socket.io/socket.io.js")
     script(src="/client/js/socket.js")
     script(type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js")
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.js")
 
     script(type="module" src="/client/js/chat.js")

@@ -3,6 +3,7 @@ import {FileUploadWithPreview} from 'https://unpkg.com/file-upload-with-preview/
 
 const form = document.getElementById('form-chat');
 const input = document.getElementById('input-chat');
+const chatBody = document.querySelector('.chat-body');
 let typingTimeout;
 let isTyping = false;
 
@@ -63,6 +64,8 @@ if (form) {
         if (submitButton) {
           submitButton.disabled = false;
         }
+        const chatBody = document.querySelector('.chat-body');
+        const gallery = new Viewer(chatBody);
       }
     }
   });
@@ -98,11 +101,18 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
   }
   chatBody.appendChild(div);
   chatBody.scrollTop = chatBody.scrollHeight;
+  // preview lại
+  if (gallery) {
+    gallery.update();
+  }
 });
 
-const chatBody = document.querySelector('.chat-body');
+let gallery;
 if (chatBody) {
+  // cuộn xuống dưới cùng
   chatBody.scrollTop = chatBody.scrollHeight;
+  // load component Viewer lần đầu
+  gallery = new Viewer(chatBody);
 }
 
 
@@ -186,3 +196,4 @@ if (buttonImage) {
     customFileContainer.classList.toggle('show');
   });
 }
+
