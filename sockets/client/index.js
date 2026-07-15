@@ -1,6 +1,7 @@
 const User = require('../../models/user.model');
 const {parseCookies} = require("../../helpers/parseCookies");
 const chatHandler = require('./handlers/chat.handler');
+const typingHandler = require('./handlers/typing.handler');
 
 module.exports = (io) => {
   io.on('connection', async (socket) => {
@@ -18,5 +19,6 @@ module.exports = (io) => {
     socket.user = user;
 
     chatHandler(io, socket);
+    typingHandler(io, socket);
   });
 }

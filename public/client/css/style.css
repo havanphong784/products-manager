@@ -968,3 +968,54 @@ body {
 .tooltip:not(.shown) {
     display: none;
 }
+
+/* Typing indicator */
+.list-typing {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.box-typing {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    max-width: 75%;
+}
+
+.box-typing .inner-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background-color: #e2e8f0;
+    padding: 10px 16px;
+    border-radius: 16px;
+    border-bottom-left-radius: 4px;
+    margin-top: 4px;
+}
+
+.box-typing .inner-dots span {
+    width: 6px;
+    height: 6px;
+    background-color: #64748b;
+    border-radius: 50%;
+    display: inline-block;
+    animation: typingDots 1.4s infinite ease-in-out both;
+}
+
+.box-typing .inner-dots span:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.box-typing .inner-dots span:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+@keyframes typingDots {
+    0%, 80%, 100% { 
+        transform: scale(0);
+    } 
+    40% { 
+        transform: scale(1.0);
+    }
+}
