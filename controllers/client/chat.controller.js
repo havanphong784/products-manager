@@ -18,3 +18,9 @@ module.exports.index = async (req, res) => {
     chats: chats,
   });
 };
+
+module.exports.uploadImages = (req, res) => {
+  res.json({
+    urls: req.body.images || []
+  });
+};

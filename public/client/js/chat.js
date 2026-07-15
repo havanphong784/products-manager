@@ -1,20 +1,69 @@
 import * as Popper from 'https://cdn.jsdelivr.net/npm/@popperjs/core@^2/dist/esm/index.js';
+import {FileUploadWithPreview} from 'https://unpkg.com/file-upload-with-preview/dist/index.js';
 
 const form = document.getElementById('form-chat');
 const input = document.getElementById('input-chat');
 let typingTimeout;
 let isTyping = false;
 
-if (form) {
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    if (input.value) {
-      socket.emit('CLIENT_SEND_MESSAGE', input.value);
-      input.value = '';
+const upload = new FileUploadWithPreview('images-upload-preview', {
+  multiple: true,
+  maxFiles: 10,
+});
 
-      socket.emit('CLIENT_SEND_TYPING', 'hide');
-      isTyping = false;
-      clearTimeout(typingTimeout);
+let isUploading = false;
+
+if (form) {
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (isUploading) return;
+
+    const content = input.value;
+    const files = upload.cachedFileArray || [];
+
+    if (content || files.length > 0) {
+      isUploading = true;
+      const submitButton = form.querySelector('button[type="submit"]');
+      if (submitButton) {
+        submitButton.disabled = true;
+      }
+
+      try {
+        let imageUrls = [];
+
+        if (files.length > 0) {
+          const formData = new FormData();
+          files.forEach(file => {
+            formData.append('images', file);
+          });
+
+          const response = await fetch('/chat/upload', {
+            method: 'POST',
+            body: formData
+          });
+          const data = await response.json();
+          imageUrls = data.urls;
+        }
+
+        socket.emit('CLIENT_SEND_MESSAGE', {
+          content: content,
+          images: imageUrls
+        });
+
+        input.value = '';
+        upload.resetPreviewPanel();
+
+        socket.emit('CLIENT_SEND_TYPING', 'hide');
+        isTyping = false;
+        clearTimeout(typingTimeout);
+      } catch (error) {
+        console.error('Lỗi khi gửi tin nhắn:', error);
+      } finally {
+        isUploading = false;
+        if (submitButton) {
+          submitButton.disabled = false;
+        }
+      }
     }
   });
 }
@@ -25,14 +74,26 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
   const myId = chatBody.getAttribute('my-id');
   const div = document.createElement('div');
 
+  let htmlContent = '';
+  if (data.content) {
+    htmlContent += `<div class="inner-text">${data.content}</div>`;
+  }
+  if (data.images && data.images.length > 0) {
+    htmlContent += `<div class="inner-images">`;
+    data.images.forEach(img => {
+      htmlContent += `<img src="${img}" class="chat-image" />`;
+    });
+    htmlContent += `</div>`;
+  }
+
   if (myId === data.userId) {
     div.classList.add('inner-outgoing');
-    div.innerHTML = `<div class="inner-content">${data.content}</div>`;
+    div.innerHTML = `<div class="inner-content">${htmlContent}</div>`;
   } else {
     div.classList.add('inner-incoming');
     div.innerHTML = `
       <div class="inner-name">${data.fullName}</div>
-      <div class="inner-content">${data.content}</div>
+      <div class="inner-content">${htmlContent}</div>
     `;
   }
   chatBody.appendChild(div);
@@ -114,5 +175,14 @@ if (listTyping) {
         listTyping.removeChild(existBox);
       }
     }
+  });
+}
+
+// custom-file-container
+const buttonImage = document.querySelector('span[button-image]');
+if (buttonImage) {
+  const customFileContainer = document.querySelector('.custom-file-container');
+  buttonImage.addEventListener('click', () => {
+    customFileContainer.classList.toggle('show');
   });
 }

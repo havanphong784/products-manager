@@ -1019,3 +1019,35 @@ body {
         transform: scale(1.0);
     }
 }
+
+/* Chat Images styling */
+.inner-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.chat-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+}
+
+.chat-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Show/hide custom file container */
+.chat-container .custom-file-container {
+    display: none;
+}
+
+.chat-container .custom-file-container.show {
+    display: block;
+}
