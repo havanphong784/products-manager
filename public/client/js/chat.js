@@ -51,7 +51,6 @@ if (emojiPicker) {
 
 const button = document.querySelector('span[chat-icon]');
 if (button) {
-  console.log("ok")
   const tooltip = document.querySelector('.tooltip')
   Popper.createPopper(button, tooltip)
   button.onclick = () => {

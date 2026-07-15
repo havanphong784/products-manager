@@ -200,7 +200,6 @@ module.exports.edit = async (req, res) => {
   const newRecords = createTree.tree(records);
 
   const product = await Product.findOne(find);
-  console.log(product);
 
   res.render("admin/pages/product/edit.pug", {
     pageTitle: "Chỉnh sửa sản phẩm",
@@ -240,7 +239,6 @@ module.exports.editPatch = async (req, res) => {
     req.flash("success", "Cập nhật sản phẩm thành công !");
   } catch (e) {
     req.flash("error", "Cập nhật sản phẩm thất bại !");
-    console.log(e);
   }
 
   res.redirect(`${prefixAdmin}/product`);
@@ -266,7 +264,6 @@ module.exports.detail = async (req, res) => {
       product: product,
     })
   } catch (e) {
-    console.error("Detail page error:", e);
     res.redirect(`${prefixAdmin}/product`);
   }
 }

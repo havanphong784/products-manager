@@ -26,7 +26,6 @@ module.exports.index = async (req, res) => {
 // [GET] /admin/accounts/create
 module.exports.create = async (req, res) => {
   const role = await Role.find({deleted: false});
-  console.log(req)
   res.render("admin/pages/account/create", {
     pageTitle: "Tạo tài khoản",
     roles: role
@@ -76,7 +75,7 @@ module.exports.editPatch = async (req, res) => {
   }
   const emailExist = await Account.findOne({
     email: req.body.email,
-    _id: { $ne: id },
+    _id: {$ne: id},
     deleted: false
   });
   if (emailExist) {

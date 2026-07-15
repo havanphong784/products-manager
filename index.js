@@ -7,7 +7,7 @@ const route = require('./routes/client/index.route');
 const routeAdmin = require('./routes/admin/index.route');
 const systemConfig = require('./config/system');
 const http = require('http');
-const { Server } = require("socket.io");
+const {Server} = require("socket.io");
 const methodOverrides = require('method-override');
 const bodyParser = require('body-parser');
 const flash = require('express-flash')
@@ -44,7 +44,8 @@ database.connection();
 // Socket.io
 const server = http.createServer(app);
 const io = new Server(server);
-global._io = io;
+const socketRoute = require('./sockets/client/index');
+socketRoute(io);
 
 routeAdmin(app);
 route(app);
