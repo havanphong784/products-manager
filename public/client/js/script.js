@@ -20,3 +20,14 @@ if (buttonsGoBack.length > 0) {
     })
   })
 }
+
+// User Menu Active Link
+const userMenuButtons = document.querySelectorAll(".user-menu-buttons .btn-menu");
+if (userMenuButtons.length > 0) {
+  const currentPath = window.location.pathname;
+  userMenuButtons.forEach(button => {
+    if (button.getAttribute("href") === currentPath) {
+      button.classList.add("active");
+    }
+  });
+}

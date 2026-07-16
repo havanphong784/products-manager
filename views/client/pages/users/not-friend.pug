@@ -1,0 +1,31 @@
+extends ../../layouts/default
+include ../../mixins/box-head
+
+block main
+    .container.my-5
+        include ../../partials/list-btn-user
+
+        .row
+            .col-12
+                +box-head(pageTitle)
+
+        .row
+            each user in users
+                .col-lg-3.col-md-4.col-sm-6.col-12.mb-4
+                    div(class="box-user-item")
+                        div(class="inner-avatar")
+                            img(
+                                src=(user.avatar ? user.avatar : "https://hunggiaco.com/wp-content/uploads/2026/03/Avatar-Mac-Dinh-1.jpg") 
+                                alt=user.fullName
+                            )
+                        div(class="inner-info")
+                            div(class="inner-name") #{user.fullName}
+                            div(class="inner-buttons")
+                                button(
+                                    class="btn btn-sm btn-primary"
+                                    button-add-friend=user.id
+                                ) Kết bạn
+                                button(
+                                    class="btn btn-sm btn-outline-secondary"
+                                    button-cancel-friend=user.id
+                                ) Hủy
