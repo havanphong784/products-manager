@@ -16,4 +16,9 @@
             a(
                 class="btn-menu"
                 href="/users/accept"
-            ) Lời mời kết bạn
+            )
+                | Lời mời kết bạn
+                span(
+                    class="badge badge-light ml-1"
+                    badge-users-accept=user.acceptFriends ? user.acceptFriends.length : 0
+                ) #{user.acceptFriends ? user.acceptFriends.length : 0}

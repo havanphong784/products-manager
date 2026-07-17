@@ -4,13 +4,24 @@ const setButtonLoading = (btn) => {
   btn.textContent = "Đang gửi...";
 }
 
-const removeCardFromContainer = (container, userId) => {
+function removeCardFromContainer(container, userId) {
   if (!container) return;
   const cards = container.querySelectorAll(`[data-id="${userId}"]`);
   cards.forEach(card => {
     const wrapper = card.closest('.mb-4');
     (wrapper || card).remove();
   });
+}
+
+function updateBadgeRequest(amount) {
+  const badge = document.querySelector("[badge-users-accept]");
+  if (badge) {
+    let count = parseInt(badge.getAttribute("badge-users-accept")) || 0;
+    count += amount;
+    if (count < 0) count = 0;
+    badge.setAttribute("badge-users-accept", count);
+    badge.textContent = count;
+  }
 }
 
 document.addEventListener("click", (e) => {
@@ -66,13 +77,16 @@ socket.on("SERVER_RETURN_NEW_FRIEND", (data) => {
 
 socket.on("SERVER_RETURN_RECEIVED_FRIEND_REQUEST", (data) => {
   const container = document.querySelector("[list-friend-requests]");
-  if (!container) return;
-  removeCardFromContainer(container, data.senderId); // deduplication
-  container.insertAdjacentHTML("afterbegin", data.html);
+  if (container) {
+    removeCardFromContainer(container, data.senderId); // deduplication
+    container.insertAdjacentHTML("afterbegin", data.html);
+  }
+  updateBadgeRequest(1);
 });
 
 socket.on("SERVER_RETURN_REMOVE_REQUEST_CARD", (data) => {
   removeCardFromContainer(document.querySelector("[list-friend-requests]"), data.userId);
+  updateBadgeRequest(-1);
 });
 
 socket.on("SERVER_RETURN_REMOVE_FRIEND_CARD", (data) => {
