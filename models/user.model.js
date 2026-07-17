@@ -24,6 +24,7 @@ const userSchema = new mongoose.Schema(
       default: false
     },
     deletedAt: Date,
+    lastOnline: { type: Date, default: Date.now },
   }, {timestamps: true}
 );
 

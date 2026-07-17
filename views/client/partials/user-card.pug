@@ -1,10 +1,14 @@
 div(class="box-user-item" data-id=user.id)
-  div(class="inner-avatar")
+  div(class="inner-avatar" data-user-id=user.id)
     img(
       src=(user.avatar ? user.avatar : "https://phukiennillkin.com/wp-content/uploads/2026/03/avatar-mac-dinh-facebook-8.jpg")
       alt=user.fullName
     )
+    if user.lastOnline !== undefined
+      span(class="status-indicator offline")
   div(class="inner-info")
     div(class="inner-name") #{user.fullName}
+    if user.lastOnline !== undefined
+      div(class="inner-status text-muted mb-2" style="font-size: 13px" data-last-online=(user.lastOnline ? user.lastOnline.toISOString() : ""))
     div(class="inner-buttons")
       include ./friend-buttons.pug

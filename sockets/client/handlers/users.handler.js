@@ -12,7 +12,7 @@ const renderCardWrapper = (user, userId, status) => pug.renderFile(
   {user, userId, status}
 );
 
-module.exports = (io, socket) => {
+module.exports = (io, socket, onlineUsers) => {
   socket.on('CLIENT_ADD_FRIEND', async (targetUserId) => {
     const senderId = socket.user.id;
     try {
@@ -33,14 +33,19 @@ module.exports = (io, socket) => {
         });
 
         const [senderInfo, targetInfo] = await Promise.all([
-          User.findOne({_id: senderId}).select('avatar fullName'),
-          User.findOne({_id: targetUserId}).select('avatar fullName')
+          User.findOne({_id: senderId}).select('avatar fullName lastOnline'),
+          User.findOne({_id: targetUserId}).select('avatar fullName lastOnline')
         ]);
 
         // Người gửi: cập nhật button, xóa card khỏi trang lời mời, thêm card bạn bè
         socket.emit('SERVER_RETURN_UPDATE_BUTTONS', {targetUserId, html: renderButtons(targetUserId, 'friend')});
         socket.emit('SERVER_RETURN_REMOVE_REQUEST_CARD', {userId: targetUserId});
         socket.emit('SERVER_RETURN_NEW_FRIEND', {html: renderCardWrapper(targetInfo, targetUserId, 'friend')});
+        socket.emit('SERVER_FRIEND_STATUS_CHANGED', {
+          userId: targetUserId,
+          isOnline: onlineUsers ? onlineUsers.has(targetUserId) : false,
+          lastOnline: targetInfo.lastOnline ? targetInfo.lastOnline.toISOString() : null
+        });
 
         // Người nhận: cập nhật button, thêm card bạn bè
         socket.to(targetUserId).emit('SERVER_RETURN_UPDATE_BUTTONS', {
@@ -48,6 +53,11 @@ module.exports = (io, socket) => {
           html: renderButtons(senderId, 'friend')
         });
         socket.to(targetUserId).emit('SERVER_RETURN_NEW_FRIEND', {html: renderCardWrapper(senderInfo, senderId, 'friend')});
+        socket.to(targetUserId).emit('SERVER_FRIEND_STATUS_CHANGED', {
+          userId: senderId,
+          isOnline: onlineUsers ? onlineUsers.has(senderId) : false,
+          lastOnline: senderInfo.lastOnline ? senderInfo.lastOnline.toISOString() : null
+        });
 
         return;
       }
@@ -133,14 +143,19 @@ module.exports = (io, socket) => {
       });
 
       const [senderInfo, targetInfo] = await Promise.all([
-        User.findOne({_id: senderId}).select('avatar fullName'),
-        User.findOne({_id: targetUserId}).select('avatar fullName')
+        User.findOne({_id: senderId}).select('avatar fullName lastOnline'),
+        User.findOne({_id: targetUserId}).select('avatar fullName lastOnline')
       ]);
 
       // Người chấp nhận: xóa card khỏi lời mời, cập nhật button, thêm card bạn bè
       socket.emit('SERVER_RETURN_REMOVE_REQUEST_CARD', {userId: targetUserId});
       socket.emit('SERVER_RETURN_UPDATE_BUTTONS', {targetUserId, html: renderButtons(targetUserId, 'friend')});
       socket.emit('SERVER_RETURN_NEW_FRIEND', {html: renderCardWrapper(targetInfo, targetUserId, 'friend')});
+      socket.emit('SERVER_FRIEND_STATUS_CHANGED', {
+        userId: targetUserId,
+        isOnline: onlineUsers ? onlineUsers.has(targetUserId) : false,
+        lastOnline: targetInfo.lastOnline ? targetInfo.lastOnline.toISOString() : null
+      });
 
       // Người gửi: cập nhật button, thêm card bạn bè
       socket.to(targetUserId).emit('SERVER_RETURN_UPDATE_BUTTONS', {
@@ -148,6 +163,11 @@ module.exports = (io, socket) => {
         html: renderButtons(senderId, 'friend')
       });
       socket.to(targetUserId).emit('SERVER_RETURN_NEW_FRIEND', {html: renderCardWrapper(senderInfo, senderId, 'friend')});
+      socket.to(targetUserId).emit('SERVER_FRIEND_STATUS_CHANGED', {
+        userId: senderId,
+        isOnline: onlineUsers ? onlineUsers.has(senderId) : false,
+        lastOnline: senderInfo.lastOnline ? senderInfo.lastOnline.toISOString() : null
+      });
 
     } catch (error) {
       console.error(error);

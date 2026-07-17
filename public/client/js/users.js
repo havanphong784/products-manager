@@ -92,3 +92,60 @@ socket.on("SERVER_RETURN_REMOVE_REQUEST_CARD", (data) => {
 socket.on("SERVER_RETURN_REMOVE_FRIEND_CARD", (data) => {
   removeCardFromContainer(document.querySelector("[list-friends]"), data.userId);
 });
+
+socket.emit('CLIENT_GET_ONLINE_FRIENDS');
+
+socket.on('SERVER_ONLINE_FRIENDS_LIST', ({onlineFriendIds}) => {
+  onlineFriendIds.forEach(userId => setUserOnline(userId, true));
+});
+
+socket.on('SERVER_FRIEND_STATUS_CHANGED', ({userId, isOnline, lastOnline}) => {
+  setUserOnline(userId, isOnline, lastOnline);
+});
+
+function timeAgo(dateString) {
+  if (!dateString) return '';
+  const date = new Date(dateString);
+  const seconds = Math.floor((new Date() - date) / 1000);
+  if (seconds < 60) return 'Vừa mới truy cập';
+
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `Hoạt động ${minutes} phút trước`;
+
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `Hoạt động ${hours} giờ trước`;
+
+  const days = Math.floor(hours / 24);
+  return `Hoạt động ${days} ngày trước`;
+}
+
+const setUserOnline = (userId, isOnline, lastOnline = null) => {
+  document.querySelectorAll(`[data-user-id="${userId}"] .status-indicator`).forEach(el => {
+    el.classList.toggle('online', isOnline);
+    el.classList.toggle('offline', !isOnline);
+  });
+
+  document.querySelectorAll(`[data-id="${userId}"] .inner-status`).forEach(el => {
+    if (isOnline) {
+      el.textContent = 'Đang hoạt động';
+      el.removeAttribute('data-last-online');
+    } else {
+      if (lastOnline) el.setAttribute('data-last-online', lastOnline);
+      el.textContent = timeAgo(el.getAttribute('data-last-online'));
+    }
+  });
+}
+
+// Cập nhật tthd mỗi 60 giây
+setInterval(() => {
+  document.querySelectorAll('.inner-status[data-last-online]').forEach(el => {
+    const time = el.getAttribute('data-last-online');
+    if (time) el.textContent = timeAgo(time);
+  });
+}, 60000);
+
+// Init lần đầu khi vừa render xong Pug
+document.querySelectorAll('.inner-status[data-last-online]').forEach(el => {
+  const time = el.getAttribute('data-last-online');
+  if (time) el.textContent = timeAgo(time);
+});
