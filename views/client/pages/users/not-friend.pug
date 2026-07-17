@@ -12,20 +12,11 @@ block main
         .row
             each user in users
                 .col-lg-3.col-md-4.col-sm-6.col-12.mb-4
-                    div(class="box-user-item")
-                        div(class="inner-avatar")
-                            img(
-                                src=(user.avatar ? user.avatar : "https://hunggiaco.com/wp-content/uploads/2026/03/Avatar-Mac-Dinh-1.jpg") 
-                                alt=user.fullName
-                            )
-                        div(class="inner-info")
-                            div(class="inner-name") #{user.fullName}
-                            div(class="inner-buttons")
-                                button(
-                                    class="btn btn-sm btn-primary"
-                                    button-add-friend=user.id
-                                ) Kết bạn
-                                button(
-                                    class="btn btn-sm btn-outline-secondary"
-                                    button-cancel-friend=user.id
-                                ) Hủy
+                    - var userId = user.id
+                    - var status = 'not_friend'
+                    include ../../partials/user-card.pug
+
+block script
+    script(src="/socket.io/socket.io.js")
+    script(src="/client/js/socket.js")
+    script(src='/client/js/users.js')

@@ -1,0 +1,25 @@
+if status === 'not_friend'
+  button(
+    class="btn btn-sm btn-primary"
+    button-add-friend=userId
+  ) Kết bạn
+else if status === 'sent_request'
+  button(
+    class="btn btn-sm btn-warning"
+    button-cancel-friend=userId
+  ) Hủy yêu cầu
+else if status === 'received_request'
+  button(
+    class="btn btn-sm btn-success"
+    button-accept-friend=userId
+  ) Chấp nhận
+  button(
+    class="btn btn-sm btn-danger ml-1"
+    button-refuse-friend=userId
+  ) Từ chối
+else if status === 'friend'
+  button(
+    class="btn btn-sm btn-info"
+    button-unfriend=userId
+    disabled
+  ) Bạn bè

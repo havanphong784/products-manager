@@ -29,7 +29,7 @@ block main
                                                         img(src=img class="chat-image")
                                 else
                                     .inner-incoming
-                                        .inner-name #{chat.infoUser.fullName}
+                                        .inner-name #{chat.infoUser ? chat.infoUser.fullName : "Người dùng"}
                                         .inner-content
                                             if (chat.content)
                                                 .inner-text #{chat.content}
