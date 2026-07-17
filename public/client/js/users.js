@@ -1,59 +1,80 @@
-// Lắng nghe sự kiện click trên toàn trang (Event Delegation)
+const setButtonLoading = (btn) => {
+  btn.disabled = true;
+  btn.dataset.originalText = btn.textContent;
+  btn.textContent = "Đang gửi...";
+}
+
+const removeCardFromContainer = (container, userId) => {
+  if (!container) return;
+  const cards = container.querySelectorAll(`[data-id="${userId}"]`);
+  cards.forEach(card => {
+    const wrapper = card.closest('.mb-4');
+    (wrapper || card).remove();
+  });
+}
+
 document.addEventListener("click", (e) => {
   const btnAdd = e.target.closest("[button-add-friend]");
   if (btnAdd) {
-    const userId = btnAdd.getAttribute("button-add-friend");
-    socket.emit("CLIENT_ADD_FRIEND", userId);
+    setButtonLoading(btnAdd);
+    socket.emit("CLIENT_ADD_FRIEND", btnAdd.getAttribute("button-add-friend"));
     return;
   }
 
   const btnCancel = e.target.closest("[button-cancel-friend]");
   if (btnCancel) {
-    const userId = btnCancel.getAttribute("button-cancel-friend");
-    socket.emit("CLIENT_CANCEL_FRIEND", userId);
+    setButtonLoading(btnCancel);
+    socket.emit("CLIENT_CANCEL_FRIEND", btnCancel.getAttribute("button-cancel-friend"));
     return;
   }
 
   const btnAccept = e.target.closest("[button-accept-friend]");
   if (btnAccept) {
-    const userId = btnAccept.getAttribute("button-accept-friend");
-    socket.emit("CLIENT_ACCEPT_FRIEND", userId);
+    setButtonLoading(btnAccept);
+    socket.emit("CLIENT_ACCEPT_FRIEND", btnAccept.getAttribute("button-accept-friend"));
     return;
   }
 
   const btnRefuse = e.target.closest("[button-refuse-friend]");
   if (btnRefuse) {
-    const userId = btnRefuse.getAttribute("button-refuse-friend");
-    socket.emit("CLIENT_REFUSE_FRIEND", userId);
+    setButtonLoading(btnRefuse);
+    socket.emit("CLIENT_REFUSE_FRIEND", btnRefuse.getAttribute("button-refuse-friend"));
+    return;
+  }
+
+  const btnUnfriend = e.target.closest("[button-unfriend]");
+  if (btnUnfriend) {
+    if (confirm("Bạn có chắc chắn muốn xóa kết bạn?")) {
+      setButtonLoading(btnUnfriend);
+      socket.emit("CLIENT_UNFRIEND", btnUnfriend.getAttribute("button-unfriend"));
+    }
+
   }
 });
 
-// Bắt sự kiện cập nhật cục nút bấm
 socket.on("SERVER_RETURN_UPDATE_BUTTONS", (data) => {
-  const userCard = document.querySelector(`[data-id="${data.targetUserId}"]`);
-  if (userCard) {
-    const buttonContainer = userCard.querySelector(".inner-buttons");
-    if (buttonContainer) {
-      buttonContainer.innerHTML = data.html;
-    }
-  }
+  document.querySelectorAll(`[data-id="${data.targetUserId}"]`).forEach(card => {
+    const btnContainer = card.querySelector(".inner-buttons");
+    if (btnContainer) btnContainer.innerHTML = data.html;
+  });
 });
 
-// Lắng nghe gửi lời mời
+socket.on("SERVER_RETURN_NEW_FRIEND", (data) => {
+  const container = document.querySelector("[list-friends]");
+  if (container) container.insertAdjacentHTML("afterbegin", data.html);
+});
+
 socket.on("SERVER_RETURN_RECEIVED_FRIEND_REQUEST", (data) => {
-  const listRequestContainer = document.querySelector("[list-friend-requests]");
-  if (listRequestContainer) {
-    listRequestContainer.insertAdjacentHTML("afterbegin", data.html);
-  }
+  const container = document.querySelector("[list-friend-requests]");
+  if (!container) return;
+  removeCardFromContainer(container, data.senderId); // deduplication
+  container.insertAdjacentHTML("afterbegin", data.html);
 });
 
-// Lắng nghe hủy lời mời
-socket.on("SERVER_RETURN_CANCEL_FRIEND_REQUEST", (data) => {
-  const listRequestContainer = document.querySelector("[list-friend-requests]");
-  if (listRequestContainer) {
-    const cardToDelete = listRequestContainer.querySelector(`[data-id="${data.senderId}"]`);
-    if (cardToDelete) {
-      listRequestContainer.removeChild(cardToDelete);
-    }
-  }
+socket.on("SERVER_RETURN_REMOVE_REQUEST_CARD", (data) => {
+  removeCardFromContainer(document.querySelector("[list-friend-requests]"), data.userId);
+});
+
+socket.on("SERVER_RETURN_REMOVE_FRIEND_CARD", (data) => {
+  removeCardFromContainer(document.querySelector("[list-friends]"), data.userId);
 });

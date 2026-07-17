@@ -1,0 +1,22 @@
+extends ../../layouts/default
+include ../../mixins/box-head
+
+block main
+    .container.my-5
+        include ../../partials/list-btn-user
+
+        .row
+            .col-12
+                +box-head(pageTitle)
+
+        .row(list-friend-requests="")
+            each user in users
+                .col-lg-3.col-md-4.col-sm-6.col-12.mb-4
+                    - var userId = user.id
+                    - var status = 'received_request'
+                    include ../../partials/user-card.pug
+
+block script
+    script(src="/socket.io/socket.io.js")
+    script(src="/client/js/socket.js")
+    script(src='/client/js/users.js')
