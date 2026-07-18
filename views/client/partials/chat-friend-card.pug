@@ -1,0 +1,13 @@
+if friend.roomChatId
+    a.chat-friend-item(href=`/chat/${friend.roomChatId}` data-id=friend._id)
+        .chat-friend-avatar(data-user-id=friend._id)
+            img(
+                src=(friend.avatar ? friend.avatar : "https://phukiennillkin.com/wp-content/uploads/2026/03/avatar-mac-dinh-facebook-8.jpg")
+                alt=friend.fullName
+            )
+            span.status-indicator.offline
+        .chat-friend-info
+            .chat-friend-name #{friend.fullName}
+            .chat-friend-status.inner-status.text-muted(data-last-online=(friend.lastOnline ? friend.lastOnline.toISOString() : "")) 
+        .chat-friend-action
+            span.btn.btn-sm.btn-primary Nhắn tin

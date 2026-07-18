@@ -1,0 +1,65 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block head
+    link(rel="stylesheet" type="text/css" href="https://unpkg.com/file-upload-with-preview/dist/style.css")
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.css")
+
+block main
+    .container.my-5
+        .row
+            .col-12
+                +box-head('Chat')
+        include ../../partials/list-btn-user
+        .row
+            .col-12
+                .chat-container
+                    // Nơi hiển thị nội dung chat
+                    .chat-body(my-id=user.id)
+                        if chats.length > 0
+                            each chat in chats
+                                if (chat.userId === user.id)
+                                    .inner-outgoing
+                                        .inner-content
+                                            if (chat.content)
+                                                .inner-text #{chat.content}
+                                            if (chat.images && chat.images.length > 0)
+                                                .inner-images
+                                                    each img in chat.images
+                                                        img(src=img class="chat-image")
+                                else
+                                    .inner-incoming
+                                        .inner-name #{chat.infoUser ? chat.infoUser.fullName : "Người dùng"}
+                                        .inner-content
+                                            if (chat.content)
+                                                .inner-text #{chat.content}
+                                            if (chat.images && chat.images.length > 0)
+                                                .inner-images
+                                                    each img in chat.images
+                                                        img(src=img class="chat-image")
+                        else
+                            p Chưa có tin nhắn nào.
+                        .list-typing
+                    
+                    // Form nhập chat
+                    .chat-footer.mt-3
+                        form(id="form-chat" action="")
+                            .input-group
+                                input.form-control(type="text" placeholder="Nhập nội dung..." id="input-chat" autocomplete="off")
+                                .input-group-append
+                                    span.btn.btn-primary(chat-icon) Icon
+                                    span.btn.btn-light.mx-1(button-image) Ảnh
+                                    button.btn.btn-primary(type="submit") Gửi
+                        div(class="custom-file-container" data-upload-id="images-upload-preview")
+    div(class="tooltip" role="tooltip")
+        emoji-picker(class="light")
+
+block script
+    script(src="/socket.io/socket.io.js")
+    script(src="/client/js/socket.js")
+    script(src="/client/js/users.js")
+    script(type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js")
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.js")
+
+    script(type="module" src="/client/js/chat.js")

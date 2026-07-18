@@ -1,0 +1,80 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block head
+    link(rel="stylesheet" type="text/css" href="https://unpkg.com/file-upload-with-preview/dist/style.css")
+    link(rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.css")
+
+block main
+    .container.my-5
+        .row
+            .col-12
+                +box-head('Chat')
+        include ../../partials/list-btn-user
+        .row
+            .col-12
+                .chat-room-header
+                    .chat-room-avatar
+                        if friendInfo
+                            img(
+                                src=(friendInfo.avatar ? friendInfo.avatar : "https://phukiennillkin.com/wp-content/uploads/2026/03/avatar-mac-dinh-facebook-8.jpg")
+                                alt=friendInfo.fullName
+                            )
+                            span.status-indicator.offline(data-user-id=friendInfo._id)
+                    .chat-room-info
+                        if friendInfo
+                            .chat-room-name #{friendInfo.fullName}
+                            .chat-room-status.text-muted(data-last-online=(friendInfo.lastOnline ? friendInfo.lastOnline.toISOString() : ""))
+                    a.btn.btn-sm.btn-outline-secondary(href="/chat")
+                        | ← Quay lại
+
+                .chat-container
+                    // Nơi hiển thị nội dung chat
+                    .chat-body(my-id=user.id data-room-chat-id=roomChatId)
+                        if chats.length > 0
+                            each chat in chats
+                                if (chat.userId === user.id)
+                                    .inner-outgoing
+                                        .inner-content
+                                            if (chat.content)
+                                                .inner-text #{chat.content}
+                                            if (chat.images && chat.images.length > 0)
+                                                .inner-images
+                                                    each img in chat.images
+                                                        img(src=img class="chat-image")
+                                else
+                                    .inner-incoming
+                                        .inner-name #{chat.infoUser ? chat.infoUser.fullName : "Người dùng"}
+                                        .inner-content
+                                            if (chat.content)
+                                                .inner-text #{chat.content}
+                                            if (chat.images && chat.images.length > 0)
+                                                .inner-images
+                                                    each img in chat.images
+                                                        img(src=img class="chat-image")
+                        else
+                            p.text-center.text-muted.py-3 Chưa có tin nhắn nào. Hãy bắt đầu trò chuyện!
+                        .list-typing
+                    
+                    // Form nhập chat
+                    .chat-footer.mt-3
+                        form(id="form-chat" action="")
+                            .input-group
+                                input.form-control(type="text" placeholder="Nhập nội dung..." id="input-chat" autocomplete="off")
+                                .input-group-append
+                                    span.btn.btn-primary(chat-icon) Icon
+                                    span.btn.btn-light.mx-1(button-image) Ảnh
+                                    button.btn.btn-primary(type="submit") Gửi
+                        div(class="custom-file-container" data-upload-id="images-upload-preview")
+    div(class="tooltip" role="tooltip")
+        emoji-picker(class="light")
+
+block script
+    script(src="/socket.io/socket.io.js")
+    script(src="/client/js/socket.js")
+    script(src="/client/js/users.js")
+    script(type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js")
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/viewerjs/1.11.7/viewer.js")
+
+    script(type="module" src="/client/js/chat.js")

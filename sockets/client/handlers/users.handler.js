@@ -1,6 +1,7 @@
 const pug = require('pug');
 const path = require('path');
 const User = require('../../../models/user.model');
+const RoomChat = require('../../../models/romChat.model');
 
 const renderButtons = (userId, status) => pug.renderFile(
   path.join(__dirname, '../../../views/client/partials/friend-buttons.pug'),
@@ -20,8 +21,23 @@ module.exports = (io, socket, onlineUsers) => {
       const isDualRequest = await User.findOne({_id: senderId, acceptFriends: targetUserId});
 
       if (isDualRequest) {
-        const mongoose = require('mongoose');
-        const roomChatId = new mongoose.Types.ObjectId().toString();
+        let roomChat = await RoomChat.findOne({
+          typeRoom: "friend",
+          "users.userId": { $all: [senderId, targetUserId] }
+        });
+
+        if (!roomChat) {
+          roomChat = new RoomChat({
+            typeRoom: "friend",
+            status: "active",
+            users: [
+              { userId: senderId, role: "superAdmin" },
+              { userId: targetUserId, role: "superAdmin" }
+            ]
+          });
+          await roomChat.save();
+        }
+        const roomChatId = roomChat.id;
 
         await User.updateOne({_id: targetUserId}, {
           $pull: {requestFriends: senderId, acceptFriends: senderId},
@@ -130,8 +146,23 @@ module.exports = (io, socket, onlineUsers) => {
   socket.on('CLIENT_ACCEPT_FRIEND', async (targetUserId) => {
     const senderId = socket.user.id;
     try {
-      const mongoose = require('mongoose');
-      const roomChatId = new mongoose.Types.ObjectId().toString();
+      let roomChat = await RoomChat.findOne({
+        typeRoom: "friend",
+        "users.userId": { $all: [senderId, targetUserId] }
+      });
+
+      if (!roomChat) {
+        roomChat = new RoomChat({
+          typeRoom: "friend",
+          status: "active",
+          users: [
+            { userId: senderId, role: "superAdmin" },
+            { userId: targetUserId, role: "superAdmin" }
+          ]
+        });
+        await roomChat.save();
+      }
+      const roomChatId = roomChat.id;
 
       await User.updateOne({_id: targetUserId}, {
         $pull: {requestFriends: senderId},

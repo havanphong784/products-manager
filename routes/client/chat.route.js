@@ -18,7 +18,8 @@ const controller = require('../../controllers/client/chat.controller');
 const uploadCloud = require('../../middlewares/admin/uploadCloud.middlewares');
 
 router.get('/', controller.index);
-
+router.get('/community', controller.community);
 router.post('/upload', upload.array('images', 10), uploadCloud.uploadMultipleCloud, controller.uploadImages);
+router.get('/:roomChatId', controller.roomChat);
 
 module.exports = router;

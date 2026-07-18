@@ -7,6 +7,12 @@ const chatBody = document.querySelector('.chat-body');
 let typingTimeout;
 let isTyping = false;
 
+const roomChatId = chatBody ? chatBody.getAttribute('data-room-chat-id') : null;
+
+if (roomChatId && roomChatId !== 'community') {
+  socket.emit('CLIENT_JOIN_ROOM', roomChatId);
+}
+
 const upload = new FileUploadWithPreview('images-upload-preview', {
   multiple: true,
   maxFiles: 10,
@@ -48,13 +54,17 @@ if (form) {
 
         socket.emit('CLIENT_SEND_MESSAGE', {
           content: content,
-          images: imageUrls
+          images: imageUrls,
+          roomChatId: roomChatId || 'community'
         });
 
         input.value = '';
         upload.resetPreviewPanel();
 
-        socket.emit('CLIENT_SEND_TYPING', 'hide');
+        socket.emit('CLIENT_SEND_TYPING', {
+          type: 'hide',
+          roomChatId: roomChatId || 'community'
+        });
         isTyping = false;
         clearTimeout(typingTimeout);
       } catch (error) {
@@ -74,6 +84,8 @@ if (form) {
 // SERVER_RETURN_MESSAGE
 socket.on('SERVER_RETURN_MESSAGE', (data) => {
   const chatBody = document.querySelector('.chat-body');
+  if (!chatBody) return;
+
   const myId = chatBody.getAttribute('my-id');
   const div = document.createElement('div');
 
@@ -99,7 +111,13 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
       <div class="inner-content">${htmlContent}</div>
     `;
   }
-  chatBody.appendChild(div);
+  const listTyping = chatBody.querySelector('.list-typing');
+  if (listTyping) {
+    chatBody.insertBefore(div, listTyping);
+  } else {
+    chatBody.appendChild(div);
+  }
+  
   chatBody.scrollTop = chatBody.scrollHeight;
   // preview lại
   if (gallery) {
@@ -109,9 +127,7 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
 
 let gallery;
 if (chatBody) {
-  // cuộn xuống dưới cùng
   chatBody.scrollTop = chatBody.scrollHeight;
-  // load component Viewer lần đầu
   gallery = new Viewer(chatBody);
 }
 
@@ -142,14 +158,20 @@ if (button) {
 if (input) {
   input.addEventListener('input', () => {
     if (!isTyping) {
-      socket.emit('CLIENT_SEND_TYPING', 'show');
+      socket.emit('CLIENT_SEND_TYPING', {
+        type: 'show',
+        roomChatId: roomChatId || 'community'
+      });
       isTyping = true;
     }
 
     clearTimeout(typingTimeout);
 
     typingTimeout = setTimeout(() => {
-      socket.emit('CLIENT_SEND_TYPING', 'hide');
+      socket.emit('CLIENT_SEND_TYPING', {
+        type: 'hide',
+        roomChatId: roomChatId || 'community'
+      });
       isTyping = false;
     }, 1000);
   });
@@ -196,4 +218,3 @@ if (buttonImage) {
     customFileContainer.classList.toggle('show');
   });
 }
-

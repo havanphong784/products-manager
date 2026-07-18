@@ -18,6 +18,11 @@ else if status === 'received_request'
     button-refuse-friend=userId
   ) Từ chối
 else if status === 'friend'
+  if roomChatId
+    a(
+      class="btn btn-sm btn-primary mr-1"
+      href=`/chat/${roomChatId}`
+    ) Nhắn tin
   button(
     class="btn btn-sm btn-info"
     disabled

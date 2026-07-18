@@ -1,5 +1,12 @@
 const User = require('../../models/user.model')
 
+const mapUsersWithId = (users) => {
+  return users.map(u => ({
+    ...u,
+    id: u._id.toString()
+  }));
+};
+
 // [GET] /users/not-friend
 module.exports.notFriend = async (req, res) => {
   const userId = res.locals.user.id;
@@ -16,11 +23,11 @@ module.exports.notFriend = async (req, res) => {
     ],
     status: "active",
     deleted: false
-  }).select("avatar fullName");
+  }).select("avatar fullName").lean();
 
   res.render('client/pages/users/not-friend', {
     pageTitle: 'Danh sách người dùng',
-    users: users
+    users: mapUsersWithId(users)
   });
 }
 
@@ -32,27 +39,40 @@ module.exports.request = async (req, res) => {
     _id: {$in: requestFriends},
     status: "active",
     deleted: false
-  }).select("avatar fullName");
+  }).select("avatar fullName").lean();
 
   res.render('client/pages/users/request', {
     pageTitle: 'Lời mời đã gửi',
-    users: users
+    users: mapUsersWithId(users)
   });
 }
 
 // [GET] /users/friend
 module.exports.friends = async (req, res) => {
-  const friendsList = res.locals.user.friends ? res.locals.user.friends.map(f => f.userId) : [];
+  const friendsList = res.locals.user.friends ? res.locals.user.friends : [];
+  const friendIds = friendsList.map(f => f.userId);
 
   const users = await User.find({
-    _id: {$in: friendsList},
+    _id: {$in: friendIds},
     status: "active",
     deleted: false
-  }).select("avatar fullName lastOnline");
+  }).select("avatar fullName lastOnline").lean();
+
+  const usersWithRoom = users.map(u => {
+    const friendEntry = friendsList.find(f => f.userId === u._id.toString());
+    return {
+      id: u._id.toString(),
+      _id: u._id.toString(),
+      avatar: u.avatar,
+      fullName: u.fullName,
+      lastOnline: u.lastOnline,
+      roomChatId: friendEntry ? friendEntry.roomChatId : null
+    };
+  });
 
   res.render('client/pages/users/friends', {
     pageTitle: 'Danh sách bạn bè',
-    users: users
+    users: usersWithRoom
   });
 }
 
@@ -64,10 +84,10 @@ module.exports.accept = async (req, res) => {
     _id: {$in: acceptFriends},
     status: "active",
     deleted: false
-  }).select("avatar fullName");
+  }).select("avatar fullName").lean();
 
   res.render('client/pages/users/accept', {
     pageTitle: 'Lời mời kết bạn',
-    users: users
+    users: mapUsersWithId(users)
   });
 }

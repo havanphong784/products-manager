@@ -1012,10 +1012,10 @@ body {
 }
 
 @keyframes typingDots {
-    0%, 80%, 100% { 
+    0%, 80%, 100% {
         transform: scale(0);
-    } 
-    40% { 
+    }
+    40% {
         transform: scale(1.0);
     }
 }
@@ -1044,11 +1044,11 @@ body {
 }
 
 /* Show/hide custom file container */
-.chat-container .custom-file-container {
+.custom-file-container {
     display: none;
 }
 
-.chat-container .custom-file-container.show {
+.custom-file-container.show {
     display: block;
 }
 
@@ -1190,17 +1190,144 @@ body {
 }
 
 /* Online Status Indicator */
-.inner-avatar { position: relative; }
+.inner-avatar {
+    position: relative;
+}
+
 .status-indicator {
-    width: 14px; height: 14px;
+    width: 14px;
+    height: 14px;
     border-radius: 50%;
     border: 2px solid white;
     position: absolute;
-    bottom: 4px; right: 4px;
+    bottom: 4px;
+    right: 4px;
     z-index: 10;
     display: none;
 }
-.status-indicator.online  { 
-    background: #22c55e; 
+
+.status-indicator.online {
+    background: #22c55e;
     display: block;
+}
+
+/* Chat Room Header */
+.chat-room-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.chat-room-avatar {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.chat-room-avatar img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #f1f5f9;
+}
+
+.chat-room-avatar .status-indicator {
+    bottom: 0;
+    right: 0;
+}
+
+.chat-room-info {
+    flex: 1;
+}
+
+.chat-room-name {
+    font-weight: 700;
+    font-size: 17px;
+    color: #0f172a;
+}
+
+.chat-room-status {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* Chat Friends List (index page) */
+.chat-friends-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.chat-friend-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.25s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.chat-friend-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+    border-color: rgba(37, 99, 235, 0.2);
+    text-decoration: none;
+    color: inherit;
+}
+
+.chat-friend-avatar {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.chat-friend-avatar img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #f1f5f9;
+}
+
+.chat-friend-avatar .status-indicator {
+    bottom: 2px;
+    right: 2px;
+}
+
+.chat-friend-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.chat-friend-name {
+    font-weight: 700;
+    font-size: 15px;
+    color: #0f172a;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.chat-friend-status {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.chat-friend-action {
+    flex-shrink: 0;
+}
+
+.chat-friend-action .btn {
+    border-radius: 8px;
+    font-weight: 600;
 }
