@@ -8,6 +8,14 @@ if friend.roomChatId
             span.status-indicator.offline
         .chat-friend-info
             .chat-friend-name #{friend.fullName}
+            if friend.latestMessage
+                .chat-friend-latest-message.text-truncate(style="font-size: 13px; color: #6c757d; max-width: 200px;")
+                    if friend.latestMessage.userId === user.id
+                        span Bạn: 
+                    if friend.latestMessage.content
+                        | #{friend.latestMessage.content}
+                    else if friend.latestMessage.images && friend.latestMessage.images.length > 0
+                        | Đã gửi #{friend.latestMessage.images.length} ảnh
             .chat-friend-status.inner-status.text-muted(data-last-online=(friend.lastOnline ? friend.lastOnline.toISOString() : "")) 
         .chat-friend-action
             span.btn.btn-sm.btn-primary Nhắn tin

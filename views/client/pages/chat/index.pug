@@ -26,3 +26,33 @@ block script
     script(src="/socket.io/socket.io.js")
     script(src="/client/js/socket.js")
     script(src="/client/js/users.js")
+    script.
+        const myUserId = "#{user.id}";
+        socket.on('SERVER_RETURN_MESSAGE', (data) => {
+            const friendCard = document.querySelector(`.chat-friend-item[href="/chat/${data.roomChatId}"]`);
+            if (friendCard) {
+                let latestMessageDiv = friendCard.querySelector('.chat-friend-latest-message');
+                if (!latestMessageDiv) {
+                    latestMessageDiv = document.createElement('div');
+                    latestMessageDiv.classList.add('chat-friend-latest-message', 'text-truncate');
+                    latestMessageDiv.style.cssText = "font-size: 13px; color: #6c757d; max-width: 200px;";
+                    
+                    const infoDiv = friendCard.querySelector('.chat-friend-info');
+                    const statusDiv = friendCard.querySelector('.chat-friend-status');
+                    infoDiv.insertBefore(latestMessageDiv, statusDiv);
+                }
+                
+                let text = "";
+                if (data.userId === myUserId) {
+                    text += "<span>Bạn: </span>";
+                }
+                
+                if (data.content) {
+                    text += data.content;
+                } else if (data.images && data.images.length > 0) {
+                    text += `Đã gửi ${data.images.length} ảnh`;
+                }
+                
+                latestMessageDiv.innerHTML = text;
+            }
+        });

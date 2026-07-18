@@ -15,6 +15,12 @@ const roomChatSchema = new mongoose.Schema(
       default: false
     },
     deletedAt: Date,
+    lastMessage: {
+      userId: String,
+      content: String,
+      images: Array,
+      createdAt: { type: Date, default: Date.now }
+    }
   }, {timestamps: true}
 );
 

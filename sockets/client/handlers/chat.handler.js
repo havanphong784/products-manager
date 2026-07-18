@@ -26,11 +26,26 @@ module.exports = (io, socket) => {
     });
     await chat.save();
 
+    if (roomChatId !== 'community') {
+      await RoomChat.updateOne(
+        { _id: roomChatId },
+        {
+          lastMessage: {
+            userId: socket.user.id,
+            content: data.content,
+            images: data.images,
+            createdAt: new Date()
+          }
+        }
+      );
+    }
+
     const messageData = {
       userId: socket.user.id,
       fullName: socket.user.fullName,
       content: data.content,
-      images: data.images
+      images: data.images,
+      roomChatId: roomChatId
     };
 
     if (roomChatId !== 'community') {

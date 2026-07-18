@@ -35,7 +35,8 @@ module.exports.index = async (req, res) => {
         fullName: friendInfo.fullName,
         avatar: friendInfo.avatar,
         lastOnline: friendInfo.lastOnline,
-        roomChatId: roomChat._id
+        roomChatId: roomChat._id,
+        latestMessage: roomChat.lastMessage
       });
     }
   }
