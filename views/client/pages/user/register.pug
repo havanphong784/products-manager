@@ -4,19 +4,46 @@ include ../../mixins/alert
 block main
   +alert-error(5000)
   +alert-success(5000)
-  .container.my-5
-    .row.justify-content-center
-      .col-8
-        h1.text-center Đăng ký tài khoản
-        form(action="/user/register" method="POST")
-          .form-group
-            label(for="fullName") Họ và tên
-            input(type="text" class="form-control" id="fullName" name="fullName" required)
-          .form-group
-            label(for="email") Email
-            input(type="email" class="form-control" id="email" name="email" required)
-          .form-group
-            label(for="password") Mật khẩu
-            input(type="password" class="form-control" id="password" name="password" required)
-          .form-group
-            button(type="submit" class="btn btn-primary btn-block") Đăng ký
+
+  .auth-page.py-5
+    .container
+      .row.justify-content-center
+        .col-lg-5.col-md-7
+          .auth-card.bg-white.p-4.p-md-5.rounded-lg.shadow-sm
+            .text-center.mb-4
+              i.fa-solid.fa-user-plus.text-primary.fa-3x.mb-3
+              h3.font-weight-bold.text-dark Đăng ký tài khoản
+              p.text-muted.small Tạo tài khoản để nhận nhiều ưu đãi độc quyền
+
+            form(action="/user/register", method="POST")
+              .form-group.mb-3
+                label.font-weight-semibold(for="fullName") Họ và tên
+                .input-group
+                  .input-group-prepend
+                    span.input-group-text.bg-light
+                      i.fa-solid.fa-user
+                  input.form-control(type="text", id="fullName", name="fullName", placeholder="Nguyễn Văn A", required)
+
+              .form-group.mb-3
+                label.font-weight-semibold(for="email") Email
+                .input-group
+                  .input-group-prepend
+                    span.input-group-text.bg-light
+                      i.fa-solid.fa-envelope
+                  input.form-control(type="email", id="email", name="email", placeholder="nhapemail@example.com", required)
+
+              .form-group.mb-4
+                label.font-weight-semibold(for="password") Mật khẩu
+                .input-group
+                  .input-group-prepend
+                    span.input-group-text.bg-light
+                      i.fa-solid.fa-lock
+                  input.form-control(type="password", id="password", name="password", placeholder="••••••••", required)
+
+              button.btn.btn-primary.btn-block.btn-lg.rounded-pill(type="submit")
+                i.fa-solid.fa-user-check.mr-2
+                | Tạo tài khoản
+
+            .text-center.mt-4.pt-3.border-top
+              span.text-muted.small Đã có tài khoản? 
+              a.text-primary.font-weight-bold.small.ml-1(href="/user/login") Đăng nhập ngay

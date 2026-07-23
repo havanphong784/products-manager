@@ -1,13 +1,38 @@
 mixin product-item(product)
-    a(href=`/product/detail/${product.slug}`).product-item
-        .inner-image
-            img(src=product.thumbnail, alt=product.title)
-            if product.discountPercentage
-                .inner-discount -#{product.discountPercentage}%
-        .inner-content
-            h3.inner-title #{product.title}
-            p.inner-description !{product.description}
-        .inner-price-group
-            span.inner-price-new #{product.newPrice}$
-            if product.discountPercentage
-                span.inner-price-old #{product.price}$
+    .product-card-wrapper
+        .product-item
+            .inner-image
+                a(href=`/product/detail/${product.slug}`)
+                    img(src=product.thumbnail, alt=product.title, loading="lazy")
+                if product.discountPercentage
+                    .inner-discount
+                        i.fa-solid.fa-bolt.mr-1
+                        | -#{product.discountPercentage}%
+                .inner-quick-actions
+                    a.btn-quick-view(href=`/product/detail/${product.slug}`, title="Xem chi tiết")
+                        i.fa-solid.fa-eye
+            .inner-content
+                if product.categoryTitle || (product.category && product.category.title)
+                    .inner-category #{product.categoryTitle || product.category.title}
+                h3.inner-title
+                    a(href=`/product/detail/${product.slug}`) #{product.title}
+                
+                .inner-rating
+                    .stars
+                        i.fa-solid.fa-star
+                        i.fa-solid.fa-star
+                        i.fa-solid.fa-star
+                        i.fa-solid.fa-star
+                        i.fa-solid.fa-star-half-stroke
+                    span.rating-count (4.8)
+
+                .inner-price-group
+                    .price-box
+                        span.inner-price-new #{product.priceNew || product.newPrice || product.price}$
+                        if product.discountPercentage && product.price
+                            span.inner-price-old #{product.price}$
+                    
+                    form(action=`/cart/add/${product.id}`, method="POST", class="d-inline-block")
+                        input(type="hidden", name="quantity", value="1")
+                        button.btn-add-cart(type="submit", title="Thêm vào giỏ hàng")
+                            i.fa-solid.fa-cart-plus

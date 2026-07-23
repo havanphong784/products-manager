@@ -2,72 +2,117 @@ extends ../../layouts/default.pug
 include ../../mixins/alert
 
 block main
-    +alert-error(2000)
-    +alert-success(2000)
-    .container-fluid.px-4.py-4
-        .row.justify-content-center
-            .col-xl-8.col-lg-10
-                // Header
-                .d-flex.align-items-center.justify-content-between.mb-4
-                    div
-                        h1.h3.font-weight-extrabold.text-dark.mb-1 #{pageTitle}
-                        p.text-muted.small.mb-0 Xem chi tiết thông tin sản phẩm
-                    a.btn-back(href="/product")
-                        span.mr-1 &larr;
-                        | Quay lại danh sách
+    +alert-error(3000)
+    +alert-success(3000)
+    
+    .product-detail-page.py-5
+        .container
+            // Breadcrumb navigation
+            nav.breadcrumb-nav.mb-4(aria-label="breadcrumb")
+                ol.breadcrumb.bg-transparent.p-0
+                    li.breadcrumb-item
+                        a(href="/") Trang chủ
+                    li.breadcrumb-item
+                        a(href="/product") Sản phẩm
+                    if product.category && product.category.title
+                        li.breadcrumb-item
+                            a(href=`/product/${product.category.slug}`) #{product.category.title}
+                    li.breadcrumb-item.active(aria-current="page") #{product.title}
 
-                // Detail Card
-                .admin-card.p-4
-                    if (product.title)
-                        h2.mb-4.font-weight-bold.text-primary #{product.title}
-
-                    .row.mb-4
-                        .col-md-6
-                            if (product.category && product.category.title)
-                                .mb-3
-                                    a(href=`/product/${product.category.slug}`)
-                                        span.text-muted.mr-2 Danh mục:
-                                        span.font-weight-bold #{product.category.title}
-                            if (product.price)
-                                .mb-3
-                                    span.text-muted.mr-2 Giá gốc:
-                                    span.font-weight-bold.text-danger(style="font-size: 1.2rem;") #{product.price}$
-                            if (product.newPrice)
-                                .mb-3
-                                    span.text-muted.mr-2 Giá mới:
-                                    span.font-weight-bold.text-success(style="font-size: 1.2rem;") #{product.newPrice}$
-                            if (product.discountPercentage)
-                                .mb-3
-                                    span.text-muted.mr-2 Giảm giá:
-                                    span.badge.badge-danger -#{product.discountPercentage}%
-                            if (product.stock)
-                                .mb-3
-                                    span.text-muted.mr-2 Số lượng còn lại:
-                                    span.font-weight-bold #{product.stock}
-                            form(
-                                action=`/cart/add/${product.id}`
-                                method="POST"
-                            )
-                                input(
-                                    type="number"
-                                    name="quantity"
-                                    value="1"
-                                    min="1"
-                                    max=product.stock
-                                )
-                                button(type="submit") Thêm vào giỏ hàng
-
-
-
-                        .col-md-6.text-center
-                            if (product.thumbnail)
-                                img.img-fluid.rounded.shadow-sm(
-                                    src=product.thumbnail
+            .product-detail-card.p-4.p-md-5.bg-white.rounded-lg.shadow-sm
+                .row.g-4
+                    // Left Column: Product Image Gallery
+                    .col-lg-6.mb-4.mb-lg-0
+                        .product-image-container.position-relative.text-center.p-3
+                            if product.discountPercentage
+                                .product-detail-discount
+                                    i.fa-solid.fa-bolt.mr-1
+                                    | Giảm #{product.discountPercentage}%
+                            if product.thumbnail
+                                img.img-fluid.product-main-img.rounded(
+                                    src=product.thumbnail,
                                     alt=product.title
-                                    style="max-height: 250px;"
                                 )
+                            else
+                                .placeholder-img
+                                    i.fa-solid.fa-image.fa-4x.text-muted
 
-                    if (product.description)
-                        .mt-4.pt-4.border-top
-                            h5.font-weight-bold.mb-3 Mô tả chi tiết:
-                            .text-muted !{product.description}
+                    // Right Column: Product Metadata & Actions
+                    .col-lg-6
+                        .product-info-wrapper
+                            if product.category && product.category.title
+                                span.badge.badge-light.text-primary.px-3.py-2.rounded-pill.mb-3.border
+                                    i.fa-solid.fa-tag.mr-1
+                                    | #{product.category.title}
+                            
+                            h1.product-title.h2.font-weight-bold.text-dark.mb-3 #{product.title}
+                            
+                            .product-rating.d-flex.align-items-center.mb-3
+                                .stars.text-warning.mr-2
+                                    i.fa-solid.fa-star
+                                    i.fa-solid.fa-star
+                                    i.fa-solid.fa-star
+                                    i.fa-solid.fa-star
+                                    i.fa-solid.fa-star-half-stroke
+                                span.text-muted.small 4.9 (128 đánh giá)
+
+                            // Price Section
+                            .price-container.p-3.rounded.mb-4
+                                .d-flex.align-items-baseline.gap-3
+                                    span.price-current.h2.font-weight-bold.text-danger.mb-0 #{product.newPrice || product.priceNew || product.price}$
+                                    if product.discountPercentage && product.price
+                                        span.price-original.text-muted.text-decoration-line-through.h5.mb-0 #{product.price}$
+                                        span.price-save.badge.badge-success.ml-2 Tiết kiệm #{(product.price - (product.newPrice || product.priceNew)).toFixed(2)}$
+
+                            // Stock status
+                            .stock-status.mb-4
+                                if product.stock > 0
+                                    span.badge.badge-soft-success.px-3.py-2
+                                        i.fa-solid.fa-check-circle.mr-1
+                                        | Còn hàng (#{product.stock} sản phẩm sẵn có)
+                                else
+                                    span.badge.badge-soft-danger.px-3.py-2
+                                        i.fa-solid.fa-circle-xmark.mr-1
+                                        | Tạm hết hàng
+
+                            // Form Add to Cart
+                            if product.stock > 0
+                                form(action=`/cart/add/${product.id}`, method="POST", class="add-to-cart-form mb-4")
+                                    .form-group.mb-4
+                                        label.font-weight-bold.d-block.mb-2 Số lượng mua:
+                                        .quantity-picker.d-flex.align-items-center
+                                            button.btn.btn-outline-secondary.btn-qty-minus(type="button") -
+                                            input.form-control.quantity-input.text-center.mx-2(
+                                                type="number",
+                                                name="quantity",
+                                                value="1",
+                                                min="1",
+                                                max=product.stock
+                                            )
+                                            button.btn.btn-outline-secondary.btn-qty-plus(type="button") +
+
+                                    .d-flex.flex-wrap.gap-3
+                                        button.btn.btn-primary.btn-lg.btn-add-to-cart.flex-grow-1(type="submit")
+                                            i.fa-solid.fa-cart-plus.mr-2
+                                            | Thêm vào giỏ hàng
+
+                            // Policy icons
+                            .product-guarantees.border-top.pt-4.mt-4
+                                .row
+                                    .col-4.text-center
+                                        i.fa-solid.fa-truck-fast.text-primary.fa-lg.mb-2.d-block
+                                        span.small.d-block.text-muted Giao hàng tận nơi
+                                    .col-4.text-center
+                                        i.fa-solid.fa-shield-heart.text-primary.fa-lg.mb-2.d-block
+                                        span.small.d-block.text-muted Bảo hành uy tín
+                                    .col-4.text-center
+                                        i.fa-solid.fa-rotate-left.text-primary.fa-lg.mb-2.d-block
+                                        span.small.d-block.text-muted Đổi trả 7 ngày
+
+                // Product Description Tab/Card
+                if product.description
+                    .product-description-section.mt-5.pt-4.border-top
+                        h4.font-weight-bold.mb-3
+                            i.fa-solid.fa-file-lines.mr-2.text-primary
+                            | Mô tả chi tiết sản phẩm
+                        .description-content.text-secondary !{product.description}

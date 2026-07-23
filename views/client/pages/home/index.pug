@@ -4,13 +4,67 @@ include ../../mixins/sub-menu.pug
 include ../../mixins/product-layout
 
 block main
-    .container.my-5
-        .row.mb-4
+    // Hero Banner Section
+    .hero-banner.mb-5
+        .container
+            .row.align-items-center.py-5
+                .col-lg-6.mb-4.mb-lg-0
+                    span.hero-badge.badge.badge-pill.badge-primary.px-3.py-2.mb-3
+                        i.fa-solid.fa-sparkles.mr-1
+                        | Khuyến Mãi Đặc Biệt Mùa Hè
+                    h1.hero-title Trải Nghiệm Mua Sắm Đỉnh Cao & Đột Phá
+                    p.hero-subtitle Khám phá bộ sưu tập sản phẩm mới nhất với chất lượng tuyệt hảo, thiết kế hiện đại cùng ưu đãi giảm giá lên đến 50%.
+                    .hero-actions.d-flex.flex-wrap.gap-3.mt-4
+                        a.btn.btn-hero-primary(href="/product")
+                            i.fa-solid.fa-bag-shopping.mr-2
+                            | Mua sắm ngay
+                        a.btn.btn-hero-outline(href="#featured-section")
+                            i.fa-solid.fa-fire.mr-2
+                            | Xem sản phẩm nổi bật
+                .col-lg-6
+                    .hero-image-wrapper.position-relative
+                        .hero-glow-bg
+                        img.img-fluid.hero-img(src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&auto=format&fit=crop&q=80", alt="Hero Shopping")
+
+    // Features Highlight Section
+    .features-section.mb-5
+        .container
+            .row
+                .col-md-3.col-6.mb-3.mb-md-0
+                    .feature-box.text-center.p-3
+                        .feature-icon.mb-2
+                            i.fa-solid.fa-truck-fast
+                        h6.feature-title Giao Hàng Siêu Tốc
+                        p.feature-desc Miễn phí vận chuyển toàn quốc
+                .col-md-3.col-6.mb-3.mb-md-0
+                    .feature-box.text-center.p-3
+                        .feature-icon.mb-2
+                            i.fa-solid.fa-shield-halved
+                        h6.feature-title Cam Kết Chính Hãng
+                        p.feature-desc 100% sản phẩm đạt chuẩn
+                .col-md-3.col-6
+                    .feature-box.text-center.p-3
+                        .feature-icon.mb-2
+                            i.fa-solid.fa-arrows-rotate
+                        h6.feature-title 7 Ngày Đổi Trả
+                        p.feature-desc Dễ dàng & linh hoạt
+                .col-md-3.col-6
+                    .feature-box.text-center.p-3
+                        .feature-icon.mb-2
+                            i.fa-solid.fa-headset
+                        h6.feature-title Hỗ Trợ 24/7
+                        p.feature-desc Chăm sóc khách hàng tận tâm
+
+    // Featured Products
+    .container.my-5#featured-section
+        .row
             .col-12
-                +box-head('Sản phẩm nổi bậc')
+                +box-head('Sản Phẩm Nổi Bật')
         +product-grid(productFeatured)
+
+    // New Products
     .container.my-5
-        .row.mb-4
+        .row
             .col-12
-                +box-head('Sản phẩm mới nhất')
+                +box-head('Sản Phẩm Mới Nhất')
         +product-grid(productsNew)

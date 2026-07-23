@@ -4,18 +4,41 @@ include ../../mixins/alert
 block main
   +alert-error(5000)
   +alert-success(5000)
-  .container.my-5
-    .row.justify-content-center
-      .col-8
-        h1.text-center Đăng nhập tài khoản
-        form(action="/user/login" method="POST")
-          .form-group
-            label(for="email") Email
-            input(type="email" class="form-control" id="email" name="email" required)
-          .form-group
-            label(for="password") Mật khẩu
-            input(type="password" class="form-control" id="password" name="password" required)
-          .form-group
-            a(href="/user/password/forgot") Quên mật khẩu
-          .form-group
-            button(type="submit" class="btn btn-primary btn-block") Đăng nhập
+  
+  .auth-page.py-5
+    .container
+      .row.justify-content-center
+        .col-lg-5.col-md-7
+          .auth-card.bg-white.p-4.p-md-5.rounded-lg.shadow-sm
+            .text-center.mb-4
+              i.fa-solid.fa-circle-user.text-primary.fa-3x.mb-3
+              h3.font-weight-bold.text-dark Đăng nhập tài khoản
+              p.text-muted.small Chào mừng bạn quay trở lại Store
+
+            form(action="/user/login", method="POST")
+              .form-group.mb-3
+                label.font-weight-semibold(for="email") Email
+                .input-group
+                  .input-group-prepend
+                    span.input-group-text.bg-light
+                      i.fa-solid.fa-envelope
+                  input.form-control(type="email", id="email", name="email", placeholder="nhapemail@example.com", required)
+
+              .form-group.mb-3
+                label.font-weight-semibold(for="password") Mật khẩu
+                .input-group
+                  .input-group-prepend
+                    span.input-group-text.bg-light
+                      i.fa-solid.fa-lock
+                  input.form-control(type="password", id="password", name="password", placeholder="••••••••", required)
+
+              .d-flex.justify-content-end.mb-4
+                a.small.text-primary.font-weight-semibold(href="/user/password/forgot") Quên mật khẩu?
+
+              button.btn.btn-primary.btn-block.btn-lg.rounded-pill(type="submit")
+                i.fa-solid.fa-right-to-bracket.mr-2
+                | Đăng nhập
+
+            .text-center.mt-4.pt-3.border-top
+              span.text-muted.small Chửa có tài khoản? 
+              a.text-primary.font-weight-bold.small.ml-1(href="/user/register") Đăng ký ngay

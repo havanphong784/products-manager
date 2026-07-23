@@ -31,3 +31,26 @@ if (userMenuButtons.length > 0) {
     }
   });
 }
+
+// Product Detail Quantity Picker
+const qtyMinus = document.querySelector(".btn-qty-minus");
+const qtyPlus = document.querySelector(".btn-qty-plus");
+const qtyInput = document.querySelector(".quantity-input");
+
+if (qtyMinus && qtyPlus && qtyInput) {
+  qtyMinus.addEventListener("click", () => {
+    let current = parseInt(qtyInput.value) || 1;
+    const min = parseInt(qtyInput.getAttribute("min")) || 1;
+    if (current > min) {
+      qtyInput.value = current - 1;
+    }
+  });
+
+  qtyPlus.addEventListener("click", () => {
+    let current = parseInt(qtyInput.value) || 1;
+    const max = parseInt(qtyInput.getAttribute("max")) || 999;
+    if (current < max) {
+      qtyInput.value = current + 1;
+    }
+  });
+}

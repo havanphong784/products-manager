@@ -2,60 +2,69 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
 block main
-    .container.my-5
-        .row.mb-4
-            .col-12
-                +box-head(pageTitle)
+    .checkout-success-page.py-5
+        .container
+            if (order)
+                .row.justify-content-center.mb-5
+                    .col-lg-8.text-center
+                        .success-icon-wrapper.mb-3
+                            i.fa-solid.fa-circle-check.text-success.fa-5x
+                        h2.font-weight-bold.text-dark.mb-2 Đặt Hàng Thành Công!
+                        p.text-muted.mb-4 Cảm ơn bạn đã mua sắm tại cửa hàng. Mã đơn hàng của bạn là <strong class="text-primary font-weight-bold">##{order.id}</strong>.
 
-        if (order)
-            .success-banner
-                h3 Đặt hàng thành công
-                p
-                    | Mã đơn hàng của bạn là 
-                    b #{order.id}
+                .row.justify-content-center
+                    .col-lg-10
+                        .order-details-card.bg-white.p-4.p-md-5.rounded-lg.shadow-sm.mb-4
+                            h5.font-weight-bold.mb-4.pb-2.border-bottom
+                                i.fa-solid.fa-user-check.mr-2.text-primary
+                                | Thông tin nhận hàng
+                            .row.mb-4
+                                .col-md-4.mb-3.mb-md-0
+                                    span.text-muted.d-block.small Họ và tên:
+                                    strong.text-dark #{order.userInfo.fullName}
+                                .col-md-4.mb-3.mb-md-0
+                                    span.text-muted.d-block.small Số điện thoại:
+                                    strong.text-dark #{order.userInfo.phone}
+                                .col-md-4
+                                    span.text-muted.d-block.small Địa chỉ giao:
+                                    strong.text-dark #{order.userInfo.address}
 
-            .checkout-layout
-                .checkout-card
-                    h3.checkout-card-title Thông tin cá nhân
-                    dl.customer-info
-                        dt Họ tên
-                        dd #{order.userInfo.fullName}
-                        dt Số điện thoại
-                        dd #{order.userInfo.phone}
-                        dt Địa chỉ
-                        dd #{order.userInfo.address}
+                            h5.font-weight-bold.mb-3.pt-3.border-top
+                                i.fa-solid.fa-receipt.mr-2.text-primary
+                                | Chi tiết hóa đơn
+                            .table-responsive.mb-4
+                                table.table.cart-table.align-middle.mb-0
+                                    thead.bg-light
+                                        tr
+                                            th.text-center #
+                                            th Ảnh
+                                            th Tên sản phẩm
+                                            th Giá
+                                            th.text-center Số lượng
+                                            th.text-right Thành tiền
+                                    tbody
+                                        each item, index in order.products
+                                            tr
+                                                td.text-center.font-weight-bold.text-muted #{index + 1}
+                                                td
+                                                    img.img-fluid.rounded(src=item.productInfo.thumbnail, alt=item.productInfo.title, style="width: 50px; height: 50px; object-fit: cover;")
+                                                td
+                                                    a.product-title-link.font-weight-bold.text-dark(href=`/product/detail/${item.productInfo.slug}`) #{item.productInfo.title}
+                                                td.font-weight-bold.text-primary #{item.priceNew}$
+                                                td.text-center.font-weight-bold #{item.quantity}
+                                                td.text-right.font-weight-bold.text-danger #{(item.totalPrice).toFixed(2)}$
 
-                .checkout-card.order-summary.w-100.mt-4
-                    h3.checkout-card-title Thông tin đơn hàng
-                    .table-responsive.shadow-sm.rounded
-                        table.table.table-hover.cart-table.align-middle.mb-0
-                            thead.table-light
-                                tr
-                                    th.text-center STT
-                                    th Ảnh
-                                    th Tên sản phẩm
-                                    th Giá
-                                    th.text-center Số lượng
-                                    th Tổng tiền
-                            tbody
-                                each item, index in order.products
-                                    tr
-                                        td.text-center #{index +1}
-                                        td
-                                            img(src=item.productInfo.thumbnail alt=item.productInfo.title width="80px" class="img-thumbnail rounded")
-                                        td
-                                            a.product-title-link(href=`/products/detail/${item.productInfo.slug}`) #{item.productInfo.title}
-                                        td.fw-bold.text-danger #{item.priceNew}$
-                                        td.text-center #{item.quantity}
-                                        td.fw-bold #{(item.totalPrice).toFixed(2)}$
-                    .cart-summary.mt-4.p-4.bg-light.rounded.shadow-sm.text-end
-                        h4.mb-3 Tổng đơn hàng: 
-                            span.text-danger.fw-bold #{order.totalPrice ? order.totalPrice.toFixed(2) : 0}$
-            .text-center.mt-4
-                a.btn.btn-checkout(href="/product") Tiếp tục mua sắm
-        else
-            .empty-state
-                .empty-state-icon !
-                h3 Không tìm thấy đơn hàng
-                p Đơn hàng này không tồn tại hoặc đã bị xoá.
-                a.btn-empty-state(href="/product") Tiếp tục mua sắm
+                            .d-flex.justify-content-between.align-items-center.p-3.bg-light.rounded
+                                span.h6.font-weight-bold.mb-0 Tổng thanh toán:
+                                span.h4.font-weight-bold.text-danger.mb-0 #{order.totalPrice ? order.totalPrice.toFixed(2) : 0}$
+
+                        .text-center
+                            a.btn.btn-primary.btn-lg.rounded-pill.px-5(href="/product")
+                                i.fa-solid.fa-bag-shopping.mr-2
+                                | Tiếp tục mua sắm
+            else
+                .empty-state.text-center.py-5.bg-white.rounded-lg.shadow-sm
+                    i.fa-solid.fa-circle-exclamation.text-warning.fa-4x.mb-3
+                    h3.font-weight-bold Không tìm thấy đơn hàng
+                    p.text-muted Đơn hàng này không tồn tại hoặc đã bị xóa.
+                    a.btn.btn-primary.mt-3.rounded-pill.px-4(href="/product") Quay lại trang sản phẩm

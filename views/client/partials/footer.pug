@@ -1,38 +1,97 @@
 footer.footer
     .container
-        .footer-grid
-            .footer-col
-                .footer-brand
-                    if settingGeneral && settingGeneral.logo
-                        img(src=settingGeneral.logo alt=(settingGeneral.websiteName ? settingGeneral.websiteName : "Store") style="max-height: 40px; margin-bottom: 10px;")
-                    else
-                        span.logo-text #{settingGeneral && settingGeneral.websiteName ? settingGeneral.websiteName : "Store"}
-                        span.logo-dot .
-                p.footer-desc Trải nghiệm mua sắm trực tuyến tuyệt vời với hàng ngàn sản phẩm chất lượng cao và dịch vụ chăm sóc khách hàng hàng đầu.
-                if settingGeneral
-                    ul.footer-contact(style="list-style: none; padding: 0; margin-top: 15px; color: var(--text-color); font-size: 14px;")
-                        if settingGeneral.address
-                            li(style="margin-bottom: 8px;") 📍 #{settingGeneral.address}
-                        if settingGeneral.phone
-                            li(style="margin-bottom: 8px;") 📞 #{settingGeneral.phone}
-                        if settingGeneral.email
-                            li(style="margin-bottom: 8px;") ✉️ #{settingGeneral.email}
-                h4.footer-title Khám phá
-                ul.footer-links
-                    li
-                        a(href='/') Trang chủ
-                    li
-                        a(href='/product') Sản phẩm
-                    li
-                        a(href='#') Khuyến mãi
-            .footer-col
-                h4.footer-title Hỗ trợ
-                ul.footer-links
-                    li
-                        a(href='#') Điều khoản
-                    li
-                        a(href='#') Bảo mật
-                    li
-                        a(href='#') Liên hệ
-        .footer-bottom
-            p #{settingGeneral && settingGeneral.copyright ? settingGeneral.copyright : '© 2026 Store. All rights reserved.'} Designed by Phong Ha.
+        .footer-top.py-5
+            .row
+                .col-lg-4.col-md-6.mb-4.mb-lg-0
+                    .footer-brand.mb-3
+                        if settingGeneral && settingGeneral.logo
+                            img(src=settingGeneral.logo alt=(settingGeneral.websiteName ? settingGeneral.websiteName : "Store"), style="max-height: 45px;")
+                        else
+                            span.logo-text #{settingGeneral && settingGeneral.websiteName ? settingGeneral.websiteName : "Store"}
+                            span.logo-dot .
+                    p.footer-desc Trải nghiệm mua sắm trực tuyến tuyệt vời với hàng ngàn sản phẩm chất lượng cao, giá cả cạnh tranh và dịch vụ hỗ trợ tận tâm.
+                    
+                    if settingGeneral
+                        ul.footer-contact-info.list-unstyled.mt-3
+                            if settingGeneral.address
+                                li.mb-2
+                                    i.fa-solid.fa-location-dot.mr-2.text-primary
+                                    span #{settingGeneral.address}
+                            if settingGeneral.phone
+                                li.mb-2
+                                    i.fa-solid.fa-phone.mr-2.text-primary
+                                    span #{settingGeneral.phone}
+                            if settingGeneral.email
+                                li.mb-2
+                                    i.fa-solid.fa-envelope.mr-2.text-primary
+                                    span #{settingGeneral.email}
+
+                .col-lg-2.col-md-6.mb-4.mb-lg-0
+                    h5.footer-heading.mb-3 Khám phá
+                    ul.footer-links.list-unstyled
+                        li.mb-2
+                            a(href='/')
+                                i.fa-solid.fa-angle-right.mr-1
+                                | Trang chủ
+                        li.mb-2
+                            a(href='/product')
+                                i.fa-solid.fa-angle-right.mr-1
+                                | Sản phẩm
+                        li.mb-2
+                            a(href='/cart')
+                                i.fa-solid.fa-angle-right.mr-1
+                                | Giỏ hàng
+                        li.mb-2
+                            a(href='/user/login')
+                                i.fa-solid.fa-angle-right.mr-1
+                                | Đăng nhập
+
+                .col-lg-3.col-md-6.mb-4.mb-lg-0
+                    h5.footer-heading.mb-3 Hỗ trợ khách hàng
+                    ul.footer-links.list-unstyled
+                        li.mb-2
+                            a(href='#')
+                                i.fa-solid.fa-angle-right.mr-1
+                                | Chính sách đổi trả
+                        li.mb-2
+                            a(href='#')
+                                i.fa-solid.fa-angle-right.mr-1
+                                | Điều khoản dịch vụ
+                        li.mb-2
+                            a(href='#')
+                                i.fa-solid.fa-angle-right.mr-1
+                                | Bảo mật thông tin
+                        li.mb-2
+                            a(href='#')
+                                i.fa-solid.fa-angle-right.mr-1
+                                | Hướng dẫn mua hàng
+
+                .col-lg-3.col-md-6
+                    h5.footer-heading.mb-3 Đăng ký nhận tin
+                    p.small.text-muted Nhận tin tức sản phẩm mới và ưu đãi đặc biệt mỗi tuần!
+                    form.newsletter-form.mt-3(action="#", method="POST", onsubmit="return false;")
+                        .input-group
+                            input.form-control(type="email", placeholder="Email của bạn...")
+                            .input-group-append
+                                button.btn.btn-primary(type="button")
+                                    i.fa-solid.fa-paper-plane
+                    
+                    .social-links.mt-4
+                        a.social-icon(href="#", title="Facebook")
+                            i.fa-brands.fa-facebook-f
+                        a.social-icon(href="#", title="Instagram")
+                            i.fa-brands.fa-instagram
+                        a.social-icon(href="#", title="Twitter")
+                            i.fa-brands.fa-x-twitter
+                        a.social-icon(href="#", title="Youtube")
+                            i.fa-brands.fa-youtube
+
+        .footer-bottom.py-3.border-top.d-flex.flex-column.flex-md-row.align-items-center.justify-content-between
+            p.copyright-text.mb-2.mb-md-0
+                | #{settingGeneral && settingGeneral.copyright ? settingGeneral.copyright : '© 2026 Store. All rights reserved.'} 
+                span.text-muted | Thiết kế bởi Phong Ha.
+            .payment-methods
+                i.fa-brands.fa-cc-visa.mr-2
+                i.fa-brands.fa-cc-mastercard.mr-2
+                i.fa-brands.fa-cc-paypal.mr-2
+                i.fa-brands.fa-apple-pay

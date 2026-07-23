@@ -4,50 +4,88 @@ include ../../mixins/product-layout
 include ../../mixins/alert
 
 block main
-    +alert-success(5000)
-    .container.my-5
-        .row.mb-4
-            .col-12
-                +box-head(pageTitle)
-        button( button-go-back ) Trở lại
-        .row
-            .col-12
-                if (cart.products && cart.products.length > 0)
-                    .table-responsive.shadow-sm.rounded
-                        table.table.table-hover.cart-table.align-middle.mb-0
-                            thead.table-light
-                                tr
-                                    th.text-center STT
-                                    th Ảnh
-                                    th Tên sản phẩm
-                                    th Giá
-                                    th.text-center Số lượng
-                                    th Tổng tiền
-                                    th.text-center Hành động
-                            tbody
-                                each item, index in cart.products
-                                    tr
-                                        td.text-center #{index +1}
-                                        td
-                                            img(src=item.productInfo.thumbnail alt=item.productInfo.title width="80px" class="img-thumbnail rounded")
-                                        td
-                                            a.product-title-link(href=`/products/detail/${item.productInfo.slug}`) #{item.productInfo.title}
-                                        td.fw-bold.text-danger #{item.productInfo.priceNew}$
-                                        td.text-center
-                                            input.form-control.cart-quantity-input.mx-auto(type="number" value=item.quantity name="quantity" productId=item.productId min="1" max=item.productInfo.stock)
-                                        td.fw-bold #{(item.productInfo.priceNew * item.quantity).toFixed(2)}$
-                                        td.text-center
-                                            a.btn.btn-sm.btn-outline-danger(href=`/cart/delete/${item.productId}`)
-                                                i.fas.fa-trash-alt
-                                                |  Xóa
-                    
-                    .cart-summary.mt-4.p-4.bg-light.rounded.shadow-sm.text-end
-                        h4.mb-3 Tổng đơn hàng: 
-                            span.text-danger.fw-bold #{cart.totalPrice ? cart.totalPrice.toFixed(2) : 0}$
-                        a.btn.btn-checkout.btn-lg(href="/checkout") TIẾN HÀNH THANH TOÁN
-                else
-                    .empty-cart-container.text-center.py-5
-                        img.mb-3(src="/images/empty-cart.png" alt="Empty Cart" width="150px")
-                        h4.text-muted Giỏ hàng của bạn đang trống!
-                        a.btn.btn-primary.mt-3(href="/product") Tiếp tục mua sắm
+    +alert-success(4000)
+    +alert-error(4000)
+    
+    .cart-page.py-5
+        .container
+            .row.mb-4
+                .col-12.d-flex.align-items-center.justify-content-between
+                    +box-head(pageTitle)
+                    a.btn.btn-outline-secondary.btn-sm.rounded-pill(href="/product")
+                        i.fa-solid.fa-arrow-left.mr-1
+                        | Tiếp tục mua sắm
+
+            if (cart.products && cart.products.length > 0)
+                .row
+                    .col-lg-8.mb-4.mb-lg-0
+                        .cart-table-card.bg-white.rounded-lg.shadow-sm.overflow-hidden
+                            .table-responsive
+                                table.table.cart-table.align-middle.mb-0
+                                    thead.bg-light
+                                        tr
+                                            th.text-center(style="width: 60px;") #
+                                            th(style="width: 100px;") Sản phẩm
+                                            th Thông tin
+                                            th Đơn giá
+                                            th.text-center(style="width: 140px;") Số lượng
+                                            th Thành tiền
+                                            th.text-center(style="width: 80px;") Xóa
+                                    tbody
+                                        each item, index in cart.products
+                                            tr
+                                                td.text-center.font-weight-bold.text-muted #{index + 1}
+                                                td
+                                                    a(href=`/product/detail/${item.productInfo.slug}`)
+                                                        img.img-fluid.rounded.cart-item-img(src=item.productInfo.thumbnail, alt=item.productInfo.title)
+                                                td
+                                                    a.product-title-link.font-weight-bold.text-dark(href=`/product/detail/${item.productInfo.slug}`) #{item.productInfo.title}
+                                                td.font-weight-bold.text-primary #{item.productInfo.priceNew}$
+                                                td.text-center
+                                                    input.form-control.cart-quantity-input.text-center.mx-auto(
+                                                        type="number",
+                                                        value=item.quantity,
+                                                        name="quantity",
+                                                        productId=item.productId,
+                                                        min="1",
+                                                        max=item.productInfo.stock
+                                                    )
+                                                td.font-weight-bold.text-danger #{(item.productInfo.priceNew * item.quantity).toFixed(2)}$
+                                                td.text-center
+                                                    a.btn.btn-sm.btn-outline-danger.btn-icon-round(href=`/cart/delete/${item.productId}`, title="Xóa khỏi giỏ")
+                                                        i.fa-solid.fa-trash-can
+
+                    .col-lg-4
+                        .order-summary-card.bg-white.p-4.rounded-lg.shadow-sm.sticky-top(style="top: 90px;")
+                            h5.font-weight-bold.mb-4
+                                i.fa-solid.fa-receipt.mr-2.text-primary
+                                | Tóm tắt đơn hàng
+                            
+                            .d-flex.justify-content-between.mb-3
+                                span.text-muted Tạm tính:
+                                span.font-weight-bold #{cart.totalPrice ? cart.totalPrice.toFixed(2) : 0}$
+                            
+                            .d-flex.justify-content-between.mb-3
+                                span.text-muted Vận chuyển:
+                                span.text-success.font-weight-bold Miễn phí
+                            
+                            hr.my-3
+                            
+                            .d-flex.justify-content-between.align-items-center.mb-4
+                                span.h6.font-weight-bold.mb-0 Tổng cộng:
+                                span.h4.font-weight-bold.text-danger.mb-0 #{cart.totalPrice ? cart.totalPrice.toFixed(2) : 0}$
+
+                            a.btn.btn-primary.btn-block.btn-lg.btn-checkout-submit(href="/checkout")
+                                | Tiến hành thanh toán
+                                i.fa-solid.fa-arrow-right.ml-2
+            else
+                .empty-cart-card.bg-white.p-5.text-center.rounded-lg.shadow-sm.my-4
+                    .empty-icon.mb-3.text-muted
+                        i.fa-solid.fa-cart-flatbed.fa-4x
+                    h4.font-weight-bold.mb-2 Giỏ hàng của bạn đang trống!
+                    p.text-muted.mb-4 Hãy tham khảo hàng ngàn sản phẩm chất lượng cao của chúng tôi.
+                    a.btn.btn-primary.btn-lg.rounded-pill.px-4(href="/product")
+                        i.fa-solid.fa-bag-shopping.mr-2
+                        | Mua sắm ngay bây giờ
+
     script(src="/client/js/cart.js")

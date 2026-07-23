@@ -7,43 +7,56 @@ header.header
                 .inner-logo
                     a(href='/')
                         if settingGeneral && settingGeneral.logo
-                            img(src=settingGeneral.logo alt=(settingGeneral.websiteName ? settingGeneral.websiteName : "Store") style="max-height: 40px;")
+                            img(src=settingGeneral.logo alt=(settingGeneral.websiteName ? settingGeneral.websiteName : "Store"))
                         else
+                            i.fa-solid.fa-store.logo-icon.mr-2
                             span.logo-text #{settingGeneral && settingGeneral.websiteName ? settingGeneral.websiteName : "Store"}
                             span.logo-dot .
 
                 .inner-search
-                    form(
-                        action="/search"
-                        method="GET"
-                    )
-                        input(type="text"
-                            placeholder="Nhập từ khóa..."
-                            name="keyword"
-                            value=keyword
-                        )
-                        button(type="submit") Tìm
-
+                    form(action="/search", method="GET", class="search-form")
+                        .input-group
+                            input.form-control(
+                                type="text",
+                                placeholder="Tìm kiếm sản phẩm...",
+                                name="keyword",
+                                value=keyword,
+                                autocomplete="off"
+                            )
+                            .input-group-append
+                                button.btn.btn-search(type="submit")
+                                    i.fa-solid.fa-magnifying-glass
 
                 .inner-menu
                     nav
                         ul
                             li
-                                a(href='/' class=(activePage === 'home' ? 'active' : '')) Trang chủ
+                                a(href='/' class=(activePage === 'home' ? 'active' : ''))
+                                    i.fa-solid.fa-house.mr-1
+                                    | Trang chủ
                             li(class="sub-menu")
-                                a(href='/product' class=(activePage === 'products' ? 'active' : '')) Sản phẩm
+                                a(href='/product' class=(activePage === 'products' ? 'active' : ''))
+                                    i.fa-solid.fa-box-open.mr-1
+                                    | Sản phẩm
+                                    i.fa-solid.fa-chevron-down.ml-1.sub-icon
                                 +sub-menu(category, "/product")
+
                 .inner-actions
-                    a(href='/cart' class='btn-cart')
-                        svg(xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round")
-                            circle(cx="9" cy="21" r="1")
-                            circle(cx="20" cy="21" r="1")
-                            path(d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6")
+                    a(href='/cart', class='btn-action-icon btn-cart', title="Giỏ hàng")
+                        i.fa-solid.fa-cart-shopping
                         span.cart-count #{miniCart ? miniCart.totalQuantity : 0}
-                    a(href='/admin/product' class='btn-login') Admin Panel
+
                     if (user)
-                        a(href="/user/info") #{user.fullName}
-                        a(href="/user/logout") Đăng xuất
+                        .user-dropdown.d-inline-block
+                            a(href="/user/info", class="btn-action-user")
+                                i.fa-solid.fa-circle-user.mr-1
+                                span #{user.fullName}
+                            a(href="/user/logout", class="btn-action-outline ml-2", title="Đăng xuất")
+                                i.fa-solid.fa-right-from-bracket
                     else
-                        a(href="/user/register") Đăng ký
-                        a(href="/user/login") Đăng nhập
+                        a(href="/user/login", class="btn-action-outline") Đăng nhập
+                        a(href="/user/register", class="btn-action-primary") Đăng ký
+                    
+                    a(href='/admin/product', class='btn-action-admin', title="Quản trị")
+                        i.fa-solid.fa-sliders.mr-1
+                        span Admin
