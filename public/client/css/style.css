@@ -882,42 +882,53 @@ a:hover {
     color: #64748b;
 }
 
-/* Submenu Dropdown Styling */
-.sub-menu {
-    position: relative;
-}
-
+/* Submenu */
+.sub-menu { position: relative; }
 .sub-menu ul {
     position: absolute;
     top: 100%;
     left: 0;
     background: #ffffff;
-    box-shadow: var(--shadow-lg);
-    border-radius: var(--border-radius-md);
-    padding: 10px 0;
-    min-width: 200px;
+    border: 1px solid var(--border-color, #e2e8f0);
+    border-radius: var(--border-radius-md, 8px);
+    padding: 6px 0;
+    min-width: 180px;
+    list-style: none;
+    margin: 0;
     display: none;
-    flex-direction: column;
-    gap: 0;
-    border: 1px solid var(--border-color);
-    z-index: 100;
+    box-shadow: var(--shadow-md, 0 4px 12px rgba(0, 0, 0, 0.1));
+    z-index: 1000;
 }
-
-.sub-menu:hover ul {
+.sub-menu li { position: relative; list-style: none; margin: 0; }
+.sub-menu li a {
     display: flex;
-}
-
-.sub-menu ul li a {
-    padding: 8px 20px;
-    color: var(--text-color);
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    color: var(--text-color, #334155);
     font-weight: 500;
     font-size: 14px;
+    text-decoration: none;
+    transition: background 0.15s ease;
 }
+.sub-menu li a .sub-arrow {
+    font-size: 10px;
+    color: #94a3b8;
+    margin-left: 12px;
+}
+.sub-menu li a:hover { background: #f1f5f9; color: var(--primary-color, #4f46e5); }
+.sub-menu li a:hover .sub-arrow { color: var(--primary-color, #4f46e5); }
+.sub-menu li a::after { display: none !important; }
 
-.sub-menu ul li a:hover {
-    background: #f1f5f9;
-    color: var(--primary-color);
-}
+
+/* Show direct child ul on hover */
+.sub-menu:hover > ul,
+.sub-menu li:hover > ul { display: block; }
+
+/* Level 2+ flyout */
+.sub-menu li > ul { top: 0; left: 100%; }
+
+
 
 /* Chat & Socket UI Preserved Components */
 .box-typing .inner-dots {

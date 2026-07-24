@@ -1,8 +1,14 @@
 mixin sub-menu(items, path)
-    if items
+    if items && items.length
         ul
             each item in items
                 li
-                    a(href=`${path}/${item.slug}`) #{item.title}
-                    if item.children && item.children.length > 0
+                    a(href=`${path}/${item.slug}`)
+                        span #{item.title}
+                        if item.children && item.children.length
+                            i.fa-solid.fa-chevron-right.sub-arrow
+                    if item.children && item.children.length
                         +sub-menu(item.children, path)
+
+
+
