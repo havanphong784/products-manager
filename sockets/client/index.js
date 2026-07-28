@@ -24,7 +24,7 @@ module.exports = (io) => {
     socket.user = user;
     socket.join(user.id);
     
-    const RoomChat = require('../../models/romChat.model');
+    const RoomChat = require('../../models/roomChat.model');
     const roomChats = await RoomChat.find({ "users.userId": user.id, deleted: false }).select("_id");
     roomChats.forEach(r => socket.join(r._id.toString()));
 

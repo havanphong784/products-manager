@@ -6,21 +6,35 @@ const productHelper = require("../../helpers/products");
 
 // [GET] /checkout
 module.exports.index = async (req, res) => {
-  const cartId = req.cookies.cartId
-  const cart = await Cart.findOne({_id: cartId});
-  if (cart.products.length > 0) {
-    cart.totalPrice = 0;
-    for (const item of cart.products) {
-      item.productInfo = await Product.findOne({_id: item.productId, deleted: false, status: "active"});
-      item.productInfo.priceNew = productHelper.priceNewProduct(item.productInfo);
-      cart.totalPrice += item.productInfo.priceNew * item.quantity;
-    }
-  }
+  try {
+    const cartId = req.cookies.cartId;
+    const cart = await Cart.findOne({_id: cartId});
 
-  res.render("client/pages/checkout/index", {
-    pageTitle: "Giỏ hàng",
-    cart: cart,
-  });
+    if (!cart) {
+      return res.render("client/pages/checkout/index", {
+        pageTitle: "Giỏ hàng",
+        cart: {products: []},
+      });
+    }
+
+    if (cart.products.length > 0) {
+      cart.totalPrice = 0;
+      for (const item of cart.products) {
+        item.productInfo = await Product.findOne({_id: item.productId, deleted: false, status: "active"});
+        if (!item.productInfo) continue;
+        item.productInfo.priceNew = productHelper.priceNewProduct(item.productInfo);
+        cart.totalPrice += item.productInfo.priceNew * item.quantity;
+      }
+    }
+
+    res.render("client/pages/checkout/index", {
+      pageTitle: "Giỏ hàng",
+      cart: cart,
+    });
+  } catch (e) {
+    console.error("Checkout error:", e);
+    res.redirect("/cart");
+  }
 }
 
 // [POST] /checkout/order

@@ -1,5 +1,5 @@
 const Chat = require('../../../models/chat.model');
-const RoomChat = require('../../../models/romChat.model');
+const RoomChat = require('../../../models/roomChat.model');
 
 module.exports = (io, socket) => {
   socket.on('CLIENT_JOIN_ROOM', async (roomChatId) => {
