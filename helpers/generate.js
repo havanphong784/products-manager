@@ -1,19 +1,12 @@
+const crypto = require('crypto');
+
 module.exports.generateRandomString = (length) => {
-  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    result += characters.charAt(randomIndex);
-  }
-  return result;
+  return crypto.randomBytes(Math.ceil(length * 3 / 4))
+    .toString('base64url')
+    .slice(0, length);
 }
 
 module.exports.generateRandomNumber = (length) => {
-  const characters = '0123456789';
-  let result = '';
-  for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * characters.length);
-    result += characters.charAt(randomIndex);
-  }
-  return result;
-}
+  const max = Math.pow(10, length);
+  return String(crypto.randomInt(max)).padStart(length, '0');
+}

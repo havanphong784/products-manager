@@ -2,5 +2,82 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
 block main
-    .container.my-3
-        +box-head('Trang tổng quan')
+    .container-fluid.px-4.py-4
+        .row.mb-4
+            .col-12
+                +box-head('Tổng quan hệ thống')
+                p.text-muted Quản lý kho hàng, phân quyền và dữ liệu vận hành sản phẩm
+
+        .row
+            .col-md-3.mb-4
+                .card.border-0.shadow-sm.rounded-lg.h-100
+                    .card-body
+                        .d-flex.align-items-center
+                            .stat-icon.bg-light.p-3.rounded-circle.mr-3(style="font-size: 24px; width: 54px; height: 54px; display: flex; align-items: center; justify-content: center;") 🛍️
+                            div
+                                .text-muted.small.font-weight-bold SẢN PHẨM
+                                h4.mb-0.font-weight-bold.text-dark Quản lý
+                        .mt-3.pt-2.border-top
+                            a.small.font-weight-bold.text-primary(href=`${prefixAdmin}/product`) Xem danh sách sản phẩm &rarr;
+
+            .col-md-3.mb-4
+                .card.border-0.shadow-sm.rounded-lg.h-100
+                    .card-body
+                        .d-flex.align-items-center
+                            .stat-icon.bg-light.p-3.rounded-circle.mr-3(style="font-size: 24px; width: 54px; height: 54px; display: flex; align-items: center; justify-content: center;") 📁
+                            div
+                                .text-muted.small.font-weight-bold DANH MỤC
+                                h4.mb-0.font-weight-bold.text-dark Phân loại
+                        .mt-3.pt-2.border-top
+                            a.small.font-weight-bold.text-primary(href=`${prefixAdmin}/product-category`) Xem cây danh mục &rarr;
+
+            .col-md-3.mb-4
+                .card.border-0.shadow-sm.rounded-lg.h-100
+                    .card-body
+                        .d-flex.align-items-center
+                            .stat-icon.bg-light.p-3.rounded-circle.mr-3(style="font-size: 24px; width: 54px; height: 54px; display: flex; align-items: center; justify-content: center;") 🛡️
+                            div
+                                .text-muted.small.font-weight-bold PHÂN QUYỀN
+                                h4.mb-0.font-weight-bold.text-dark Vai trò
+                        .mt-3.pt-2.border-top
+                            a.small.font-weight-bold.text-primary(href=`${prefixAdmin}/role/permissions`) Xem ma trận quyền &rarr;
+
+            .col-md-3.mb-4
+                .card.border-0.shadow-sm.rounded-lg.h-100
+                    .card-body
+                        .d-flex.align-items-center
+                            .stat-icon.bg-light.p-3.rounded-circle.mr-3(style="font-size: 24px; width: 54px; height: 54px; display: flex; align-items: center; justify-content: center;") 👤
+                            div
+                                .text-muted.small.font-weight-bold TÀI KHOẢN
+                                h4.mb-0.font-weight-bold.text-dark Quản trị
+                        .mt-3.pt-2.border-top
+                            a.small.font-weight-bold.text-primary(href=`${prefixAdmin}/account`) Xem danh sách admin &rarr;
+
+        .row.mt-2
+            .col-md-8.mb-4
+                .card.border-0.shadow-sm.rounded-lg
+                    .card-header.bg-white.border-bottom.py-3
+                        h5.font-weight-bold.mb-0.text-dark Tác vụ nhanh
+                    .card-body
+                        p Chào mừng bạn đến với trang quản trị hệ thống sản phẩm.
+                        .d-flex.flex-wrap.gap-2.mt-3
+                            if (role.permissions.includes("product_create"))
+                                a.btn.btn-primary.mr-2.mb-2(href=`${prefixAdmin}/product/create`) + Thêm sản phẩm mới
+                            if (role.permissions.includes("product-category_create"))
+                                a.btn.btn-secondary.mr-2.mb-2(href=`${prefixAdmin}/product-category/create`) + Thêm danh mục
+                            a.btn.btn-outline-primary.mb-2(href=`${prefixAdmin}/setting/general`) Cài đặt trang web
+
+            .col-md-4.mb-4
+                .card.border-0.shadow-sm.rounded-lg
+                    .card-header.bg-white.border-bottom.py-3
+                        h5.font-weight-bold.mb-0.text-dark Phiên đăng nhập
+                    .card-body
+                        .mb-3
+                            span.text-muted.small.d-block Quản trị viên:
+                            span.font-weight-bold.text-dark #{user && user.fullName ? user.fullName : "Admin"}
+                        .mb-3
+                            span.text-muted.small.d-block Nhóm quyền:
+                            span.badge.badge-success #{role && role.title ? role.title : "Quản trị viên"}
+                        .mb-3
+                            span.text-muted.small.d-block Email:
+                            span.text-muted #{user && user.email ? user.email : "admin@system.com"}

@@ -5,7 +5,6 @@ const filterStatusHelper = require("../../helpers/filterStatus");
 const searchObjectHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 const {prefixAdmin} = require("../../config/system");
-const {parse} = require("dotenv");
 const createTree = require("../../helpers/create-tree");
 
 // [GET] /admin/product
@@ -39,10 +38,10 @@ module.exports.index = async (req, res) => {
     sort.position = "desc"
   }
 
-  const products = await Product.find(find).sort(sort)
+  const products = await Product.find(find)
+    .sort(sort)
     .limit(paginationObject.limit)
-    .skip(paginationObject.skip)
-    .sort({position: "desc"});
+    .skip(paginationObject.skip);
   for (const product of products) {
     product.newPrice = (
       (product.price * (100 - product.discountPercentage)) /
@@ -113,7 +112,6 @@ module.exports.changeMulti = async (req, res) => {
         {_id: {$in: ids}},
         {
           deleted: true,
-          // deletedAt: new Date(),
           deletedBy: {
             accountId: res.locals.user.id,
             deletedAt: new Date()
@@ -140,14 +138,10 @@ module.exports.changeMulti = async (req, res) => {
 // [DELETE] /admin/product/delete/:id
 module.exports.deleteItem = async (req, res) => {
   const id = req.params.id;
-  // xóa cứng
-  // await Product.deleteOne({_id: id});
-  // xóa mền
   await Product.updateOne(
     {_id: id},
     {
       deleted: true,
-      // deletedAt: new Date(),
       deletedBy: {
         accountId: res.locals.user.id,
         deletedAt: new Date()
@@ -180,9 +174,6 @@ module.exports.createPost = async (req, res) => {
     req.body.position = parseInt(req.body.position);
   }
 
-  // if (req.file) {
-  //     req.body.thumbnail = `/uploads/${req.file.filename}`;
-  // }
   req.body.createdBy = {accountId: res.locals.user.id};
   const product = new Product(req.body);
   await product.save();
@@ -220,10 +211,6 @@ module.exports.editPatch = async (req, res) => {
   } else {
     req.body.position = parseInt(req.body.position);
   }
-
-  // if (req.file) {
-  //     req.body.thumbnail = `/uploads/${req.file.filename}`;
-  // }
 
   try {
     const updatedBy = {

@@ -54,3 +54,12 @@ if (qtyMinus && qtyPlus && qtyInput) {
     }
   });
 }
+
+// Mobile Nav Toggle
+const btnMobileNav = document.getElementById("btn-mobile-nav");
+const innerMenu = document.querySelector(".inner-menu");
+if (btnMobileNav && innerMenu) {
+  btnMobileNav.addEventListener("click", () => {
+    innerMenu.classList.toggle("show");
+  });
+}

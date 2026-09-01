@@ -115,7 +115,7 @@ module.exports.otpPassword = async (req, res) => {
   });
 }
 
-// [GET] /user/password/otp
+// [POST] /user/password/otp
 module.exports.otpPasswordPost = async (req, res) => {
   const email = req.body.email;
   const otp = req.body.otp;

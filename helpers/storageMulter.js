@@ -9,6 +9,5 @@ module.exports = () => {
       cb(null, uniqueSuffix + '-' + file.originalname)
     }
   })
-
   return storage;
 }

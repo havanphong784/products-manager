@@ -1,7 +1,7 @@
 const pug = require('pug');
 const path = require('path');
 const User = require('../../../models/user.model');
-const RoomChat = require('../../../models/romChat.model');
+const RoomChat = require('../../../models/roomChat.model');
 
 const renderButtons = (userId, status) => pug.renderFile(
   path.join(__dirname, '../../../views/client/partials/friend-buttons.pug'),

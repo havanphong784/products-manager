@@ -26,12 +26,12 @@ app.use(express.static(`${__dirname}/public`));
 app.set('views', `${__dirname}/views`);
 app.set('view engine', 'pug');
 
-app.use(cookieParser('hocbackendnodejs'));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session({
-  secret: 'JSAJDJAJDSAJDKA',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
-  cookie: {maxAge: 60000}
+  cookie: {maxAge: 1800000}  // 30 phút
 }));
 app.use(flash());
 
