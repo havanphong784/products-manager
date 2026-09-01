@@ -40,6 +40,10 @@ header.header
                                     | Sản phẩm
                                     i.fa-solid.fa-chevron-down.ml-1.sub-icon
                                 +sub-menu(category, "/product")
+                            li
+                                a(href='/chat' class=(activePage === 'chat' ? 'active' : ''))
+                                    i.fa-solid.fa-comments.mr-1
+                                    | Tin nhắn
 
                 .inner-actions
                     a(href='/cart', class='btn-action-icon btn-cart', title="Giỏ hàng")
@@ -56,7 +60,10 @@ header.header
                     else
                         a(href="/user/login", class="btn-action-outline") Đăng nhập
                         a(href="/user/register", class="btn-action-primary") Đăng ký
-                    
+
                     a(href='/admin/product', class='btn-action-admin', title="Quản trị")
                         i.fa-solid.fa-sliders.mr-1
                         span Admin
+
+                    button.mobile-nav-toggle(type="button" aria-label="Toggle navigation" id="btn-mobile-nav")
+                        i.fa-solid.fa-bars

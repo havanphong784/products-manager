@@ -8,9 +8,9 @@ block main
     .auth-container
         .auth-card
             .auth-header
-                h2 Đăng nhập
-                p Hệ thống quản trị Admin
-            
+                h2 Đăng nhập Admin
+                p Hệ thống quản trị sản phẩm hiện đại
+
             form(
                 action=`${prefixAdmin}/auth/login`
                 method="POST"
@@ -24,7 +24,7 @@ block main
                         placeholder="Nhập email của bạn"
                         required
                     )
-                
+
                 .auth-form-group
                     label(for="password") Mật khẩu
                     input.auth-form-control(
@@ -34,5 +34,5 @@ block main
                         placeholder="Nhập mật khẩu"
                         required
                     )
-                
+
                 button.btn-auth(type="submit") Đăng nhập

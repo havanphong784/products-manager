@@ -1,29 +1,57 @@
 extends ../../layouts/default.pug
+include ../../mixins/alert
 
 block main
-  .container.my-5
+  +alert-error(5000)
+  +alert-success(5000)
+
+  .container.py-5
     .row.justify-content-center
-      .col-8
-        h1.text-center Thông tin cá nhân
-        
+      .col-lg-8.col-md-10
         if (user)
-          .card
-            .card-header
-              | Thông tin tài khoản
-            .card-body
-              p
-                strong Họ và tên: 
-                | #{user.fullName}
-              p
-                strong Email: 
-                | #{user.email}
-              p
-                strong Trạng thái: 
-                if (user.status === 'active')
-                  span.badge.badge-success Hoạt động
-                else
-                  span.badge.badge-danger Khóa
-              
-              a(href="/user/edit" class="btn btn-primary mt-3") Chỉnh sửa thông tin
+          .card.border-0.shadow-sm.rounded-lg.overflow-hidden
+            .card-header.bg-primary.text-white.py-4.px-4.border-0
+              .d-flex.align-items-center
+                .avatar-wrapper.mr-3
+                  img.rounded-circle.border.border-white(src=(user.avatar ? user.avatar : "/images/avatar-default.png"), alt=user.fullName, style="width: 72px; height: 72px; object-fit: cover; background: #fff;", onerror="this.src='https://ui-avatars.com/api/?name=' + encodeURIComponent('" + user.fullName + "') + '&background=random'")
+                div
+                  h4.font-weight-bold.mb-1 #{user.fullName}
+                  p.mb-0.text-white-50 #{user.email}
+            .card-body.p-4
+              h5.font-weight-bold.text-dark.mb-4 Chi tiết tài khoản
+              .row
+                .col-md-6.mb-3
+                  label.text-muted.small.d-block.mb-1 Họ và tên
+                  .font-weight-semibold.text-dark #{user.fullName}
+                .col-md-6.mb-3
+                  label.text-muted.small.d-block.mb-1 Địa chỉ Email
+                  .font-weight-semibold.text-dark #{user.email}
+                .col-md-6.mb-3
+                  label.text-muted.small.d-block.mb-1 Trạng thái tài khoản
+                  if (user.status === 'active')
+                    span.badge.badge-pill.badge-success
+                      i.fa-solid.fa-check-circle.mr-1
+                      | Đang hoạt động
+                  else
+                    span.badge.badge-pill.badge-danger
+                      i.fa-solid.fa-ban.mr-1
+                      | Tạm khóa
+                .col-md-6.mb-3
+                  label.text-muted.small.d-block.mb-1 Số điện thoại
+                  .font-weight-semibold.text-dark #{user.phone || 'Chưa cập nhật'}
+
+              hr.my-4
+              .d-flex.justify-content-between.align-items-center.flex-wrap
+                a.btn.btn-outline-secondary.rounded-pill.px-4.mb-2(href="/")
+                  i.fa-solid.fa-arrow-left.mr-2
+                  | Về trang chủ
+                a.btn.btn-outline-danger.rounded-pill.px-4.mb-2(href="/user/logout")
+                  i.fa-solid.fa-right-from-bracket.mr-2
+                  | Đăng xuất
         else
-          p Không tìm thấy thông tin cá nhân. Vui lòng đăng nhập lại.
+          .card.border-0.shadow-sm.rounded-lg.p-5.text-center
+            i.fa-solid.fa-user-slash.fa-3x.text-muted.mb-3
+            h4.font-weight-bold Chưa đăng nhập
+            p.text-muted Vui lòng đăng nhập để xem thông tin tài khoản cá nhân.
+            .mt-3
+              a.btn.btn-primary.rounded-pill.px-4(href="/user/login") Đăng nhập ngay

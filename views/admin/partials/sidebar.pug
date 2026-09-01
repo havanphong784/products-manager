@@ -7,27 +7,28 @@ aside.sidebar
         a.sidebar-link(href=`${prefixAdmin}/dashboard`)
             span.sidebar-icon 📊
             span.sidebar-text Tổng quan
-        .sidebar-label Danh mục
+        .sidebar-label Quản lý kho hàng
         if (role.permissions.includes("product_view"))
             a.sidebar-link(href=`${prefixAdmin}/product`)
-                span.sidebar-icon 📦
+                span.sidebar-icon 🛍️
                 span.sidebar-text Sản phẩm
         if (role.permissions.includes("product-category_view"))
             a.sidebar-link(href=`${prefixAdmin}/product-category`)
-                span.sidebar-icon 📦
-                span.sidebar-text Danh mục
+                span.sidebar-icon 📁
+                span.sidebar-text Danh mục sản phẩm
+        .sidebar-label Hệ thống & Phân quyền
         if (role.permissions.includes("roles_view"))
             a.sidebar-link(href=`${prefixAdmin}/role`)
-                span.sidebar-icon 📦
+                span.sidebar-icon 🛡️
                 span.sidebar-text Nhóm quyền
         if (role.permissions.includes("roles_permissions"))
             a.sidebar-link(href=`${prefixAdmin}/role/permissions`)
-                span.sidebar-icon 📦
+                span.sidebar-icon 🔑
                 span.sidebar-text Phân quyền
         if (role.permissions.includes("account_view"))
             a.sidebar-link(href=`${prefixAdmin}/account`)
-                span.sidebar-icon 📦
+                span.sidebar-icon 👤
                 span.sidebar-text Danh sách tài khoản
         a.sidebar-link(href=`${prefixAdmin}/setting/general`)
-            span.sidebar-icon 📦
+            span.sidebar-icon ⚙️
             span.sidebar-text Cài đặt chung

@@ -7,16 +7,17 @@ header.header
                         img(src=settingGeneral.logo alt=(settingGeneral.websiteName ? settingGeneral.websiteName : "Admin Panel") style="max-height: 40px;")
                     else
                         span.logo-text #{settingGeneral && settingGeneral.websiteName ? settingGeneral.websiteName : "Admin"}
-                        span.logo-dot Panel
+                        span.logo-dot .
             .inner-actions
                 a.view-website-btn(href='/' target='_blank')
                     span.icon 🔗
                     span.text Xem Website
                 .user-profile
                     a(href=`${prefixAdmin}/my-account`)
-                        img.user-avatar(src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80', alt='Admin Avatar')
+                        img.user-avatar(src=(user && user.avatar ? user.avatar : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80'), alt='Admin Avatar')
                     .user-info
-                        span.user-name Phong Ha
-                        span.user-role Quản trị viên
-                    button
-                        a(href=`${prefixAdmin}/auth/logout`) Đăng xuất
+                        span.user-name #{user && user.fullName ? user.fullName : "Admin"}
+                        span.user-role #{role && role.title ? role.title : "Quản trị viên"}
+                    a.btn.btn-sm.btn-outline-danger.ml-2(href=`${prefixAdmin}/auth/logout` title="Đăng xuất")
+                        i.fa-solid.fa-right-from-bracket.mr-1
+                        | Đăng xuất
