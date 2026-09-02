@@ -33,11 +33,11 @@ block main
                                 .mb-3
                                     span.text-muted.mr-2 Giảm giá:
                                     span.badge.badge-danger -#{product.discountPercentage}%
-                            if (product.stock)
+                            if (product.stock != null)
                                 .mb-3
                                     span.text-muted.mr-2 Số lượng còn lại:
                                     span.font-weight-bold #{product.stock}
-                            if (product.position)
+                            if (product.position != null)
                                 .mb-3
                                     span.text-muted.mr-2 Vị trí:
                                     span.font-weight-bold #{product.position}

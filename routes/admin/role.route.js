@@ -8,7 +8,7 @@ router.get("/create", permissionsMiddleware.permissions("roles_create"), control
 router.post("/create", permissionsMiddleware.permissions("roles_create"), controller.createPost)
 router.get("/edit/:id", permissionsMiddleware.permissions("roles_edit"), controller.edit)
 router.patch("/edit/:id", permissionsMiddleware.permissions("roles_edit"), controller.editPost)
-router.patch("/delete/:id", permissionsMiddleware.permissions("roles_delete"), controller.deletePatch)
+router.delete("/delete/:id", permissionsMiddleware.permissions("roles_delete"), controller.deletePatch)
 router.get("/permissions", permissionsMiddleware.permissions("roles_permissions"), controller.permissions)
 router.patch("/permissions", permissionsMiddleware.permissions("roles_permissions"), controller.permissionsPatch)
 

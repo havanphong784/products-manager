@@ -22,7 +22,7 @@ module.exports.index = async (req, res) => {
 module.exports.detail = async (req, res) => {
   const slug = req.params.slugProduct
   try {
-    const product = await Product.findOne({deleted: false, slug: slug})
+    const product = await Product.findOne({deleted: false, status: "active", slug: slug})
     product.newPrice = productHelper.priceNewProduct(product);
     if (product.productCategoryId) {
       product.category = await ProductCategory.findOne({
@@ -35,7 +35,7 @@ module.exports.detail = async (req, res) => {
       pageTitle: product.title, product: product
     })
   } catch (e) {
-    res.redirect(res.get("referer"))
+    res.redirect(req.get("referer") || "/product")
   }
 }
 
@@ -53,6 +53,10 @@ module.exports.category = async (req, res) => {
     status: "active",
     productCategoryId: {$in: chillCategoryIds}
   }).sort({position: "desc"});
+
+  products.forEach(product => {
+    product.newPrice = (product.price * (100 - product.discountPercentage) / 100).toFixed(0)
+  });
 
   res.render('client/pages/product/index.pug', {
     pageTitle: category.title,

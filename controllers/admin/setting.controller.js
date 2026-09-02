@@ -5,6 +5,7 @@ const {prefixAdmin} = require("../../config/system");
 module.exports.general = async (req, res) => {
   const settingGeneral = await SettingGeneral.findOne({});
   res.render('admin/pages/setting/general', {
+    pageTitle: "Cài đặt chung",
     settingGeneral: settingGeneral
   });
 }

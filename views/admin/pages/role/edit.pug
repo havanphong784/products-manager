@@ -9,8 +9,8 @@ block main
                 // Header
                 .d-flex.align-items-center.justify-content-between.mb-4
                     div
-                        h1.h3.font-weight-extrabold.text-dark.mb-1 Tạo nhóm quyền
-                        p.text-muted.small.mb-0 Nhập thông tin để thêm nhóm quyền mới vào hệ thống
+                        h1.h3.font-weight-extrabold.text-dark.mb-1 Chỉnh sửa nhóm quyền
+                        p.text-muted.small.mb-0 Chỉnh sửa thông tin nhóm quyền
                     a.btn-back(href=`${prefixAdmin}/role`)
                         span.mr-1 &larr;
                         | Quay lại danh sách
@@ -36,7 +36,7 @@ block main
                             label.form-label(for="description") Mô tả ngắn
                             input.form-control-custom(
                                 type="text"
-                                id="    description"
+                                id="description"
                                 name="description"
                                 placeholder="Nhập mô tả"
                                 value=role.description

@@ -8,9 +8,10 @@ if (tablePermissions) {
     records.forEach((record, index) => {
       const permissions = record.permissions;
       permissions.forEach(permission => {
-        const row = tablePermissions.querySelector(`[data-name=${permission}]`);
+        const row = tablePermissions.querySelector(`[data-name="${permission}"]`);
+        if (!row) return;
         const input = row.querySelectorAll("input")[index];
-        input.checked = true;
+        if (input) input.checked = true;
       })
     })
   }
@@ -60,7 +61,7 @@ if (buttonDeletes.length > 0) {
       const cf = confirm("Bạn có chắc chắn muốn xóa nhóm quyền này không?");
       if (cf) {
         const id = button.getAttribute("data-id");
-        formDelete.action = path + `${id}?_method=PATCH`;
+        formDelete.action = path + `${id}?_method=DELETE`;
         formDelete.submit();
       }
     })

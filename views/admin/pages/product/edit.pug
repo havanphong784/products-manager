@@ -130,7 +130,7 @@ block main
                                                 id="status-active"
                                                 name="status"
                                                 value="active"
-                                                checked
+                                                checked=(product.status === "active")
                                             )
                                             label.status-option-card.active-card(for="status-active")
                                                 span Hoạt động
@@ -140,6 +140,7 @@ block main
                                                 id="status-inactive"
                                                 name="status"
                                                 value="inactive"
+                                                checked=(product.status === "inactive")
                                             )
                                             label.status-option-card.inactive-card(for="status-inactive")
                                                 span Dừng hoạt động
@@ -172,5 +173,5 @@ block main
                         // Actions
                         .form-actions.text-right.mt-4.pt-4.border-top
                             button.btn-submit(type="submit")
-                                span Cập sản phẩm
+                                span Cập nhật sản phẩm
 

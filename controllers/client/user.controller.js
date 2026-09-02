@@ -92,7 +92,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
   const objectForgotPassword = {
     email: email,
     otp: otp,
-    expireAt: Date.now(),
+    expireAt: Date.now() + 5 * 60 * 1000,
   };
   const forgotPassword = new ForgotPassword(objectForgotPassword);
   await forgotPassword.save();
@@ -122,7 +122,8 @@ module.exports.otpPasswordPost = async (req, res) => {
 
   const result = await ForgotPassword.findOne({
     email: email,
-    otp: otp
+    otp: otp,
+    expireAt: { $gte: Date.now() }
   });
 
   if (!result) {
