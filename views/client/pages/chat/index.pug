@@ -48,7 +48,7 @@ block script
                 }
                 
                 if (data.content) {
-                    text += data.content;
+                    text += data.content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
                 } else if (data.images && data.images.length > 0) {
                     text += `Đã gửi ${data.images.length} ảnh`;
                 }

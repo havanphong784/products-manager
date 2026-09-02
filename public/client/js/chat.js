@@ -48,8 +48,11 @@ if (form) {
             method: 'POST',
             body: formData
           });
+          if (!response.ok) {
+            throw new Error('Upload failed: ' + response.status);
+          }
           const data = await response.json();
-          imageUrls = data.urls;
+          imageUrls = data.urls || [];
         }
 
         socket.emit('CLIENT_SEND_MESSAGE', {
@@ -91,12 +94,14 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
 
   let htmlContent = '';
   if (data.content) {
-    htmlContent += `<div class="inner-text">${data.content}</div>`;
+    const escapedContent = data.content.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    htmlContent += `<div class="inner-text">${escapedContent}</div>`;
   }
   if (data.images && data.images.length > 0) {
     htmlContent += `<div class="inner-images">`;
     data.images.forEach(img => {
-      htmlContent += `<img src="${img}" class="chat-image" />`;
+      const escapedImg = img.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      htmlContent += `<img src="${escapedImg}" class="chat-image" />`;
     });
     htmlContent += `</div>`;
   }
@@ -105,9 +110,10 @@ socket.on('SERVER_RETURN_MESSAGE', (data) => {
     div.classList.add('inner-outgoing');
     div.innerHTML = `<div class="inner-content">${htmlContent}</div>`;
   } else {
+    const escapedName = data.fullName.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     div.classList.add('inner-incoming');
     div.innerHTML = `
-      <div class="inner-name">${data.fullName}</div>
+      <div class="inner-name">${escapedName}</div>
       <div class="inner-content">${htmlContent}</div>
     `;
   }
@@ -133,9 +139,6 @@ if (chatBody) {
 
 
 // EMOJI-PICKER
-document.querySelector('emoji-picker')
-  .addEventListener('emoji-click', event => console.log(event.detail));
-
 const emojiPicker = document.querySelector('emoji-picker');
 if (emojiPicker) {
   const input = document.getElementById('input-chat');
@@ -186,8 +189,9 @@ if (listTyping) {
         const boxTyping = document.createElement('div');
         boxTyping.classList.add('box-typing');
         boxTyping.setAttribute('user-id', data.userId);
+        const escapedFullName = data.fullName.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
         boxTyping.innerHTML = `
-          <div class="inner-name">${data.fullName}</div>
+          <div class="inner-name">${escapedFullName}</div>
           <div class="inner-dots">
             <span></span>
             <span></span>

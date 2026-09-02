@@ -126,10 +126,16 @@ if (uploadImage) {
   const uploadPreviewInput = uploadImage.querySelector("[upload-preview-input]");
   const closePreview = uploadImage.querySelector("[close-preview]");
 
+  let currentObjectUrl = null;
   uploadPreviewInput.addEventListener("change", (e) => {
     const file = e.target.files[0];
+    if (currentObjectUrl) {
+      URL.revokeObjectURL(currentObjectUrl);
+      currentObjectUrl = null;
+    }
     if (file) {
-      uploadPreview.src = URL.createObjectURL(file);
+      currentObjectUrl = URL.createObjectURL(file);
+      uploadPreview.src = currentObjectUrl;
       const previewContainer = uploadImage.querySelector(".image-preview-container");
       if (previewContainer) {
         previewContainer.classList.remove("d-none");
@@ -145,6 +151,10 @@ if (uploadImage) {
 
   if (closePreview) {
     closePreview.addEventListener("click", () => {
+      if (currentObjectUrl) {
+        URL.revokeObjectURL(currentObjectUrl);
+        currentObjectUrl = null;
+      }
       uploadPreviewInput.value = "";
       uploadPreview.src = "";
       const previewContainer = uploadImage.querySelector(".image-preview-container");

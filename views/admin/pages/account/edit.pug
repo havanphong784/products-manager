@@ -78,8 +78,8 @@ block main
                                         option(value="") -- Chọn phân quyền --
                                         if roles
                                             each item in roles
-                                                if (value=item.id === account.roleId)
-                                                    option(value=item.id selected ) #{item.title}
+                                                if (item.id === account.roleId)
+                                                    option(value=item.id selected) #{item.title}
                                                 else
                                                     option(value=item.id) #{item.title}
 

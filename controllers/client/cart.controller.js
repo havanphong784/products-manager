@@ -7,13 +7,21 @@ const productHelper = require("../../helpers/products");
 module.exports.index = async (req, res) => {
   const cartId = req.cookies.cartId
   const cart = await Cart.findOne({_id: cartId});
+  if (!cart) {
+    return res.render("client/pages/cart/index", {
+      pageTitle: "Giỏ hàng",
+      cart: { products: [], totalPrice: 0 },
+    });
+  }
   if (cart.products.length > 0) {
     cart.totalPrice = 0;
     for (const item of cart.products) {
       item.productInfo = await Product.findOne({_id: item.productId, deleted: false, status: "active"});
+      if (!item.productInfo) continue;
       item.productInfo.priceNew = productHelper.priceNewProduct(item.productInfo);
       cart.totalPrice += item.productInfo.priceNew * item.quantity;
     }
+    cart.products = cart.products.filter(item => item.productInfo);
   }
 
   res.render("client/pages/cart/index", {
@@ -46,7 +54,7 @@ module.exports.addPost = async (req, res) => {
     await Cart.updateOne({_id: cartId}, {$push: {products: item}});
   }
   req.flash("success", "Đã thêm vào giỏ hàng");
-  res.redirect(res.get("referer") || "/product");
+  res.redirect(req.get("referer") || "/product");
 }
 
 //[GET] /cart/delele/:productId
@@ -55,7 +63,7 @@ module.exports.delete = async (req, res) => {
   const cartId = req.cookies.cartId;
   await Cart.updateOne({_id: cartId}, {"$pull": {products: {"productId": id}}});
   req.flash("success", "Xóa thành công")
-  res.redirect(res.get("referer") || "/cart");
+  res.redirect(req.get("referer") || "/cart");
 }
 
 //[GET] /cart/update/:productId/:quantity
@@ -65,5 +73,5 @@ module.exports.update = async (req, res) => {
   const cartId = req.cookies.cartId;
   await Cart.updateOne({_id: cartId, 'products.productId': id}, {'products.$.quantity': quantity});
   req.flash("success", "Cập nhật số lượng thành công ")
-  res.redirect(res.get("referer") || "/cart");
+  res.redirect(req.get("referer") || "/cart");
 }

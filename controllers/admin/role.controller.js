@@ -1,7 +1,7 @@
 const Role = require("../../models/role.model");
 const {prefixAdmin} = require("../../config/system");
 //[GET] /admin/roles
-module.exports.index = async (red, res) => {
+module.exports.index = async (req, res) => {
   const roles = await Role.find({deleted: false});
   res.render(`admin/pages/role/index`, {
     pageTitle: "Nhóm quyền",
@@ -10,7 +10,7 @@ module.exports.index = async (red, res) => {
 };
 
 //[GET] /admin/roles/create
-module.exports.create = async (red, res) => {
+module.exports.create = async (req, res) => {
   res.render(`admin/pages/role/create`, {
     pageTitle: "Tạo nhóm quyền",
   });
@@ -19,7 +19,7 @@ module.exports.create = async (red, res) => {
 //[PATCH] /admin/roles/create
 module.exports.createPost = async (req, res) => {
   try {
-    const role = new Roles(req.body);
+    const role = new Role(req.body);
     await role.save();
     res.redirect(`${prefixAdmin}/role`);
   } catch (error) {
@@ -47,6 +47,7 @@ module.exports.editPost = async (req, res) => {
   try {
     await Role.updateOne({_id: id}, req.body);
     req.flash("success", "Cập nhật nhóm quyền thành công");
+    res.redirect(req.get("referer"));
   } catch (error) {
     req.flash("error", "Cập nhật nhóm quyền thất bại");
     res.redirect(req.get("referer"));

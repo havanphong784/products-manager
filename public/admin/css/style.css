@@ -525,7 +525,13 @@ body {
 
 .btn-detail {
     background-color: #fff;
-    color: #f6fd34;
+    color: #2563eb;
+}
+
+.btn-detail:hover {
+    background-color: #eff6ff;
+    border-color: #2563eb;
+    text-decoration: none;
 }
 
 .btn-delete:hover {

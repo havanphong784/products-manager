@@ -8,7 +8,7 @@ module.exports.index = async (req, res) => {
   let find = {
     deleted: false,
   }
-  const accounts = await Account.find(find).select("-password-token");
+  const accounts = await Account.find(find).select("-password -token");
   for (let account of accounts) {
     if (account.roleId) {
       let role = await Role.findOne({_id: account.roleId, deleted: false})
@@ -42,7 +42,7 @@ module.exports.createPost = async (req, res) => {
     return;
   }
   try {
-    const account = new Accounts(req.body);
+    const account = new Account(req.body);
     await account.save();
     req.flash("success", "Tạo tài khoản thành công !");
     res.redirect(`${prefixAdmin}/account`);

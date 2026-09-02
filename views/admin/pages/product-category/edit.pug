@@ -11,8 +11,8 @@ block main
                 // Header
                 .d-flex.align-items-center.justify-content-between.mb-4
                     div
-                        h1.h3.font-weight-extrabold.text-dark.mb-1 Tạo danh mục sản phẩm
-                        p.text-muted.small.mb-0 Nhập thông tin để thêm danh mục mới vào hệ thống
+                        h1.h3.font-weight-extrabold.text-dark.mb-1 Cập nhật danh mục sản phẩm
+                        p.text-muted.small.mb-0 Chỉnh sửa thông tin danh mục sản phẩm
                     a.btn-back(href=`${prefixAdmin}/product-category`)
                         span.mr-1 &larr;
                         | Quay lại danh sách
@@ -25,7 +25,7 @@ block main
                         enctype="multipart/form-data"
                     )
                         .form-group.mb-4
-                            label.form-label(for=title) Tên danh mục
+                            label.form-label(for="title") Tên danh mục
                             input.form-control-custom(
                                 type="text"
                                 name="title"
